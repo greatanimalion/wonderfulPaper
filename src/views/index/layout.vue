@@ -2,6 +2,7 @@
     <a-layout>
         <a-layout-sider :trigger="null">
             <div class="logo">wonderfulPaper</div>
+            <hr>
             <a-menu theme="dark" mode="inline">
               <LSide></LSide>
             </a-menu>
@@ -20,17 +21,20 @@ import LSide from './lSide.vue';
 import RSide from './rSide.vue';
 import Content from './content.vue';
 </script>
-<style>
+<style scoped>
 .logo{
     color: #fff;
     text-align: center;
     padding: 16px 0;
     font-size: 20px;
 }
+hr{
+    border: 0.5px solid #444444;
+}
 .siderStyle {
     text-align: center;
     color: #fff;
-    background-color: #b9b9b9;
+    background-color: #4e4e4e;
     width: 100px
 }
 .css-dev-only-do-not-override-16pw25h {
