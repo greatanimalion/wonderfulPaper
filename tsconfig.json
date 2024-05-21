@@ -5,7 +5,10 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -18,6 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/**/*.ts", "src/**/*.tsx", "src/**/*.vue","src/**/*.d.ts","vite.config.ts"],
+  
+  "include": ["src/**/**/*.ts", "src/**/*.tsx", "src/**/*.vue","src/**/*.d.ts","vite.config.ts", "src/router"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

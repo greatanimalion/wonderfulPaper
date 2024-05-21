@@ -11,7 +11,8 @@
   "dependencies": {
     "ant-design-vue": "^4.2.1",
     "vue": "^3.4.21",
-    "vue-drag-resize": "^1.5.4"
+    "vue-drag-resize": "^1.5.4",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

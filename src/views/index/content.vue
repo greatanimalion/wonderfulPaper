@@ -1,9 +1,8 @@
 <template>
-    <layout></layout>
+    contend here
 </template>
 
 <script setup lang="ts">
-import layout from './layout.vue'
 </script>
 
 <style scoped>
