@@ -1,9 +1,15 @@
 <template>
-    <div>当前页面层数</div>
+    <div>
+        <div>当前层级</div>
+        <canvas></canvas>
+        <div>新建层级</div>
+    </div>
+    <div>
+        <div></div>
+    </div>
 </template>
 
 <script setup lang="ts">
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

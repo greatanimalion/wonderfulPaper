@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^4.2.1",
+    "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-drag-resize": "^1.5.4",
     "vue-router": "^4.3.2"
