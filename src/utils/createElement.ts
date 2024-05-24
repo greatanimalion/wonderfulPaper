@@ -1,5 +1,6 @@
 import useButtonStore from '@/store/useButtonStore';
-import { creatUUID } from './creatUUID';
+import {creatUUIDToString} from './creatUUID'; 
+
 export function createButton(): HTMLButtonElement {
   const mybutton = document.createElement('button');
   const buttonStore = useButtonStore()
@@ -7,12 +8,14 @@ export function createButton(): HTMLButtonElement {
   for (let i in style) {
     mybutton.style[i as unknown as number] = style[i]
   }
-  mybutton.setAttribute('uuid', creatUUID() + "");
+  mybutton.setAttribute('uuid', creatUUIDToString());
   return mybutton;
 }
 
 export function createA():HTMLElement  {
-  return document.createElement('a')
+  const mya = document.createElement('a')
+  mya.setAttribute('uuid', creatUUIDToString())
+  return mya
 }
 
 
@@ -20,7 +23,7 @@ export default function createElement(tag: string): HTMLElement {
   switch (tag) {
     case 'button':
       return createButton()
-    case 'button':
+    case 'a':
       return createA()
     default:
       return document.createElement(tag)
