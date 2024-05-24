@@ -1,12 +1,12 @@
 
  export type myButtonProps= {
-    background_color:string,
+    backgroundColor:string,
     color:string,
     height:string,
     width:string,
-    border_radius:string,
-    font_size:string,
-    font_weight:string,
+    borderRadius:string,
+    fontSize:string,
+    fontWeight:string,
     padding:string,
     border:string,
     cursor:string,

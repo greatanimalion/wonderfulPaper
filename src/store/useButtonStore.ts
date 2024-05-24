@@ -3,35 +3,51 @@ import { myButtonProps } from "@/types/button";
 
 
 const defaultBtn: myButtonProps = {
-  background_color:'black',
-  color:'white',
-  height:'50px',
-  width:'100px',
-  border_radius:'0px',
-  font_size:'16px',
-  font_weight:'bold',
-  padding:'10px',
-  border:'none',
-  cursor:'none',
+  backgroundColor: 'black',
+  color: 'white',
+  height: '50px',
+  width: '100px',
+  borderRadius: '0px',
+  fontSize: '16px',
+  fontWeight: 'bold',
+  padding: '10px',
+  border: 'none',
+  cursor: 'none',
 }
 const useButtonStore = defineStore("buttonProps", {
   state: () => defaultBtn,
+  getters: {
+    getBtnAttrAll(state: any) {
+      return () => ({
+        backgroundColor: state.backgroundColor,
+        color: state.color,
+        height: state.height,
+        width: state.width,
+        borderRadius: state.borderRadius,
+        fontSize: state.fontSize,
+        fontWeight: state.fontWeight,
+        padding: state.padding,
+        border: state.border,
+        cursor: state.cursor,
+      });
+    }
+  },
   actions: {
-    changeBtnAttr(key: keyof myButtonProps,value:string):void{
+    changeBtnAttr(key: keyof myButtonProps, value: string): void {
       this[key] = value;
     },
-    get getDefaultBtn(): myButtonProps {return defaultBtn},
-    recovery():void {
-        this.background_color='black';
-        this.color='white';
-        this.height='50px';
-        this.width='100px';
-        this.border_radius='0px';
-        this.font_size='16px';
-        this.font_weight='bold';
-        this.padding='10px';
-        this.border='none';
-        this.cursor='none';
+
+    recovery(): void {
+      this.backgroundColor = 'black';
+      this.color = 'white';
+      this.height = '50px';
+      this.width = '100px';
+      this.borderRadius = '0px';
+      this.fontSize = '16px';
+      this.fontWeight = 'bold';
+      this.padding = '10px';
+      this.border = 'none';
+      this.cursor = 'none';
     },
   },
 });

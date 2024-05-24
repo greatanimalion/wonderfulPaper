@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 10px 0;">
        <div style="margin: 10px 3px 20px 3px;text-align: center;">基本网页元素</div> 
-        <ul >
+        <ul class="baseElementsUL">
             <li><span>按钮</span><div class="baseElement" draggable="true"><button>button</button></div></li>
             <li><span>输入框</span><div class="baseElement"ndraggable="true"><button >input</button></div></li>
             <li><span>多行输入</span><div class="baseElement" draggable="true"><button style="font-size: 12px;">textarea</button></div></li>
@@ -15,7 +15,15 @@
 </template>
 
 <script setup lang="ts">
-
+import { onMounted } from 'vue';
+onMounted(() => {
+    const baseElements = document.querySelector('.baseElementsUL')?.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
+    baseElements.forEach(element => {
+        element.addEventListener('mousedown', (e) => {
+            console.log(e.target);
+        },false)})
+    
+})
 </script>
 
 <style scoped lang="scss" >
