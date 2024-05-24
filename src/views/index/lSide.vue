@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 10px 0;">
         <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">基本网页元素</div>
-        <ul class="baseElementsUL">
+        <ul class="baseElementsUL" ref="baseElementsUL">
             <li>
                 <span>按钮</span>
                 <div class="baseElement" draggable="true"><button>button</button></div>
@@ -49,6 +49,15 @@
 </template>
 
 <script setup lang="ts">
+
+import { onMounted, ref } from 'vue'
+
+const baseElementsUL = ref(null)
+
+onMounted(() => {   
+   console.log(baseElementsUL.value);
+
+})
 
 
 

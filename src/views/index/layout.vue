@@ -8,7 +8,7 @@
             </a-menu>
         </a-layout-sider>
         <a-layout>
-            <a-layout-header style="background: #fff; padding:0 10px"> kejian1</a-layout-header>
+            <a-layout-header style="background: #fff; padding:2px  10px;"> <div><a-button type="primary" size="large"  >创建基本页面</a-button></div> </a-layout-header>
             <a-layout-content :style="{ margin: '24px 16px', padding: '0px', background: '#fff', minHeight: '280px' }">
                 <Content></Content>
             </a-layout-content>

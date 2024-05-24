@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>拖拽测试</title>
+  <style>
+    #drag-target {
+      background: green;
+      width: 80px;
+      height:30px;
+      font-size:16px;
+      padding: 20px;
+      cursor: move;
+    }
+    #drag-aim {
+      list-style: none;
+      padding:0;
+    }
+    #drag-aim li {
+      padding:0;
+      margin: 20px 0;
+      height: 40px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+    }
+    #drag-aim li.active {
+      background: rgba(255, 0, 0, .5);
+      border-color: red;
+      transition: all 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div id="drag-target" draggable="true">
+    try to drag me!
+  </div>
+  <p>
+	  选中文本，并且拖动试一下！！！！！！！
+  </p>
+
+  <ul id="drag-aim">
+    <li>目标区域一</li>
+    <li>目标区域二</li>
+    <li>目标区域三</li>
+  </ul>
+  <script>
+    let target = document.querySelector('#drag-target');
+    let aim = document.querySelector('#drag-aim').querySelectorAll('li');
+	var img = new Image()
+	img.src= "assets/1.png"
+    target.addEventListener('dragstart', function(e){
+      console.log('开始拖动了')
+      aim[0].className = 'active'
+	  e.dataTransfer.effectAllowed = "copyLink"
+	  设置拖拽数据
+	  e.dataTransfer.setData('aaa', 'https://cdn.glitch.com/20f985bd-431d-4807-857b-e966e015c91b%2Ftruck-clip-art-fire-truck4.png?1519011787956')
+      e.dataTransfer.setData('text/uri-list','https://cdn.glitch.com/20f985bd-431d-4807-857b-e966e015c91b%2Ftruck-clip-art-fire-truck4.png?1519011787956')
+	  // 设置拖动图像
+	  e.dataTransfer.setDragImage(img, 25, 25)
+    }, false)
+    target.addEventListener('dragend', function(e){
+      console.log('拖拽结束')
+      console.log(e.dataTransfer)
+      aim[0].className = ''
+    })
+    aim[0].addEventListener('dragover', function(e){
+	  e.dataTransfer.dropEffect = 'link'
+	  // 必须加这句，表示允许放置元素，否则监听不到drop事件
+      e.preventDefault()
+    }, false)
+    aim[0].addEventListener('drop', function(e){
+      e.preventDefault()
+      console.log('拖给我了！')
+      console.log(e.dataTransfer.getData('aaa'))
+	  console.log(e.dataTransfer.getData('text'))
+	  aim[0].appendChild(target)
+    }, false)
+  </script>
+</body>
+</html>
+
