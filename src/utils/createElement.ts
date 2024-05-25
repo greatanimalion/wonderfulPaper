@@ -18,7 +18,10 @@ export function createA():HTMLElement  {
   return mya
 }
 
-
+/**
+ * create element by tag name
+ * @param tag string
+ */
 export default function createElement(tag: string): HTMLElement {
   switch (tag) {
     case 'button':

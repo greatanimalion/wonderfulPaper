@@ -1,6 +1,6 @@
 <template>
-    <div class="show-content" ref="showContent">
-        <div class="content">
+    <div class="show-content" >
+        <div class="content" ref="showContent">
             <p>a</p>
         </div>
     </div>
@@ -8,9 +8,10 @@
 
 
 <script setup lang="ts">
-// import { createButton } from '@/utils/createElement';
 import { onMounted, ref } from 'vue';
-
+import useDraggingElement from "@/store/useDraggingElement"
+import createElement from '@/utils/createElement';
+const draggingElement=useDraggingElement()
 const showContent = ref(null);
 onMounted(() => {
     (showContent.value as unknown as HTMLElement).addEventListener('dragover', function (e: any) {
@@ -18,12 +19,9 @@ onMounted(() => {
         // 必须加这句，表示允许放置元素，否则监听不到drop事件
         e.preventDefault()
     }, false);
-
-
     (showContent.value as unknown as HTMLElement).addEventListener('drop', function (e: any) {
-        console.log(e);
-        
-        (showContent.value as unknown as HTMLElement).appendChild(e.target.cloneNode(true))
+        console.log(draggingElement.curElement);
+    (showContent.value as unknown as HTMLElement).appendChild(createElement(draggingElement.curElement))
     }, false);
 })
 </script>
@@ -50,5 +48,6 @@ onMounted(() => {
     width: 720px;
     height: 900px;
     margin: auto;
+    position: relative;
 }
 </style>

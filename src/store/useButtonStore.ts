@@ -12,7 +12,7 @@ const defaultBtn: myButtonProps = {
   fontWeight: 'bold',
   padding: '10px',
   border: 'none',
-  cursor: 'none',
+  cursor: 'move',
 }
 const useButtonStore = defineStore("buttonProps", {
   state: () => defaultBtn,
@@ -36,18 +36,8 @@ const useButtonStore = defineStore("buttonProps", {
     changeBtnAttr(key: keyof myButtonProps, value: string): void {
       this[key] = value;
     },
-
     recovery(): void {
-      this.backgroundColor = 'black';
-      this.color = 'white';
-      this.height = '50px';
-      this.width = '100px';
-      this.borderRadius = '0px';
-      this.fontSize = '16px';
-      this.fontWeight = 'bold';
-      this.padding = '10px';
-      this.border = 'none';
-      this.cursor = 'none';
+      this.$reset();
     },
   },
 });

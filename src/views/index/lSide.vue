@@ -4,62 +4,68 @@
         <ul class="baseElementsUL" ref="baseElementsUL">
             <li>
                 <span>按钮</span>
-                <div class="baseElement" draggable="true"><button>button</button></div>
+                <div class="baseElement" draggable="true"><button mytype="button">button</button></div>
             </li>
             <li>
                 <span>输入框</span>
-                <div class="baseElement" draggable="true"><button>input</button></div>
+                <div class="baseElement" draggable="true"><button mytype="input">input</button></div>
             </li>
             <li>
                 <span>多行输入</span>
-                <div class="baseElement" draggable="true"><button style="font-size: 12px;">textarea</button></div>
+                <div class="baseElement" draggable="true"><button style="font-size: 12px;" mytype="textarea">textarea</button></div>
             </li>
             <li>
-                <span>H(n)</span>
+                <span>{{ Hn }}</span>
                 <div class="baseElement" draggable="true">
                     <a-popover placement="rightTop" :overlayStyle="{width:'100px'}" >
                         <template #content >
-                            <p v-for="i in 6" > <a-button>h{{ i }}</a-button></p>
+                            <p v-for="i in 6" > <a-button @click="Hn='h'+i" mytype="h{{ i }}">h{{ i }}</a-button></p>
                         </template>
                         <template #title>
                             <span>型号</span>
                         </template>
-                        <button>h1</button>
+                        <button>{{ Hn }}</button>
                     </a-popover>
                 </div>
             </li>
             <li>
                 <span>图片</span>
-                <div class="baseElement" draggable="true"><button>img</button></div>
+                <div class="baseElement" draggable="true"><button mytype="img">img</button></div>
             </li>
             <li>
                 <span>链接</span>
-                <div class="baseElement" draggable="true"><button>a</button></div>
+                <div class="baseElement" draggable="true"><button mytype="a">a</button></div>
             </li>
             <li>
                 <span>盒子</span>
-                <div class="baseElement" draggable="true"><button>div</button></div>
+                <div class="baseElement" draggable="true"><button mytype="div">div</button></div>
             </li>
             <li>
                 <span>按钮</span>
-                <div class="baseElement" draggable="true"><button>按钮</button></div>
+                <div class="baseElement" draggable="true"><button mytype="button">按钮</button></div>
             </li>
         </ul>
     </div>
 </template>
 
 <script setup lang="ts">
-
 import { onMounted, ref } from 'vue'
+import useDraggingElement from "@/store/useDraggingElement"
 
+const draggingElement=useDraggingElement()
 const baseElementsUL = ref(null)
+const Hn=ref("h(n)")
 
 onMounted(() => {   
-   console.log(baseElementsUL.value);
-
+   (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragstart', (e: DragEvent ) => {
+      draggingElement.setDraggingElement(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);
+      console.log(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);
+      
+   });
+   (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragend', () => {
+      draggingElement.clearDraggingElement()
+   });
 })
-
-
 
 </script>
 
