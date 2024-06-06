@@ -19,20 +19,21 @@ onMounted(() => {
         // 必须加这句，表示允许放置元素，否则监听不到drop事件
         e.preventDefault()
     }, false);
-    (showContent.value as unknown as HTMLElement).addEventListener('drop', function (e: any) {
-        console.log(draggingElement.curElement);
-    (showContent.value as unknown as HTMLElement).appendChild(createElement(draggingElement.curElement))
+    (showContent.value as unknown as HTMLElement).addEventListener('drop', function () {
+       (showContent.value as unknown as HTMLElement).appendChild(createElement(draggingElement.curElement))
     }, false);
 })
 </script>
 
 <style scoped lang="scss">
 .show-content {
+    padding: 10px;
     width: 100%;
     height: 100%;
     overflow: hidden;
     overflow-y: scroll;
     overflow-x: scroll;
+   
     &::-webkit-scrollbar {
         width: 4px;
         height: 4px;
@@ -44,6 +45,7 @@ onMounted(() => {
 }
 
 .content {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     background-color: rgb(255, 255, 255);
     width: 720px;
     height: 900px;

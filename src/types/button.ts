@@ -1,5 +1,5 @@
 
- export type myButtonProps= {
+ export type ButtonProps= {
     backgroundColor:string,
     color:string,
     height:string,
@@ -12,7 +12,7 @@
     cursor:string,
 }
 
-export type myconfirmBtn  ={
+export type confirmBtn  ={
     x:number,
     y:number,
     text:string,
@@ -20,4 +20,4 @@ export type myconfirmBtn  ={
     onHover?:VoidFunction[],
     onLeave?:VoidFunction[],
     disabled?:boolean;
-}& myButtonProps
+}& ButtonProps

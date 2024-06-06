@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { myButtonProps } from "@/types/button";
+import { ButtonProps } from "@/types/button";
 
 
-const defaultBtn: myButtonProps = {
+const defaultBtn: ButtonProps = {
   backgroundColor: 'black',
   color: 'white',
   height: '50px',
@@ -33,7 +33,7 @@ const useButtonStore = defineStore("buttonProps", {
     }
   },
   actions: {
-    changeBtnAttr(key: keyof myButtonProps, value: string): void {
+    changeBtnAttr(key: keyof ButtonProps, value: string): void {
       this[key] = value;
     },
     recovery(): void {

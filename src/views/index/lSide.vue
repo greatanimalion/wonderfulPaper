@@ -15,26 +15,8 @@
                 <div class="baseElement" draggable="true"><button style="font-size: 12px;" mytype="textarea">textarea</button></div>
             </li>
             <li>
-                <span>{{ Hn }}</span>
-                <div class="baseElement" draggable="true">
-                    <a-popover placement="rightTop" :overlayStyle="{width:'100px'}" >
-                        <template #content >
-                            <p v-for="i in 6" > <a-button @click="Hn='h'+i" mytype="h{{ i }}">h{{ i }}</a-button></p>
-                        </template>
-                        <template #title>
-                            <span>型号</span>
-                        </template>
-                        <button>{{ Hn }}</button>
-                    </a-popover>
-                </div>
-            </li>
-            <li>
                 <span>图片</span>
                 <div class="baseElement" draggable="true"><button mytype="img">img</button></div>
-            </li>
-            <li>
-                <span>链接</span>
-                <div class="baseElement" draggable="true"><button mytype="a">a</button></div>
             </li>
             <li>
                 <span>盒子</span>
@@ -60,7 +42,7 @@ onMounted(() => {
    (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragstart', (e: DragEvent ) => {
       draggingElement.setDraggingElement(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);
       console.log(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);
-      
+
    });
    (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragend', () => {
       draggingElement.clearDraggingElement()
