@@ -3,12 +3,12 @@ import { Page } from '@/types/page'
 
 type PageStore = {
   pageNum: number
-  pages: WeakMap<Number, Page>
+  pages: Map<Number, Page>
 }
 const usePageStore = defineStore('page', {
   state: () => ({
     pageNum: 0,
-    pages: {}
+    pages: new Map<Number, Page>()
   } as PageStore),
   actions: {
     /**
@@ -17,12 +17,12 @@ const usePageStore = defineStore('page', {
      * @param zIndex 页面层级(默认1)
      * @param title 页面标题
      */
-    createPage({
-      width,
-      height,
-      zIndex = 1,
-      title = '',
-    }: Page) {
+    createPage(
+      width:number,
+      height:number,
+      title:string = '',
+      zIndex:number = 1,
+    ) {
       this.pageNum++;
       let id = this.pageNum
       this.pages.set(id, { id, zIndex, width, height, title,pageElements: [] })
