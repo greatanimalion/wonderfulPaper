@@ -1,5 +1,5 @@
 <template>
-    <input name="text" class="input" :placeholder="placeHolder"  >
+    <input @input="$emit('update:modelValue',($event.target as any).value )" autocomplete="off" class="input" :placeholder="placeHolder"  >
 </template>
 
 <script setup lang="ts">
@@ -7,8 +7,16 @@ defineProps({
     placeHolder: {
         type: String,
         default: "请输入内容"
+    },
+    modelValue: {   
+        type: String,
     }
 })
+
+
+defineEmits<{
+  (e: 'update:modelValue' ,width: number): void
+}>()
 // function getRef() {
 //     return inputRef.value
 // }

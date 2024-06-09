@@ -20,25 +20,38 @@
             </li>
         </ul>
         <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">当前层级</div>
-        <DefineInput placeHolder="宽度(px)"></DefineInput>
-        <DefineInput placeHolder="高度(px)"></DefineInput>
-        <DefineInput placeHolder="标题"></DefineInput>
-        <DefineInput placeHolder="层级"></DefineInput>
-        <div><button class="Lbutton">
+        <DefineInput placeHolder="宽度(px)" v-model="pageConfig.width"></DefineInput>
+        <DefineInput placeHolder="高度(px)"  v-model="pageConfig.height"></DefineInput>
+        <DefineInput placeHolder="标题" v-model="pageConfig.title"></DefineInput>
+        <DefineInput placeHolder="层级" v-model="pageConfig.zIndex"></DefineInput>
+        <div><button class="Lbutton" @click="createPage">
                 <PlusOutlined />新建层级
             </button></div>
     </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref } from 'vue'
+import {onMounted, reactive, ref, watch } from 'vue'
 import useDraggingElement from "@/store/useDraggingElement"
 import DefineInput from "@/components/DinfineInput.vue"
 import { PlusOutlined } from '@ant-design/icons-vue';
-
+import {usePageStore} from '@/store/index'
+import { message } from 'ant-design-vue';
+import { isNumber } from '@/utils/isNumber';
+const pageStore = usePageStore()
 const draggingElement = useDraggingElement()
 const baseElementsUL = ref(null)
+const pageConfig=reactive({
+    width:'1440',
+    height:'720',
+    title:'',
+    zIndex:'1'
+})
 
+const createPage = ()=>{
+    if(!isNumber(pageConfig.width,false)||!isNumber(pageConfig.height,false)){ return message.error('请填写合法宽高');}    
+    pageStore.createPage(pageConfig)
+}
 onMounted(() => {
     (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragstart', (e: DragEvent) => {
         draggingElement.setDraggingElement(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);

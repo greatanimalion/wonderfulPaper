@@ -1,32 +1,35 @@
 <template>
-    <div class="show-content" >
-        <div class="add-page" v-if="usePage.pageNum===0"><div>
-            <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }" @click="createPage" />
-            <div style="text-align: center;font-size: 18px;"></div>
-        </div></div>
-        <div class="content" ref="showContent" v-else>
+    <div class="show-content">
+        <div class="add-page" v-if="usePage.pageNum === 0">
+            <div>
+                <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }"
+                    @click="createPage" />
+                <div style="text-align: center;font-size: 18px;"></div>
+            </div>
+        </div>
+        <div class="content" ref="showContent" v-else
+            :style="{ width: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).width + 'px',
+             height: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).height + 'px' }">
         </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import {useDraggingElement,usePageStore} from "@/store"
+import {  ref } from 'vue';
+import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 // import createElement from '@/utils/createElement';
 
 // const draggingElement=useDraggingElement()
 const usePage = usePageStore()
 
-console.log(usePage.pageNum);
-const createPage=()=>{
-    //usePage.createPage(720,900,'基准页面');
+const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()//过程要比层层暴露元素效率高些，也就直接这样写了
-
 }
 
 const showContent = ref(null);
+
 // onMounted(() => {
 //     (showContent.value as unknown as HTMLElement).addEventListener('dragover', function (e: any) {
 //         e.dataTransfer.dropEffect = 'move'
@@ -47,16 +50,18 @@ const showContent = ref(null);
     overflow: hidden;
     overflow-y: scroll;
     overflow-x: scroll;
-   
+
     &::-webkit-scrollbar {
         width: 4px;
         height: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
         background-color: #999;
         border-radius: 4px;
     }
 }
+
 .add-page {
     justify-content: center;
     display: flex;
@@ -64,6 +69,7 @@ const showContent = ref(null);
     width: 100%;
     height: 100%;
 }
+
 .content {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
     background-color: rgb(255, 255, 255);
