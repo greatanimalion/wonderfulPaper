@@ -15,11 +15,11 @@
                 <div class="baseElement" draggable="true"><button mytype="img">img</button></div>
             </li>
             <li>
-                <span>盒子</span>
+                <span>方块</span>
                 <div class="baseElement" draggable="true"><button mytype="div">div</button></div>
             </li>
         </ul>
-        <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">当前层级</div>
+        <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">层级</div>
         <DefineInput placeHolder="宽度(px)" v-model="pageConfig.width"></DefineInput>
         <DefineInput placeHolder="高度(px)"  v-model="pageConfig.height"></DefineInput>
         <DefineInput placeHolder="标题" v-model="pageConfig.title"></DefineInput>
@@ -31,13 +31,14 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, reactive, ref, watch } from 'vue'
+import {onMounted, reactive, ref } from 'vue'
 import useDraggingElement from "@/store/useDraggingElement"
 import DefineInput from "@/components/DinfineInput.vue"
 import { PlusOutlined } from '@ant-design/icons-vue';
 import {usePageStore} from '@/store/index'
 import { message } from 'ant-design-vue';
 import { isNumber } from '@/utils/isNumber';
+
 const pageStore = usePageStore()
 const draggingElement = useDraggingElement()
 const baseElementsUL = ref(null)

@@ -1,5 +1,6 @@
 <template>
     <div class="show-content">
+       
         <div class="add-page" v-if="usePage.pageNum === 0">
             <div>
                 <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }"
@@ -7,28 +8,41 @@
                 <div style="text-align: center;font-size: 18px;"></div>
             </div>
         </div>
-        <div class="content" ref="showContent" v-else
-            :style="{ width: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).width + 'px',
-             height: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).height + 'px' }">
+        <div class="content" ref="showContent" v-else :style="{
+            width: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).width + 'px',
+            height: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).height + 'px'
+        }"> {{ mouse.x }},{{ mouse.y }}
         </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import {  ref } from 'vue';
+import { nextTick, onUnmounted, reactive, ref, watch } from 'vue';
 import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
-// import createElement from '@/utils/createElement';
+import useMousePosition from '@/hooks/useMousePosition';
 
-// const draggingElement=useDraggingElement()
 const usePage = usePageStore()
+const showContent = ref(null);
+const mouse=reactive({x:0,y:0})
 
+let removeMouseListener:Function|null = null;
+watch(() => usePage.pageNum, () => {
+    if (showContent.value) return;
+    nextTick(() => {
+        removeMouseListener=useMousePosition(showContent.value as unknown as HTMLBaseElement,mouse)
+    })
+
+})
 const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()//过程要比层层暴露元素效率高些，也就直接这样写了
 }
 
-const showContent = ref(null);
+onUnmounted(() => {
+    //卸载鼠标位置监听
+    removeMouseListener&& removeMouseListener()
+})
 
 // onMounted(() => {
 //     (showContent.value as unknown as HTMLElement).addEventListener('dragover', function (e: any) {
@@ -75,7 +89,7 @@ const showContent = ref(null);
     background-color: rgb(255, 255, 255);
     width: 720px;
     height: 900px;
-    margin: auto;
     position: relative;
+    margin: auto;
 }
 </style>

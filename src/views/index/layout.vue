@@ -5,8 +5,9 @@
             <hr>
             <a-menu style="background-color: var(--sideBGColor);" mode="inline">
                 <LSide></LSide>
-            </a-menu>
+            </a-menu> <div class="createLayer"><FormOutlined v-if="pageStore.pageNum" style="font-size: 20px;cursor: pointer;color: #fff;" /></div>
         </a-layout-sider>
+       
         <a-layout>
             <a-layout-header style="background: #fff; padding:2px  10px;">
                 <div><a-button type="primary" size="large">创建基本页面</a-button></div>
@@ -23,7 +24,9 @@
 import LSide from './Lside.vue';
 import RSide from './Rside.vue';
 import Content from './content.vue';
-
+import { FormOutlined } from '@ant-design/icons-vue';
+import { usePageStore } from '@/store';
+const pageStore = usePageStore();
 </script>
 <style scoped>
 .logo {
@@ -57,5 +60,13 @@ hr {
 
 .site-layout .site-layout-background {
     background: #fff;
+}
+.createLayer {
+    position: absolute;
+    z-index: 10;
+    top: 329px;
+    width: 30px;
+    height: 30px;
+    left:152px;
 }
 </style>

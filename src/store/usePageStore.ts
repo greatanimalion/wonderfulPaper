@@ -1,26 +1,27 @@
 import { defineStore } from 'pinia'
 import { Page } from '@/types/page'
-
+import { message } from 'ant-design-vue';
 type PageStore = {
   pageNum: number
-  pages: Map<Number, Page>
+  pages: Map<string, Page>
   curIndex: Number
 }
+
 const usePageStore = defineStore('page', {
   state: () => ({
     pageNum: 0,
-    pages: new Map<Number, Page>(),
+    pages: new Map<string, Page>(),
     curIndex: -1
   } as PageStore),
   actions: {
     /**
-     * @param width 页面宽度
-     * @param height 页面高度
-     * @param zIndex 页面层级(默认1)
-     * @param title 页面标题
+     * @param width 层级宽度
+     * @param height 高度
+     * @param zIndex 层级级别(默认1)
+     * @param title 层级标题
      */
-    getIndexPage(index: number): Page | null {
-      let indexPage = this.pages.get(index)
+    getIndexPage(index: number|string): Page | null {
+      let indexPage = this.pages.get(String(index))
       if (indexPage) {
         return indexPage
       } else {
@@ -38,16 +39,17 @@ const usePageStore = defineStore('page', {
       title:string ,
       zIndex:string,
     }) {
+      if(this.pages.get(zIndex))return message.error('该层级已存在');
       this.pageNum++;
       let id = this.pageNum
-      this.pages.set(id, { id, zIndex, width, height, title,pageElements: [] })
+      this.pages.set(String(id), { id, zIndex, width, height, title,pageElements: [] })
       this.curIndex = id
     },
     /**
      * @param index 要删除的页码
      */
-    deletePage(index: number) {
-      this.pages.delete(index)
+    deletePage(index: number|string) {
+      this.pages.delete(String(index))
       this.pageNum--
     },
   }
