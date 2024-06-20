@@ -5,7 +5,7 @@
             <hr>
             <a-menu style="background-color: var(--sideBGColor);" mode="inline">
                 <LSide></LSide>
-            </a-menu> <div class="createLayer"><FormOutlined v-if="pageStore.pageNum" style="font-size: 20px;cursor: pointer;color: #fff;" /></div>
+            </a-menu> 
         </a-layout-sider>
        
         <a-layout>
@@ -21,12 +21,12 @@
     </a-layout>
 </template>
 <script lang="ts" setup>
-import LSide from './Lside.vue';
-import RSide from './Rside.vue';
-import Content from './content.vue';
-import { FormOutlined } from '@ant-design/icons-vue';
-import { usePageStore } from '@/store';
-const pageStore = usePageStore();
+import LSide from './Lside/index.vue';
+import RSide from './Rside/index.vue';
+import Content from './content/index.vue';
+
+
+
 </script>
 <style scoped>
 .logo {
@@ -61,12 +61,5 @@ hr {
 .site-layout .site-layout-background {
     background: #fff;
 }
-.createLayer {
-    position: absolute;
-    z-index: 10;
-    top: 329px;
-    width: 30px;
-    height: 30px;
-    left:152px;
-}
+
 </style>

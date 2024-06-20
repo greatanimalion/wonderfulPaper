@@ -1,6 +1,6 @@
 <template>
     <div class="show-content">
-       
+
         <div class="add-page" v-if="usePage.pageNum === 0">
             <div>
                 <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }"
@@ -22,16 +22,19 @@ import { nextTick, onUnmounted, reactive, ref, watch } from 'vue';
 import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import useMousePosition from '@/hooks/useMousePosition';
+import createLayerImg from "@/utils/createLayerImg";
+import useLayerThumbnail from '@/store/useLayerImgStore';
+
 
 const usePage = usePageStore()
 const showContent = ref(null);
-const mouse=reactive({x:0,y:0})
+const mouse = reactive({ x: 0, y: 0 })
 
-let removeMouseListener:Function|null = null;
+let removeMouseListener: Function | null = null;
 watch(() => usePage.pageNum, () => {
     if (showContent.value) return;
     nextTick(() => {
-        removeMouseListener=useMousePosition(showContent.value as unknown as HTMLBaseElement,mouse)
+        removeMouseListener = useMousePosition(showContent.value as unknown as HTMLBaseElement, mouse)
     })
 
 })
@@ -41,7 +44,7 @@ const createPage = () => {
 
 onUnmounted(() => {
     //卸载鼠标位置监听
-    removeMouseListener&& removeMouseListener()
+    removeMouseListener && removeMouseListener()
 })
 
 // onMounted(() => {

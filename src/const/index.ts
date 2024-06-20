@@ -1,0 +1,1 @@
+export const Layer_Img_Width = 100;

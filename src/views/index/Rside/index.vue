@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>全部层级</div>
+        <div>工具</div>
         <canvas></canvas>
         
     </div>

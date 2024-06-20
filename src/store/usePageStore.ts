@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { Page } from '@/types/page'
-import { message } from 'ant-design-vue';
+// import { message } from 'ant-design-vue';
 type PageStore = {
   pageNum: number
   pages: Map<string, Page>
@@ -39,11 +39,12 @@ const usePageStore = defineStore('page', {
       title:string ,
       zIndex:string,
     }) {
-      if(this.pages.get(zIndex))return message.error('该层级已存在');
+      if(this.pages.get(zIndex))return false;
       this.pageNum++;
       let id = this.pageNum
       this.pages.set(String(id), { id, zIndex, width, height, title,pageElements: [] })
       this.curIndex = id
+      return true
     },
     /**
      * @param index 要删除的页码

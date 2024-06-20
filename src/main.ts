@@ -6,6 +6,9 @@ import 'ant-design-vue/dist/reset.css';
 import router from '@/router/index.ts'
 import { createPinia } from "pinia";
 
+
 const store = createPinia();
 // console.log(import.meta.env);
 createApp(App).use(Antd).use(router).use(store).mount('#app')
+
+

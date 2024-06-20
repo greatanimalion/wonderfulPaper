@@ -175,7 +175,8 @@ let url = DOMURL.createObjectURL(svg);
 
 img.onload = function () {
   ctx.drawImage(img, 0, 0);
-  DOMURL.revokeObjectURL(url); // 摧毁刚刚生产的url
+  DOMURL.revokeObjectURL(url); // 撤销刚刚生产的url
+  console.log(typeof svg)
 }// 注册回调函数
 
 img.src = url;

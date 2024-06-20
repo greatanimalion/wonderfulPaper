@@ -9,6 +9,9 @@ export default ({ command, mode }:any) => {
   
   return defineConfig({
     plugins: [vue()],
+    server: {
+      port:Number(loadEnv(mode, process.cwd()).VITE_PORT)
+    },
     resolve: {
       alias: {
         '@': '/src'
