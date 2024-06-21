@@ -11,8 +11,8 @@
         <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">层级</div>
         <Transition>
             <div v-show="create">
-                <DefineInput placeHolder="宽度(px)" v-model="pageConfig.width"></DefineInput>
-                <DefineInput placeHolder="高度(px)" v-model="pageConfig.height"></DefineInput>
+                <DefineInput placeHolder="宽度(默认1440px)" v-model="pageConfig.width"></DefineInput>
+                <DefineInput placeHolder="高度(默认720px)" v-model="pageConfig.height"></DefineInput>
                 <DefineInput placeHolder="标题" v-model="pageConfig.title"></DefineInput>
                 <DefineInput placeHolder="层级" v-model="pageConfig.zIndex"></DefineInput>
                 <div><button class="Lbutton" @click="createPage">
