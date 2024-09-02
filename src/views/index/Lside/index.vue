@@ -56,13 +56,13 @@ const elementList=[
     {name:'图片',type:'img'},
     {name:'方块',type:'div'}
 ]
-const draw =ref(null)
+const draw =ref()
 const createPage = () => {
     if (!isNumber(pageConfig.width, false) || !isNumber(pageConfig.height, false)) { return message.error('请填写合法宽高'); }
     if(!pageStore.createPage(pageConfig))return message.error('层级已存在'); 
     layerThumbnail.setLayerThumbnail({width:Number(pageConfig.width), height: Number(pageConfig.height),url: ''})
     create.value=false;
-    (draw.value as unknown as {draw: () => void}).draw();
+    draw.value.draw();
     
 }
 
@@ -119,12 +119,6 @@ onMounted(() => {
 }
 
 li {
-    span {
-        font-size: 14px;
-        width: 57px;
-        text-align: center;
-    }
-
     color: wheat;
     margin: 5px 4px;
     display: flex;
@@ -132,15 +126,17 @@ li {
     justify-content: space-around;
     align-items: center;
     border: 1px solid #4e4e4e;
-
     background-color: #2d2d2d;
     transition: all 0.3s ease-in-out;
     border-radius: 3px;
-
+    span {
+        font-size: 14px;
+        width: 57px;
+        text-align: center;
+    }
     &:hover {
         border-color: #2f9ecd;
     }
-
     .baseElement {
         cursor: move;
         margin: 4px 0;

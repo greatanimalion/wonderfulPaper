@@ -22,7 +22,6 @@ const useLayerThumbnail = defineStore("LayerThumbnail", {
         deleteLayerThumbnail(id: number) {
             for (let i of this.canvas) { if (i.id === id) { window.URL.revokeObjectURL(i.url); } }
             this.canvas = this.canvas.filter(item => item.id !== id);
-
         }
     }
 })

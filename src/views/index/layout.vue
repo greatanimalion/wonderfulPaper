@@ -1,7 +1,7 @@
 <template>
     <a-layout>
         <a-layout-sider style="background-color: var(--sideBGColor);">
-            <div class="logo">wonderfulPaper</div>
+            <div class="logo" ><span ref="logo">wonderful</span>Paper</div>
             <hr>
             <a-menu style="background-color: var(--sideBGColor);" mode="inline">
                 <LSide></LSide>
@@ -10,7 +10,7 @@
        
         <a-layout>
             <a-layout-header style="background: #fff; padding:2px  10px;">
-                <div><a-button type="primary" size="large">创建基本页面</a-button></div>
+               <Tool></Tool>
             </a-layout-header>
             <a-layout-content :style="{ margin: '24px 16px', padding: '0px', background: '#fff', minHeight: '280px' }">
                 <Content></Content>
@@ -21,16 +21,23 @@
     </a-layout>
 </template>
 <script lang="ts" setup>
+import { onMounted, ref } from 'vue';
 import LSide from './Lside/index.vue';
 import RSide from './Rside/index.vue';
 import Content from './content/index.vue';
-
-
+import colorFont from 'colorfontcolor';
+import Tool from './tool/index.vue';
+const logo=ref('logo')
+onMounted(() => {
+    colorFont(logo.value,{duration:3,color:['#a7a7a7','#fff',"#b44875"]})
+    // console.log(re);
+    
+})
 
 </script>
 <style scoped>
 .logo {
-    color: #fff;
+    color: #a7a7a7;
     text-align: center;
     padding: 16px 0;
     font-size: 20px;

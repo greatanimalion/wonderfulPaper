@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { Page } from '@/types/page'
-// import { message } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 type PageStore = {
   pageNum: number
   pages: Map<string, Page>
   curIndex: Number
 }
-
+let num=0;
 const usePageStore = defineStore('page', {
   state: () => ({
     pageNum: 0,
@@ -28,6 +28,9 @@ const usePageStore = defineStore('page', {
         return null
       }
     },
+    getAll(){
+      return num;
+    },
     createPage({
       width,
       height,
@@ -39,11 +42,14 @@ const usePageStore = defineStore('page', {
       title:string ,
       zIndex:string,
     }) {
+      
       if(this.pages.get(zIndex))return false;
       this.pageNum++;
       let id = this.pageNum
       this.pages.set(String(id), { id, zIndex, width, height, title,pageElements: [] })
       this.curIndex = id
+      num++;
+      if(num>10) message.warning('不建议创建10个层级以上')
       return true
     },
     /**
@@ -52,6 +58,7 @@ const usePageStore = defineStore('page', {
     deletePage(index: number|string) {
       this.pages.delete(String(index))
       this.pageNum--
+      num--;
     },
   }
 })
