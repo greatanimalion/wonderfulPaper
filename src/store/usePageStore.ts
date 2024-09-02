@@ -1,12 +1,8 @@
 import { defineStore } from 'pinia'
-import { Page } from '@/types/page'
+import { Page, PageStore, Pagedefault } from '@/types/page'
 import { message } from 'ant-design-vue';
-type PageStore = {
-  pageNum: number
-  pages: Map<string, Page>
-  curIndex: Number
-}
-let num=0;
+import pageDefault from '@/const/pageDefault';
+
 const usePageStore = defineStore('page', {
   state: () => ({
     pageNum: 0,
@@ -14,13 +10,7 @@ const usePageStore = defineStore('page', {
     curIndex: -1
   } as PageStore),
   actions: {
-    /**
-     * @param width 层级宽度
-     * @param height 高度
-     * @param zIndex 层级级别(默认1)
-     * @param title 层级标题
-     */
-    getIndexPage(index: number|string): Page | null {
+    getIndexPage(index: number | string): Page | null {
       let indexPage = this.pages.get(String(index))
       if (indexPage) {
         return indexPage
@@ -28,37 +18,25 @@ const usePageStore = defineStore('page', {
         return null
       }
     },
-    getAll(){
-      return num;
+    getPageNum() {
+      return this.pageNum;
     },
-    createPage({
-      width,
-      height,
-      title = '',
-      zIndex = "1" 
-    }:{
-      width:string,
-      height:string,
-      title:string ,
-      zIndex:string,
-    }) {
-      
-      if(this.pages.get(zIndex))return false;
+    createPage(page = pageDefault as unknown as Pagedefault) {
+      if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }
+      if (this.pageNum > 7) { message.warning('最多只能创建7个层级'); return false }
       this.pageNum++;
       let id = this.pageNum
-      this.pages.set(String(id), { id, zIndex, width, height, title,pageElements: [] })
+      this.pages.set(String(id), Object.assign(page, { id, pageElements: [] }))
       this.curIndex = id
-      num++;
-      if(num>10) message.warning('不建议创建10个层级以上')
       return true
     },
-    /**
-     * @param index 要删除的页码
-     */
-    deletePage(index: number|string) {
+    setZoom(index: number | string, zoom: number) {
+      this.pages.get(String(index))!.zoom = zoom
+    },
+    deletePage(index: number | string) {
       this.pages.delete(String(index))
       this.pageNum--
-      num--;
+      this.pageNum--;
     },
   }
 })

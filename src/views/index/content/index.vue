@@ -18,12 +18,12 @@
 
 
 <script setup lang="ts">
-import { nextTick, onUnmounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import useMousePosition from '@/hooks/useMousePosition';
-import createLayerImg from "@/utils/createLayerImg";
-import useLayerThumbnail from '@/store/useLayerImgStore';
+// import createLayerImg from "@/utils/createLayerImg";
+// import useLayerThumbnail from '@/store/useLayerImgStore';
 
 
 const usePage = usePageStore()
@@ -46,7 +46,15 @@ onUnmounted(() => {
     //卸载鼠标位置监听
     removeMouseListener && removeMouseListener()
 })
-
+onMounted(() => {
+    window.addEventListener('mousewheel', function (event: any) {
+        if (event.wheelDelta > 0) console.log('向上滚动');
+        else console.log('向下滚动');
+        if (event.ctrlKey === true || event.metaKey) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+})
 // onMounted(() => {
 //     (showContent.value as unknown as HTMLElement).addEventListener('dragover', function (e: any) {
 //         e.dataTransfer.dropEffect = 'move'

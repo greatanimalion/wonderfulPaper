@@ -11,8 +11,8 @@
         <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">层级</div>
         <Transition>
             <div v-show="create">
-                <DefineInput placeHolder="宽度(默认1440px)" v-model="pageConfig.width"></DefineInput>
-                <DefineInput placeHolder="高度(默认720px)" v-model="pageConfig.height"></DefineInput>
+                <DefineInput placeHolder="宽度(默认720px)" v-model="pageConfig.width"></DefineInput>
+                <DefineInput placeHolder="高度(默认1440px)" v-model="pageConfig.height"></DefineInput>
                 <DefineInput placeHolder="标题" v-model="pageConfig.title"></DefineInput>
                 <DefineInput placeHolder="层级" v-model="pageConfig.zIndex"></DefineInput>
                 <div><button class="Lbutton" @click="createPage">
@@ -45,8 +45,8 @@ const pageStore = usePageStore()
 const draggingElement = useDraggingElement()
 const baseElementsUL = ref(null)
 const pageConfig = reactive({
-    width: '1440',
-    height: '720',
+    width: '720',
+    height: '1440',
     title: '',
     zIndex: '1'
 })
@@ -59,7 +59,7 @@ const elementList=[
 const draw =ref()
 const createPage = () => {
     if (!isNumber(pageConfig.width, false) || !isNumber(pageConfig.height, false)) { return message.error('请填写合法宽高'); }
-    if(!pageStore.createPage(pageConfig))return message.error('层级已存在'); 
+    if(!pageStore.createPage(pageConfig))return  
     layerThumbnail.setLayerThumbnail({width:Number(pageConfig.width), height: Number(pageConfig.height),url: ''})
     create.value=false;
     draw.value.draw();

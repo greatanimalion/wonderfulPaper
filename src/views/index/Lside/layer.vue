@@ -25,7 +25,7 @@ function setUniformHeight(n: number) {
    const top=gap-IMGHEIGHT/2;
    document.querySelectorAll(".layer-item").forEach((div,index) => {
       type div =HTMLElement
-      if(index!=0||index!=n-1)div.style.margin = `${gap}px auto  `;
+      if(index!=0||index!=n-1)(div as unknown as HTMLDivElement).style.margin = `${gap}px auto  `;
       else if(index===0) (div as unknown as HTMLDivElement).style.margin = `0px auto  ${gap}px auto`;
       else (div as unknown as HTMLDivElement).style.margin = `${gap}px auto  ${top}px auto`;
    })

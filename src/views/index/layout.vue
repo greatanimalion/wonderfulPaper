@@ -9,7 +9,7 @@
         </a-layout-sider>
        
         <a-layout>
-            <a-layout-header style="background: #fff; padding:2px  10px;">
+            <a-layout-header style="background: #fff; padding:0;">
                <Tool></Tool>
             </a-layout-header>
             <a-layout-content :style="{ margin: '24px 16px', padding: '0px', background: '#fff', minHeight: '280px' }">
