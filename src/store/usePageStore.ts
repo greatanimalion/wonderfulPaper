@@ -31,7 +31,11 @@ const usePageStore = defineStore('page', {
       return true
     },
     setZoom(index: number | string, zoom: number) {
-      this.pages.get(String(index))!.zoom = zoom
+      if(zoom<0.1){return message.warning('防缩比例不能小于0.1');}
+      let curPage=this.pages.get(String(index))!
+      curPage.zoom = zoom
+      curPage.width=((Number(curPage.width)*zoom).toFixed(0)).toString()
+      curPage.height=((Number(curPage.height)*zoom).toFixed(0)).toString()
     },
     deletePage(index: number | string) {
       this.pages.delete(String(index))

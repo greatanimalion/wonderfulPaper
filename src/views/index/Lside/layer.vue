@@ -1,12 +1,5 @@
 <template>
    <div ref="layer" class="layer">
-      <div class="layer-item"><img src="" alt=""></div>
-      <div class="layer-item"></div>
-      <div class="layer-item"></div>
-      <div class="layer-item"></div>
-      <div class="layer-item"></div>
-      <div class="layer-item"></div>
-      <div class="layer-item"></div>
    </div>
 </template>
 
@@ -14,15 +7,19 @@
 
 import { nextTick, ref } from "vue";
 import useLayerThumbnail from "@/store/useLayerImgStore";
+import { usePageStore } from "@/store";
+import {Layer_Img_Width }from '@/const/index'
 const LayerThumbnail = useLayerThumbnail();
-const layer = ref(null);
+const layer = ref<HTMLDivElement|null>(null);
+const pageStore=usePageStore();
 
 
-const IMGHEIGHT = 100;
-function setUniformHeight(n: number) {
-   const height = (layer.value as unknown as HTMLBaseElement).offsetHeight;
-   const gap = Math.floor(height / (n+1))-IMGHEIGHT;
-   const top=gap-IMGHEIGHT/2;
+function setUniformHeight() {
+   console.log(pageStore.getPageNum());
+   let n=pageStore.getPageNum();
+   const height = layer.value!.offsetHeight;
+   const gap = Math.floor(height / (n+1))-Layer_Img_Width;
+   const top=gap-Layer_Img_Width/2;
    document.querySelectorAll(".layer-item").forEach((div,index) => {
       type div =HTMLElement
       if(index!=0||index!=n-1)(div as unknown as HTMLDivElement).style.margin = `${gap}px auto  `;
@@ -30,16 +27,21 @@ function setUniformHeight(n: number) {
       else (div as unknown as HTMLDivElement).style.margin = `${gap}px auto  ${top}px auto`;
    })
 }
-
+const addLayerThumbnail=()=>{
+   const div=document.createElement("div");
+   div.classList.add("layer-item");
+   layer.value!.appendChild(div)
+}
 defineExpose({
    draw: () => {
       console.log(LayerThumbnail.canvas);
-      nextTick(() => { setUniformHeight(7) })
+      addLayerThumbnail()
+      nextTick(() => { setUniformHeight() })
    }
 })
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 .layer {
    height: calc(100vh - 358px);
    transform:translateY(50px);
@@ -70,7 +72,6 @@ defineExpose({
          box-shadow: 0 0 3px 1px rgb(109, 109, 109);
          opacity: 1;
       }
-  
       img {
          background-color: aliceblue;
       }
