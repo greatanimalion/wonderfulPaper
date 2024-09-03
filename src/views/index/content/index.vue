@@ -9,8 +9,8 @@
             </div>
         </div>
         <div class="content" ref="showContent" v-else :style="{
-            width: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).width + 'px',
-            height: (usePage.getIndexPage as Function)(Number(usePage.curIndex)).height + 'px'
+            width: usePage.getIndexPage(Number(usePage.curIndex))!.resizeWidth + 'px',
+            height: usePage.getIndexPage(Number(usePage.curIndex))!.resizeHeight + 'px'
         }"> {{ mouse.x }},{{ mouse.y }}
         </div>
     </div>
@@ -46,13 +46,13 @@ onUnmounted(() => {
     //卸载鼠标位置监听
     removeMouseListener && removeMouseListener()
 })
+
 onMounted(() => {
     window.addEventListener('mousewheel', function (event: any) {
-        if (event.wheelDelta > 0) console.log('向上滚动');
-        else console.log('向下滚动');
-        if (event.ctrlKey === true || event.metaKey) {
-            event.preventDefault();
-        }
+        if(!event.ctrlKey)return ;
+        event.preventDefault();
+        if (event.wheelDelta > 0)usePage.setZoom(0.1); 
+        else usePage.setZoom(-0.1);
     }, { passive: false });
 })
 // onMounted(() => {

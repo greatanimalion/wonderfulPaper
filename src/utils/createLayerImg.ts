@@ -1,6 +1,7 @@
 /**
  * 给定一个目标元素，将目标元素变成img,当页面删除时，请尽可能的将revokeObjectUrl撤销，避免内存泄漏
  * @param e 目标元素
+ * @returns img的src
 */
 export  default function createCanvas(e: HTMLBaseElement) {
     let data = `

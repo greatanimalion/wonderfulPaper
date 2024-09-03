@@ -6,7 +6,9 @@ export type Page = {
   content?: string;
   zIndex: string;
   pageElements:HTMLElement[];
-  zoom?: number
+  zoom: number|1,
+  resizeHeight?: string,
+  resizeWidth?: string,
 };
 export type PageStore = {
   pageNum: number

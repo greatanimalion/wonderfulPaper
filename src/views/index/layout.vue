@@ -7,7 +7,6 @@
                 <LSide></LSide>
             </a-menu> 
         </a-layout-sider>
-       
         <a-layout>
             <a-layout-header style="background: #fff; padding:0;">
                <Tool></Tool>
