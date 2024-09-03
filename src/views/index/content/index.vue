@@ -1,6 +1,5 @@
 <template>
     <div class="show-content">
-
         <div class="add-page" v-if="usePage.pageNum === 0">
             <div>
                 <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }"

@@ -15,4 +15,4 @@ export type PageStore = {
   pages: Map<string, Page>
   curIndex: Number
 }
-export type Pagedefault = Omit<Omit<Page,'id'>,'pageElements'>
+export type Pagedefault = Omit<Omit<Omit<Page,'id'>,'pageElements'>,'zoom'>

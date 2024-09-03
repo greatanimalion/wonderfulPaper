@@ -1,4 +1,4 @@
-# 短期内重要有任务，无法继续
+# 正在分析pragmatic-drag-and-drop源码
 
 # Vue 3 + TypeScript + Vite
 

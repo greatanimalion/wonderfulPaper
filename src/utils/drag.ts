@@ -8,9 +8,9 @@ export default function drag(element: HTMLElement) {
     console.log(console.log("start",e));
  }  
  element.ondragenter=(e:DragEvent)=>{
-    // console.log(console.log("enter",e));
+    console.log(console.log("enter",e));
  }    
  element.ondragend=(e:DragEvent)=>{
-    // console.log( "drop",e);
+    console.log( "drop",e);
  }
 }
