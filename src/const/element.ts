@@ -1,3 +1,5 @@
+import { ButtonProps } from "@/types/button";
+
 export enum Element {
     a="a",
     button="button",
@@ -29,3 +31,15 @@ export enum Element {
     submit="submit",
     reset="reset",
 }
+export const defaultBtn: ButtonProps = {
+    backgroundColor: 'black',
+    color: 'white',
+    height: '50px',
+    width: '100px',
+    borderRadius: '0px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    padding: '10px',
+    border: 'none',
+    cursor: 'move',
+  }

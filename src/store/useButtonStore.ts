@@ -1,35 +1,13 @@
 import { defineStore } from "pinia";
 import { ButtonProps } from "@/types/button";
+import someAtttributeObject from "@/utils/someAtttributeObject";
+import { defaultBtn } from "@/const/element";
 
-
-const defaultBtn: ButtonProps = {
-  backgroundColor: 'black',
-  color: 'white',
-  height: '50px',
-  width: '100px',
-  borderRadius: '0px',
-  fontSize: '16px',
-  fontWeight: 'bold',
-  padding: '10px',
-  border: 'none',
-  cursor: 'move',
-}
 const useButtonStore = defineStore("buttonProps", {
   state: () => defaultBtn,
   getters: {
     getBtnAttrAll(state: any) {
-      return () => ({
-        backgroundColor: state.backgroundColor,
-        color: state.color,
-        height: state.height,
-        width: state.width,
-        borderRadius: state.borderRadius,
-        fontSize: state.fontSize,
-        fontWeight: state.fontWeight,
-        padding: state.padding,
-        border: state.border,
-        cursor: state.cursor,
-      });
+      return () => someAtttributeObject(Object.keys(defaultBtn), state);
     }
   },
   actions: {
