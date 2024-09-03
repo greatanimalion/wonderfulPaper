@@ -13,9 +13,7 @@ const LayerThumbnail = useLayerThumbnail();
 const layer = ref<HTMLDivElement|null>(null);
 const pageStore=usePageStore();
 
-
 function setUniformHeight() {
-   console.log(pageStore.getPageNum());
    let n=pageStore.getPageNum();
    const height = layer.value!.offsetHeight;
    const gap = Math.floor(height / (n+1))-Layer_Img_Width;

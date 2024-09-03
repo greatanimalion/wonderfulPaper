@@ -27,7 +27,7 @@ import useMousePosition from '@/hooks/useMousePosition';
 
 
 const usePage = usePageStore()
-const showContent = ref(null);
+const showContent = ref<HTMLDivElement | null>(null);
 const mouse = reactive({ x: 0, y: 0 })
 
 let removeMouseListener: Function | null = null;
@@ -46,13 +46,16 @@ onUnmounted(() => {
     //卸载鼠标位置监听
     removeMouseListener && removeMouseListener()
 })
-
+let defaultHeight: number = 0;
 onMounted(() => {
     window.addEventListener('mousewheel', function (event: any) {
-        if(!event.ctrlKey)return ;
+        if (!event.ctrlKey) return;
         event.preventDefault();
-        if (event.wheelDelta > 0)usePage.setZoom(0.1); 
-        else usePage.setZoom(-0.1);
+        usePage.setZoom(event.wheelDelta > 0?0.1:-0.1);
+        if (!defaultHeight&&showContent.value) defaultHeight = defaultHeight ? defaultHeight :+getComputedStyle(showContent.value.parentElement!).height.replace('px', '')
+        if(defaultHeight>+usePage.getIndexPage(Number(usePage.curIndex))!.resizeHeight!){console.log(1);
+         showContent.value?.parentElement?.classList.add('flex')}
+        else showContent.value?.parentElement?.classList.remove('flex')
     }, { passive: false });
 })
 // onMounted(() => {

@@ -1,11 +1,11 @@
 <template>
     <div class="tool-bar">
-            <TableOutlined />
-            <DragOutlined />     
+        <div><UnorderedListOutlined style="font-size: 25px;" /></div>
+        <div><DragOutlined  style="font-size: 25px;" /></div>
         <a-popover placement="bottomRight">
             <template #content>
-              <div class="user-options">登录</div>
-              <div class="user-options">退出</div>
+                <div class="user-options">登录</div>
+                <div class="user-options">退出</div>
             </template>
             <a-avatar :size="40" style="float: right;margin:14px ; cursor: pointer;">
                 <template #icon>
@@ -18,27 +18,41 @@
 </template>
 
 <script setup lang="ts">
-import { TableOutlined , DragOutlined,UserOutlined } from '@ant-design/icons-vue';
+import { UnorderedListOutlined, DragOutlined, UserOutlined } from '@ant-design/icons-vue';
 </script>
 
 <style scoped>
 .tool-bar {
-    transition: all 0.3s;
+   padding: 0 5px;
     height: 64px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
-.tool-bar:hover {
-    background-color: #f5f5f5;}
+.tool-bar>div {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.tool-bar>div:hover {
+    background-color: #f5f5f5;
+}
+
 .user-options {
     text-align: center;
     font-size: 15px;
     border-radius: 5px;
-    padding: 10px;width:100px;
+    padding: 10px;
+    width: 100px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
+
 .user-options:hover {
 
     background-color: #f5f5f5;

@@ -28,7 +28,6 @@ const usePageStore = defineStore('page', {
       let curPage = this.pages.get(String(this.curIndex))
       if (!curPage) { return message.error('请创建初始页面') }
       const calculateZoom = curPage.zoom + zoom
-      console.log(curPage.resizeHeight);
       if (calculateZoom < 0.1) { return message.warning('防缩比例不能小于0.1'); }
       curPage.zoom = Number(calculateZoom.toFixed(2))
       curPage.resizeWidth = ((Number(curPage.width) * calculateZoom).toFixed(0))

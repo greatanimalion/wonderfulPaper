@@ -28,7 +28,7 @@ import colorFont from 'colorfontcolor';
 import Tool from './tool/index.vue';
 const logo=ref('logo')
 onMounted(() => {
-    colorFont(logo.value,{duration:3,color:['#a7a7a7','#fff',"#b44875"]})
+    colorFont(logo.value,{duration:3,color:['#a7a7a7','#fff',""]})
     // console.log(re);
     
 })
