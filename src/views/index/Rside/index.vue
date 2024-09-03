@@ -5,7 +5,7 @@
         
     </div>
     <div>
-        <div>121</div>
+        <div>组件</div>
     </div>
 </template>
 

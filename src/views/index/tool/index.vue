@@ -1,6 +1,7 @@
 <template>
-    <div style="height: 64px;">
-        <TableOutlined />
+    <div class="tool-bar">
+            <TableOutlined />
+            <DragOutlined />     
         <a-popover placement="bottomRight">
             <template #content>
               <div class="user-options">登录</div>
@@ -17,11 +18,19 @@
 </template>
 
 <script setup lang="ts">
-import { UserOutlined } from '@ant-design/icons-vue';
-import { TableOutlined } from '@ant-design/icons-vue';
+import { TableOutlined , DragOutlined,UserOutlined } from '@ant-design/icons-vue';
 </script>
 
 <style scoped>
+.tool-bar {
+    transition: all 0.3s;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.tool-bar:hover {
+    background-color: #f5f5f5;}
 .user-options {
     text-align: center;
     font-size: 15px;

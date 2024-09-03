@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ButtonProps } from "@/types/button";
-import someAtttributeObject from "@/utils/someAtttributeObject";
+import someAtttributeObject from "@/utils/someAttributeObject";
 import { defaultBtn } from "@/const/element";
 
 const useButtonStore = defineStore("buttonProps", {
