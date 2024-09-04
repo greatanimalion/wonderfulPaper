@@ -9,7 +9,8 @@
         </div>
         <div class="content" ref="showContent" v-else :style="{
             width: usePage.getIndexPage(Number(usePage.curIndex))!.resizeWidth + 'px',
-            height: usePage.getIndexPage(Number(usePage.curIndex))!.resizeHeight + 'px'
+            height: usePage.getIndexPage(Number(usePage.curIndex))!.resizeHeight + 'px',
+            position: 'relative',
         }">
             <!-- {{ mouse.x }},{{ mouse.y }} -->
         </div>
