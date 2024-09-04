@@ -6,10 +6,10 @@
 <script setup lang="ts">
 
 import { nextTick, ref } from "vue";
-import useLayerThumbnail from "@/store/useLayerImgStore";
+// import useLayerThumbnail from "@/store/useLayerImgStore";
 import { usePageStore } from "@/store";
 import {Layer_Img_Width }from '@/const/index'
-const LayerThumbnail = useLayerThumbnail();
+// const LayerThumbnail = useLayerThumbnail();
 const layer = ref<HTMLDivElement|null>(null);
 const pageStore=usePageStore();
 
@@ -32,7 +32,6 @@ const addLayerThumbnail=()=>{
 }
 defineExpose({
    draw: () => {
-      console.log(LayerThumbnail.canvas);
       addLayerThumbnail()
       nextTick(() => { setUniformHeight() })
    }

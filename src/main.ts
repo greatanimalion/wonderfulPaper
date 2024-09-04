@@ -5,7 +5,7 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/reset.css';
 import router from '@/router/index.ts'
 import { createPinia } from "pinia";
-
+import './utils/elementFromPoint'
 
 const store = createPinia();
 // console.log(import.meta.env);

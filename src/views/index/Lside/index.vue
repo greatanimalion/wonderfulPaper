@@ -1,12 +1,16 @@
 <template>
     <div style="padding: 10px 0;">
         <div class="createLayer" v-if="pageStore.pageNum" @click="create = !create">
-            <FormOutlined v-show="create"  class="layerEditButton"  />
+            <FormOutlined v-show="create" class="layerEditButton" />
             <RollbackOutlined v-show="!create" class="layerEditButton" />
         </div>
         <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">基本元素</div>
         <ul class="baseElementsUL" ref="baseElementsUL">
-          <li v-for="(i) in elementList"><span>{{ i.name }}</span><div class="baseElement" draggable="true"><button mytype="button">{{ i.type }}</button></div></li>
+            <li v-for="(i) in elementList"><span>{{ i.name }}</span>
+                <div class="baseElement" >
+                    <button mytype="button" candrag="true" draggable="true">{{ i.type }}</button>
+                </div>
+            </li>
         </ul>
         <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">层级</div>
         <Transition>
@@ -29,10 +33,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
-import useDraggingElement from "@/store/useDraggingElement"
+import {  reactive, ref } from 'vue'
 import DefineInput from "@/components/DinfineInput.vue"
-import { PlusOutlined, FormOutlined ,RollbackOutlined} from '@ant-design/icons-vue';
+import { PlusOutlined, FormOutlined, RollbackOutlined } from '@ant-design/icons-vue';
 import { usePageStore } from '@/store/index'
 import { message } from 'ant-design-vue';
 import { isNumber } from '@/utils/isNumber';
@@ -42,7 +45,6 @@ const layerThumbnail = useLayerThumbnail()
 //创建层级与层级缩略图显示
 const create = ref(true)
 const pageStore = usePageStore()
-const draggingElement = useDraggingElement()
 const baseElementsUL = ref(null)
 const pageConfig = reactive({
     width: '720',
@@ -50,32 +52,22 @@ const pageConfig = reactive({
     title: '',
     zIndex: '1'
 })
-const elementList=[
-    {name:'按钮',type:'button'},
-    {name:'输入框',type:'input'},
-    {name:'图片',type:'img'},
-    {name:'方块',type:'div'}
+const elementList = [
+    { name: '按钮', type: 'button' },
+    { name: '输入框', type: 'input' },
+    { name: '图片', type: 'img' },
+    { name: '方块', type: 'div' }
 ]
-const draw =ref()
+const draw = ref()
 const createPage = () => {
     if (!isNumber(pageConfig.width, false) || !isNumber(pageConfig.height, false)) { return message.error('请填写合法宽高'); }
-    if(!pageStore.createPage(pageConfig))return  
-    layerThumbnail.setLayerThumbnail({width:Number(pageConfig.width), height: Number(pageConfig.height),url: ''})
-    create.value=false;
+    if (!pageStore.createPage(pageConfig)) return
+    layerThumbnail.setLayerThumbnail({ width: Number(pageConfig.width), height: Number(pageConfig.height), url: '' })
+    create.value = false;
     draw.value.draw();
-    
+
 }
 
-onMounted(() => {
-    (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragstart', (e: DragEvent) => {
-        draggingElement.setDraggingElement(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);
-        console.log(((e.target as HTMLElement).querySelector('button') as HTMLButtonElement).innerHTML);
-
-    });
-    (baseElementsUL.value as unknown as HTMLElement).addEventListener('dragend', () => {
-        draggingElement.clearDraggingElement()
-    });
-})
 
 </script>
 
@@ -85,15 +77,17 @@ onMounted(() => {
     cursor: pointer;
     color: #fff;
 }
+
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
+
 .createLayer {
     position: absolute;
     z-index: 10;
@@ -129,14 +123,17 @@ li {
     background-color: #2d2d2d;
     transition: all 0.3s ease-in-out;
     border-radius: 3px;
+
     span {
         font-size: 14px;
         width: 57px;
         text-align: center;
     }
+
     &:hover {
         border-color: #2f9ecd;
     }
+
     .baseElement {
         cursor: move;
         margin: 4px 0;
