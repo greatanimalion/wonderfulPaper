@@ -8,7 +8,7 @@
             <button class="Lbutton" @click="createPage">
                 <PlusOutlined />新建层级
             </button>
-            <button style="padding: 16px 12px;" @click="resetValue">清空</button>
+            <button style="padding: 16px 12px;" @click="resetValue" class="error-button">清空</button>
         </div>
     </div>
 </template>
@@ -21,8 +21,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { usePageStore } from '@/store/index'
 import { message } from 'ant-design-vue';
 import { isNumber } from '@/utils/isNumber';
-import useLayerThumbnail from '@/store/useLayerImgStore';
-const layerThumbnail = useLayerThumbnail()
+
 const propos = defineProps({ create: Function })
 const pageStore = usePageStore()
 const defaulteValue = {
@@ -42,8 +41,6 @@ const resetValue = () => {
 const createPage = () => {
     if (!isNumber(pageConfig.width.replace('px', ''), false) || !isNumber(pageConfig.height.replace('px', ''), false)) { return message.error('请填写合法宽高'); }
     if (!pageStore.createPage(pageConfig)) return
-    layerThumbnail.setLayerThumbnail({ width: Number(pageConfig.width), height: Number(pageConfig.height), url: '' })
-    pageConfig.title = ''
     propos.create?.()
     nextTick(() => {
         useCorrespondence().getFn('draw')?.()

@@ -1,9 +1,11 @@
 import useElementStyleStore from "@/store/elementStyleStore";
+import useLayerThumbnail from "@/store/useLayerImgStore";
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
 
-export default function dragCreateElement(taraget: HTMLDivElement) {
+export default function dragCreateElement(taraget: HTMLDivElement ,currentPageId:number) {
+    const layerThumbnail = useLayerThumbnail();
     const elementStyleStore = useElementStyleStore();
     taraget.ondragover = (e: DragEvent) => { e.preventDefault(); }
     taraget.ondrop = (e: DragEvent) => {
@@ -22,6 +24,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             element.setAttribute('draggable', 'true');
             element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
+            layerThumbnail.resetLayerThumbnail(currentPageId)
         }
         e.preventDefault()
     }

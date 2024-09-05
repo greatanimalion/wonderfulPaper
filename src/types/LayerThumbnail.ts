@@ -4,3 +4,7 @@ export type LayerThumbnail={
     id:number,
     url:string
 }
+export type RelativeImg={
+    src:string,
+    img:HTMLImageElement
+}

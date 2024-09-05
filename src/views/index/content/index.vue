@@ -8,12 +8,11 @@
             </div>
         </div>
         <div class="content" ref="showContent" v-else :style="{
-            width: usePage.getIndexPage(usePage.curIndex)!.resizeWidth + 'px',
-            height: usePage.getIndexPage(usePage.curIndex)!.resizeHeight + 'px',
+            width: usePage.getCurrentPage()!.resizeWidth + 'px',
+            height: usePage.getCurrentPage()!.resizeHeight + 'px',
             position: 'relative',
         }">
         </div>
-
     </div>
 </template>
 
@@ -22,15 +21,17 @@
 import { nextTick, ref, watch } from 'vue';
 import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
-import dragCreateElement from '@/hooks/createElement';
+import dragCreateElement from '@/hooks/dragCreateElement';
+
 
 const usePage = usePageStore()
+
 const showContent = ref<HTMLDivElement | null>(null);
 
 watch(() => usePage.pageNum, () => {
     nextTick(() => {
         let taraget = showContent.value as HTMLDivElement;
-        dragCreateElement(taraget)
+        dragCreateElement(taraget,usePage.getCurrentPage()!.id)
         central()
     })
 })

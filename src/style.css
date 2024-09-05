@@ -38,10 +38,16 @@ button {
   border: 1px solid transparent;
   padding: 1.1em 1.2em;
   font-size: 1em;
-  background-color: #FEFEFE;
   cursor: pointer;
-  transition: border-color 0.25s;
-  color: #242424;
+  transition:all 0.25s;
+  background-color: aliceblue;
+}
+.error-button{
+  background-color: #ca6463;
+  color: white;
+}
+.error-button:hover{
+  background-color: #a75251;
 }
 
 

@@ -3,6 +3,7 @@ import { Page, PageStore, Pagedefault } from '@/types/page'
 import { message } from 'ant-design-vue';
 import pageDefault from '@/const/pageDefault';
 
+
 const usePageStore = defineStore('page', {
   state: () => ({
     pageNum: 0,
@@ -16,12 +17,15 @@ const usePageStore = defineStore('page', {
     getPageNum() {
       return this.pageNum;
     },
+    getCurrentPage(): Page | undefined {
+      return this.pages.get(String(this.curIndex))
+    },
     createPage(page = pageDefault as unknown as Pagedefault) {
-      if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }
-      if (this.pageNum > 7) { message.warning('最多只能创建7个层级'); return false }
+      if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }      
+      if (this.pageNum > 7) { message.error('最多只能创建7个层级'); return false }
       this.pageNum++;
-      this.pages.set(String(this.pageNum), Object.assign(page, { id:this.pageNum, pageElements: [], zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
-      this.curIndex =this.pageNum
+      this.pages.set(String(page.zIndex), Object.assign(page, { id:(+page.zIndex), pageElements: [], zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
+      this.curIndex =+page.zIndex
       return true
     },
     setZoom(zoom: number) {
