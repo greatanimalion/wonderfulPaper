@@ -13,6 +13,6 @@ export type Page = {
 export type PageStore = {
   pageNum: number
   pages: Map<string, Page>
-  curIndex: Number
+  curIndex: number
 }
 export type Pagedefault = Omit<Omit<Omit<Page,'id'>,'pageElements'>,'zoom'>

@@ -8,51 +8,39 @@
             </div>
         </div>
         <div class="content" ref="showContent" v-else :style="{
-            width: usePage.getIndexPage(Number(usePage.curIndex))!.resizeWidth + 'px',
-            height: usePage.getIndexPage(Number(usePage.curIndex))!.resizeHeight + 'px',
+            width: usePage.getIndexPage(usePage.curIndex)!.resizeWidth + 'px',
+            height: usePage.getIndexPage(usePage.curIndex)!.resizeHeight + 'px',
             position: 'relative',
-        }">
-            <!-- {{ mouse.x }},{{ mouse.y }} -->
+        }">             
         </div>
+        
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import createElement from '@/hooks/createElement';
-// import useMousePosition from '@/hooks/useMousePosition';
-// import createLayerImg from "@/utils/createLayerImg";
-// import useLayerThumbnail from '@/store/useLayerImgStore';
-
 
 const usePage = usePageStore()
 const showContent = ref<HTMLDivElement | null>(null);
-// const mouse = reactive({ x: 0, y: 0 })
 
-// let removeMouseListener: Function | null = null;
-watch(() => usePage.pageNum, () => {
-    if (showContent.value) return;
-    // nextTick(() => {
-    //     removeMouseListener = useMousePosition(showContent.value as unknown as HTMLBaseElement, mouse)
-    // })
+watch(() =>!!usePage.pageNum, () => {
     nextTick(() => {
         let taraget = showContent.value as HTMLDivElement;
-        createElement(taraget)
+        createElement(taraget)  
+        if((+usePage.getIndexPage(usePage.curIndex)!.resizeHeight!)>(+getComputedStyle(showContent.value?.parentElement!).height.replace('px', ''))){
+            showContent.value?.parentElement?.classList.add('flex')    
+        }
     })
 })
 const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()
-
 }
 
-// onUnmounted(() => {
-//     // removeMouseListener && removeMouseListener()
 
-
-// })
 let defaultHeight: number = 0;
 onMounted(() => {
     window.addEventListener('mousewheel', function (event: any) {
@@ -60,16 +48,13 @@ onMounted(() => {
         event.preventDefault();
         usePage.setZoom(event.wheelDelta > 0 ? 0.1 : -0.1);
         if (!defaultHeight && showContent.value) defaultHeight = defaultHeight ? defaultHeight : +getComputedStyle(showContent.value.parentElement!).height.replace('px', '')
-        if (defaultHeight > +usePage.getIndexPage(Number(usePage.curIndex))!.resizeHeight!) {
-            console.log(1);
+        if (defaultHeight > +usePage.getIndexPage(usePage.curIndex)!.resizeHeight!) {
             showContent.value?.parentElement?.classList.add('flex')
         }
         else showContent.value?.parentElement?.classList.remove('flex')
     }, { passive: false });
 })
-onMounted(() => {
 
-})
 </script>
 
 <style scoped lang="scss">

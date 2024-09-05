@@ -1,29 +1,16 @@
 <template>
-    <input @input="$emit('update:modelValue',($event.target as any).value )" autocomplete="off" class="input" :placeholder="placeHolder"  >
+    <input v-model="modelValue" autocomplete="off" class="input" :placeholder="placeHolder"  >
 </template>
 
 <script setup lang="ts">
+
+const modelValue=defineModel()
 defineProps({
     placeHolder: {
         type: String,
         default: "请输入内容"
     },
-    modelValue: {   
-        type: String,
-    }
 })
-
-
-defineEmits<{
-  (e: 'update:modelValue' ,width: number): void
-}>()
-// function getRef() {
-//     return inputRef.value
-// }
-// //使用setup的情况下这个时候我们无法使用this，注意在setup中setup是封闭的，不会将子组件事件暴露出来
-// defineExpose({
-//     getRef
-// })
 
 
 </script>

@@ -3,7 +3,9 @@
  * @param e 目标元素
  * @returns img的src
 */
-export  default function createCanvas(e: HTMLBaseElement) {
+export  default function createCanvas(e: HTMLDivElement) {
+    console.log(e);
+    
     let data = `
     <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
         <foreignObject width="100%" height="100%">

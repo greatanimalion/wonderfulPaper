@@ -1,9 +1,9 @@
 import useElementStyleStore from "@/store/elementStyleStore";
-import { nextTick } from "vue";
-
+import createLayerImg from "@/utils/createLayerImg";
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
+
 export default function createElement(taraget: HTMLDivElement) {
     const elementStyleStore = useElementStyleStore();
     taraget.ondragover = (e: DragEvent) => { e.preventDefault(); }
@@ -11,8 +11,8 @@ export default function createElement(taraget: HTMLDivElement) {
         console.log(e.dataTransfer?.getData('directive'));
         distanceCorrectionX = distanceCorrectionX ? distanceCorrectionX : e.screenX - e.layerX;
         distanceCorrectionY = distanceCorrectionY ? distanceCorrectionY : e.screenY - e.layerY;
-        finalY=e.screenY-distanceCorrectionY+Number(taraget.parentElement!.scrollTop.toFixed(0))
-        finalX=e.screenX-distanceCorrectionX+Number(taraget.parentElement!.scrollLeft.toFixed(0))
+        finalY = e.screenY - distanceCorrectionY + Number(taraget.parentElement!.scrollTop.toFixed(0))
+        finalX = e.screenX - distanceCorrectionX + Number(taraget.parentElement!.scrollLeft.toFixed(0))
         let directive = e.dataTransfer?.getData('directive').split(':') || [];
         if (directive[0] === 'create') {
             let element = document.createElement(directive[1]);
@@ -22,11 +22,16 @@ export default function createElement(taraget: HTMLDivElement) {
             element.style.left = `${finalX}px`;
             element.setAttribute('draggable', 'true');
             element.setAttribute('candrag', 'true');
-            nextTick(() => { element.style.position = 'absolute'; })
+            element.style.position = 'absolute';
         }
         else {
 
         }
+        setTimeout(() => {
+            let src = createLayerImg(taraget) as string
+            (document.querySelector('#layer') as HTMLImageElement).src = src
+        }, 1000)
+
         e.preventDefault()
     }
 

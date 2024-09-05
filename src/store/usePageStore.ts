@@ -36,7 +36,6 @@ const usePageStore = defineStore('page', {
     deletePage(index: number | string) {
       this.pages.delete(String(index))
       this.pageNum--
-      this.pageNum--;
     },
   }
 })

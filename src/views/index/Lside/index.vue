@@ -7,67 +7,33 @@
         <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">基本元素</div>
         <ul class="baseElementsUL" ref="baseElementsUL">
             <li v-for="(i) in elementList"><span>{{ i.name }}</span>
-                <div class="baseElement" >
+                <div class="baseElement">
                     <button mytype="button" candrag="true" draggable="true">{{ i.type }}</button>
                 </div>
             </li>
         </ul>
         <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">层级</div>
-        <Transition>
-            <div v-show="create">
-                <DefineInput placeHolder="宽度(默认720px)" v-model="pageConfig.width"></DefineInput>
-                <DefineInput placeHolder="高度(默认1440px)" v-model="pageConfig.height"></DefineInput>
-                <DefineInput placeHolder="标题" v-model="pageConfig.title"></DefineInput>
-                <DefineInput placeHolder="层级" v-model="pageConfig.zIndex"></DefineInput>
-                <div><button class="Lbutton" @click="createPage">
-                        <PlusOutlined />新建层级
-                    </button></div>
-            </div>
-        </Transition>
-        <Transition>
-            <div v-show="!create">
-                <Layer ref="draw"></Layer>
-            </div>
-        </Transition>
+        <KeepAlive><component :is="create? Create : Layer" :create="()=>{create=!create}" /></KeepAlive> 
     </div>
 </template>
 
 <script setup lang="ts">
-import {  reactive, ref } from 'vue'
-import DefineInput from "@/components/DinfineInput.vue"
-import { PlusOutlined, FormOutlined, RollbackOutlined } from '@ant-design/icons-vue';
+import { ref } from 'vue'
+import {  FormOutlined, RollbackOutlined } from '@ant-design/icons-vue';
 import { usePageStore } from '@/store/index'
-import { message } from 'ant-design-vue';
-import { isNumber } from '@/utils/isNumber';
-import Layer from './layer.vue'
-import useLayerThumbnail from '@/store/useLayerImgStore';
-const layerThumbnail = useLayerThumbnail()
-//创建层级与层级缩略图显示
-const create = ref(true)
+import Layer from './compontent/layer.vue'
+import Create from './compontent/create.vue';
+
 const pageStore = usePageStore()
 const baseElementsUL = ref(null)
-const pageConfig = reactive({
-    width: '720',
-    height: '1440',
-    title: '',
-    zIndex: '1'
-})
+
 const elementList = [
     { name: '按钮', type: 'button' },
     { name: '输入框', type: 'input' },
     { name: '图片', type: 'img' },
     { name: '方块', type: 'div' }
 ]
-const draw = ref()
-const createPage = () => {
-    if (!isNumber(pageConfig.width, false) || !isNumber(pageConfig.height, false)) { return message.error('请填写合法宽高'); }
-    if (!pageStore.createPage(pageConfig)) return
-    layerThumbnail.setLayerThumbnail({ width: Number(pageConfig.width), height: Number(pageConfig.height), url: '' })
-    create.value = false;
-    draw.value.draw();
-
-}
-
+const create = ref(true)
 
 </script>
 
@@ -78,15 +44,6 @@ const createPage = () => {
     color: #fff;
 }
 
-.v-enter-active,
-.v-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-    opacity: 0;
-}
 
 .createLayer {
     position: absolute;
@@ -96,22 +53,6 @@ const createPage = () => {
     height: 30px;
     left: 152px;
 }
-
-.Lbutton {
-    padding: 5px 10px;
-    height: 34px;
-    width: 50%;
-    margin: 10px 44px;
-    background-color: #2d76b2;
-    color: #fff;
-    border-radius: 4px;
-    transition: all 0.3s;
-
-    &:hover {
-        background-color: #006cc5;
-    }
-}
-
 li {
     color: wheat;
     margin: 5px 4px;
@@ -123,7 +64,6 @@ li {
     background-color: #2d2d2d;
     transition: all 0.3s ease-in-out;
     border-radius: 3px;
-
     span {
         font-size: 14px;
         width: 57px;
@@ -142,7 +82,6 @@ li {
         overflow: hidden;
     }
 }
-
 button {
     width: 100%;
     font-size: 11px;
@@ -150,17 +89,4 @@ button {
     background-color: #4e4e4e;
 }
 
-textarea,
-input {
-    height: 30px;
-    width: 100%;
-    outline: none;
-    border: none;
-    font-size: 16px;
-
-}
-
-.h {
-    width: 100px;
-}
 </style>
