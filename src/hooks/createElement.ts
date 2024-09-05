@@ -1,10 +1,10 @@
 import useElementStyleStore from "@/store/elementStyleStore";
-import createLayerImg from "@/utils/createLayerImg";
+import html2canvas from 'html2canvas'
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
 
-export default function createElement(taraget: HTMLDivElement) {
+export default function dragCreateElement(taraget: HTMLDivElement) {
     const elementStyleStore = useElementStyleStore();
     taraget.ondragover = (e: DragEvent) => { e.preventDefault(); }
     taraget.ondrop = (e: DragEvent) => {
@@ -25,12 +25,10 @@ export default function createElement(taraget: HTMLDivElement) {
             element.style.position = 'absolute';
         }
         else {
-
+            html2canvas(taraget).then(function(canvas) {
+                document.body.appendChild(canvas)
+              })
         }
-        setTimeout(() => {
-            let src = createLayerImg(taraget) as string
-            (document.querySelector('#layer') as HTMLImageElement).src = src
-        }, 1000)
 
         e.preventDefault()
     }
