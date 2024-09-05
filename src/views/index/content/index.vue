@@ -56,10 +56,7 @@ function central() {
 const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()
 }
-
 let defaultHeight: number = 0;
-
-
 </script>
 
 <style scoped lang="scss">

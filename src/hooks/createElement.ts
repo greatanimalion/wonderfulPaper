@@ -1,5 +1,4 @@
 import useElementStyleStore from "@/store/elementStyleStore";
-import html2canvas from 'html2canvas'
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
@@ -24,12 +23,6 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
         }
-        else {
-            html2canvas(taraget).then(function(canvas) {
-                document.body.appendChild(canvas)
-              })
-        }
-
         e.preventDefault()
     }
 

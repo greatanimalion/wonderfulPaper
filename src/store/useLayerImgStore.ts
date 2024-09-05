@@ -1,27 +1,20 @@
 import { defineStore } from "pinia";
-import { LayerThumbnail } from "@/types/LayerThumbnail";
-import { Layer_Img_Width } from "@/const";
-let id = 0;
+// import html2canvas from 'html2canvas'
 
 const useLayerThumbnail = defineStore("LayerThumbnail", {
     state: () => ({
-        canvas: [],
-    } as { canvas: LayerThumbnail[] }),
+        canvas: new Map<number, string>()
+    }),
     actions: {
-        setLayerThumbnail(canvas: Omit<LayerThumbnail, "id">) {
-            id += 1;
-            (canvas.width > canvas.height ? (() => {
-                canvas.height = canvas.height / canvas.width * Layer_Img_Width
-                canvas.width = Layer_Img_Width
-            }) : (() => {
-                canvas.width = canvas.width / canvas.height * Layer_Img_Width
-                canvas.height = Layer_Img_Width
-            }))();
-            this.canvas.push(Object.assign({ id }, canvas));
+        setLayerThumbnail(currentPageId: number, taraget: HTMLDivElement) {
+            let innerThis=this;
+            // html2canvas(taraget).then(function (canvas) {
+            //     let dataURL=canvas.toDataURL("image/png");
+            //     innerThis.canvas.set(currentPageId, dataURL);
+            // })
         },
-        deleteLayerThumbnail(id: number) {
-            for (let i of this.canvas) { if (i.id === id) { window.URL.revokeObjectURL(i.url); } }
-            this.canvas = this.canvas.filter(item => item.id !== id);
+        deleteLayerThumbnail(currentPageId: number) {
+            this.canvas.delete(currentPageId);
         }
     }
 })
