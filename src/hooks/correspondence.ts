@@ -1,3 +1,4 @@
+// 任意组件之间的通信
 let _instance: Map<string, Function>;
 export default () => {
     if (!_instance) {

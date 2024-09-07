@@ -1,9 +1,13 @@
-import {useElementStyleStore,useLayerThumbnail} from "@/store";
+/**
+ * 重基本元素中脱出元素并创建新元素
+*/
 
+import {useElementStyleStore,useLayerThumbnail,usePageStore} from "@/store";
+import { parseCss } from "@/utils/parseCss";
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
-
+let pageStore:any
 export default function dragCreateElement(taraget: HTMLDivElement ,currentPageId:number) {
     const layerThumbnail = useLayerThumbnail();
     const elementStyleStore = useElementStyleStore();
@@ -25,8 +29,17 @@ export default function dragCreateElement(taraget: HTMLDivElement ,currentPageId
             element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
             layerThumbnail.resetLayerThumbnail(currentPageId)
-            console.log("element created", element.style.cssText);
-            
+           let {resizeHeight,resizeWidth}=parseCss(element.style.cssText,['width','height'])
+            pageStore=pageStore||usePageStore()
+            pageStore.getCurrentPage()?.pageElements.push({
+                id:Date.now(),
+                el:element,
+                parent:taraget,
+                style:element.style.cssText,
+                children:[],
+                resizeHeight,
+                resizeWidth
+            })
         }
         e.preventDefault()
     }

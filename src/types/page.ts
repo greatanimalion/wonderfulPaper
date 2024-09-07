@@ -1,8 +1,9 @@
 import { BaseProps } from "./base";
+import { SubElement } from "./element";
 export type Page = {
   title?: string;
   zIndex: number;
-  pageElements:HTMLElement[];
+  pageElements:SubElement[];
   zoom: number|1,
 } & BaseProps;
 export type PageStore = {

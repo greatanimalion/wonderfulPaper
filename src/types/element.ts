@@ -1,6 +1,7 @@
 import { BaseProps } from "./base";
-export type Element = {
+export type SubElement = {
     parent: Element | null;
     children: Element[];
     style: string;
-} & BaseProps;
+    el?: HTMLElement | null;
+} & Partial<BaseProps>;
