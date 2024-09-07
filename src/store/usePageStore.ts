@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import { Page, PageStore, Pagedefault } from '@/types/page'
 import { message } from 'ant-design-vue';
-import pageDefault from '@/const/pageDefault';
-
 
 const usePageStore = defineStore('page', {
   state: () => ({
@@ -20,7 +18,7 @@ const usePageStore = defineStore('page', {
     getCurrentPage(): Page | undefined {
       return this.pages.get(String(this.curIndex))
     },
-    createPage(page = pageDefault as unknown as Pagedefault) {
+    createPage(page:Pagedefault) {
       if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }      
       if (this.pageNum > 7) { message.error('最多只能创建7个层级'); return false }
       this.pageNum++;

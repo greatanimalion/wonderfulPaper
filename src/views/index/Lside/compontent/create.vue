@@ -24,16 +24,16 @@ import { isNumber } from '@/utils/isNumber';
 
 const propos = defineProps({ create: Function })
 const pageStore = usePageStore()
-const defaulteValue = {
+const pageDefaulteValue = {
     width: '720',
     height: '1440',
     title: '',
     zIndex: '1'
 }
 
-const pageConfig = reactive({ ...defaulteValue })
+const pageConfig = reactive({ ...pageDefaulteValue })
 const resetValue = () => {
-   for(const key in defaulteValue){
+   for(const key in pageDefaulteValue){
     //@ts-ignore
       pageConfig[key] = defaulteValue[key]
    }

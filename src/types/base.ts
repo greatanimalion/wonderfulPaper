@@ -1,4 +1,4 @@
-export type Base ={
+export type element ={
     backgroundColor:string,
     color:string,
     height:string,
@@ -11,8 +11,9 @@ export type Base ={
     cursor:string,
 }
 export type BaseProps = {
-    width?:string,
-    height?:string,
-    resizeHeight?:string,
-    resizeWidth?:string,
+    id:number,
+    width:string,
+    height:string,
+    resizeHeight:string,
+    resizeWidth:string,
 }

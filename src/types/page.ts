@@ -1,8 +1,6 @@
 import { BaseProps } from "./base";
 export type Page = {
-  id: number;
   title?: string;
-  content?: string;
   zIndex: string;
   pageElements:HTMLElement[];
   zoom: number|1,
@@ -12,4 +10,4 @@ export type PageStore = {
   pages: Map<string, Page>
   curIndex: number
 }
-export type Pagedefault = Omit<Omit<Omit<Page,'id'>,'pageElements'>,'zoom'>
+export type Pagedefault = Omit<Page,'id'|'pageElements'|'zoom'|'resizeHeight'|'resizeWidth'>
