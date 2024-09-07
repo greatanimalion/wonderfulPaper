@@ -1,5 +1,5 @@
-import useElementStyleStore from "@/store/elementStyleStore";
-import useLayerThumbnail from "@/store/useLayerImgStore";
+import {useElementStyleStore,useLayerThumbnail} from "@/store";
+
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
@@ -25,8 +25,9 @@ export default function dragCreateElement(taraget: HTMLDivElement ,currentPageId
             element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
             layerThumbnail.resetLayerThumbnail(currentPageId)
+            console.log("element created", element.style.cssText);
+            
         }
         e.preventDefault()
     }
-
 }

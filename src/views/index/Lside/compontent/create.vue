@@ -21,7 +21,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { usePageStore } from '@/store/index'
 import { message } from 'ant-design-vue';
 import { isNumber } from '@/utils/isNumber';
-
+import keyFromStringToNumber from "@/utils/keyFromStringToNumber";
 const propos = defineProps({ create: Function })
 const pageStore = usePageStore()
 const pageDefaulteValue = {
@@ -40,7 +40,7 @@ const resetValue = () => {
 }
 const createPage = () => {
     if (!isNumber(pageConfig.width.replace('px', ''), false) || !isNumber(pageConfig.height.replace('px', ''), false)) { return message.error('请填写合法宽高'); }
-    if (!pageStore.createPage(pageConfig)) return
+    if (!pageStore.createPage(keyFromStringToNumber<'zIndex',typeof pageConfig>(pageConfig,[ 'zIndex']))) return
     propos.create?.()
     nextTick(() => {
         useCorrespondence().getFn('draw')?.()

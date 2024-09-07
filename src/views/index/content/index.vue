@@ -24,6 +24,8 @@ import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import dragCreateElement from '@/hooks/dragCreateElement';
 
 const usePage = usePageStore()
+console.log(usePage);
+
 let defaultHeight: number = 0;
 const showContent = ref<HTMLDivElement | null>(null);
 
