@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import DefineInput from "@/components/DinfineInput.vue"
 import { nextTick, reactive } from 'vue'
-import useCorrespondence from "@/hooks/correspondence";
+import useCorrespondence from "@/hooks/useCorrespondence";
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { usePageStore } from '@/store/index'
 import { message } from 'ant-design-vue';

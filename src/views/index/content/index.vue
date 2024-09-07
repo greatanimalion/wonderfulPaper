@@ -22,7 +22,7 @@ import { nextTick, ref, watch } from 'vue';
 import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import dragCreateElement from '@/hooks/dragCreateElement';
-
+import useCorrespondence from '@/hooks/useCorrespondence';
 const usePage = usePageStore()
 let defaultHeight: number = 0;
 const showContent = ref<HTMLDivElement | null>(null);
@@ -50,6 +50,7 @@ function central() {
     }
     else showContent.value!.style!.marginTop ='0px'
 }
+useCorrespondence().addFn('central',central)
 const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()
 }

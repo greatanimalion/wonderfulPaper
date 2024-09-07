@@ -27,6 +27,9 @@ const usePageStore = defineStore('page', {
     getIndexPage(index: number | string): Page | undefined {
       return this.pages.get(Number(index))
     },
+    changeCurrentPage(index: number | string) {
+      this.curIndex = Number(index)
+    },
     getPageNum() {
       return this.pageNum;
     },

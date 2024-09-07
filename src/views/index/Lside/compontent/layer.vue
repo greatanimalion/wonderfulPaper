@@ -6,7 +6,7 @@
 <script setup lang="ts">
 
 import { ref } from "vue";
-import useCorrespondence from "@/hooks/correspondence";
+import useCorrespondence from "@/hooks/useCorrespondence";
 import { usePageStore } from "@/store";
 import { Layer_Img_Width } from '@/const/index'
 import useLayerThumbnail from "@/store/useLayerImgStore";
@@ -25,9 +25,11 @@ function setUniformHeight() {
       else div.style.margin = `${gap}px auto  ${top}px auto`;
    })
 }
+console.log(pageStore.getCurrentPage()?.resizeHeight);
 
 const addLayerThumbnail = () => {
    const div = document.createElement("div");
+   div.dataset.index = pageStore.curIndex.toString();
    div.classList.add("layer-item");
    if (layer.value?.childNodes[0]) layer.value!.insertBefore(div, layer.value?.childNodes[0]!)
    else layer.value!.appendChild(div)
@@ -36,6 +38,8 @@ const addLayerThumbnail = () => {
    layerThumbnail.setLayerThumbnail(pageStore.curIndex, img,maxLenght)
    div.appendChild(img)
    div.onclick = (e: any) => {
+      pageStore.changeCurrentPage(e.target.dataset.index);
+      useCorrespondence().getFn('central')?.()
       let allItem = document.getElementsByClassName("layer-item");
       Array.prototype.forEach.call(allItem, (item: any) => {
          item.classList.remove("layer-choose");
