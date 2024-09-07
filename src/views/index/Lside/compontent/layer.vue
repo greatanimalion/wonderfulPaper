@@ -29,7 +29,10 @@ function setUniformHeight() {
 const addLayerThumbnail = () => {
    const div = document.createElement("div");
    div.dataset.index = pageStore.curIndex.toString();
-   div.classList.add("layer-item");
+   layer.value?.childNodes.forEach((item: any) => {
+      item.classList.remove("layer-choose");
+   })
+   div.className="layer-item layer-choose";
    if (layer.value?.childNodes[0]) layer.value!.insertBefore(div, layer.value?.childNodes[0]!)
    else layer.value!.appendChild(div)
    let img = document.createElement("img");
@@ -39,15 +42,14 @@ const addLayerThumbnail = () => {
    div.onclick = (e: any) => {
       let index=+e.target.dataset.index
       if(index==pageStore.curIndex)return 
-      
       // 切换当前页
       pageStore.changeCurrentPage(e.target.dataset.index);
-
       // 重置内容
       (document.querySelector(".content") as HTMLElement).innerHTML = "";
+      // 由数据渲染页面
+
       // 重置缩略图
       layerThumbnail.resetLayerThumbnail(index)
-
       useCorrespondence().getFn('central')?.()
       let allItem = document.getElementsByClassName("layer-item");
       Array.prototype.forEach.call(allItem, (item: any) => {
@@ -70,6 +72,7 @@ useCorrespondence().addFn('drawImg', () => {
 <style lang="scss">
 .layer-choose {
    border: #ffffff dashed 2px;
+   opacity: 1 !important;
 }
 
 .layer {
