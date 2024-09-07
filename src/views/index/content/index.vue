@@ -23,9 +23,8 @@ import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import dragCreateElement from '@/hooks/dragCreateElement';
 
-
 const usePage = usePageStore()
-
+let defaultHeight: number = 0;
 const showContent = ref<HTMLDivElement | null>(null);
 
 watch(() => usePage.pageNum, () => {
@@ -40,15 +39,12 @@ watch(() => !!usePage.pageNum, () => {
         if (!event.ctrlKey) return;
         event.preventDefault();
         usePage.setZoom(event.wheelDelta > 0 ? 0.1 : -0.1);
-        if (!defaultHeight && showContent.value) defaultHeight = defaultHeight ? defaultHeight : +getComputedStyle(showContent.value.parentElement!).height.replace('px', '')
-        if (defaultHeight > +usePage.getIndexPage(usePage.curIndex)!.resizeHeight!) {
-            central()
-        }
-        else showContent.value!.style!.marginTop = '0px'
+        central()
     }, { passive: false });
 })
 function central() {
-    if ((+usePage.getIndexPage(usePage.curIndex)!.resizeHeight!) < (+getComputedStyle(showContent.value?.parentElement!).height.replace('px', ''))) {
+    defaultHeight=defaultHeight?defaultHeight:(+getComputedStyle(showContent.value?.parentElement!).height.replace('px', ''))
+    if ((+usePage.getIndexPage(usePage.curIndex)!.resizeHeight!) < defaultHeight) {
         const marginTop = ((+getComputedStyle(showContent.value?.parentElement!).height.replace('px', '')) - (+usePage.getIndexPage(usePage.curIndex)!.resizeHeight!)) / 2
         showContent.value!.style!.marginTop = marginTop.toFixed(0) + 'px'
     }
@@ -57,7 +53,7 @@ function central() {
 const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()
 }
-let defaultHeight: number = 0;
+
 </script>
 
 <style scoped lang="scss">
