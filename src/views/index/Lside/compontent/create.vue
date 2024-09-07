@@ -39,8 +39,13 @@ const resetValue = () => {
    }
 }
 const createPage = () => {
-    if (!isNumber(pageConfig.width.replace('px', ''), false) || !isNumber(pageConfig.height.replace('px', ''), false)) { return message.error('请填写合法宽高'); }
+    if (!isNumber(pageConfig.width.replace('px', ''), false,true) || 
+    !isNumber(pageConfig.height.replace('px', ''), false,true)||
+    !isNumber(pageConfig.zIndex, false)
+) { return message.error('请填写合法宽度、高度、层级,且必须为正整数'); }
+    //创建新页面
     if (!pageStore.createPage(keyFromStringToNumber<'zIndex',typeof pageConfig>(pageConfig,[ 'zIndex']))) return
+    
     propos.create?.()
     nextTick(() => {
         useCorrespondence().getFn('drawImg')?.()

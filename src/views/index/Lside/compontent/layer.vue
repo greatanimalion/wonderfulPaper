@@ -25,7 +25,7 @@ function setUniformHeight() {
       else div.style.margin = `${gap}px auto  ${top}px auto`;
    })
 }
-
+//添加缩略图
 const addLayerThumbnail = () => {
    const div = document.createElement("div");
    div.dataset.index = pageStore.curIndex.toString();
@@ -37,7 +37,17 @@ const addLayerThumbnail = () => {
    layerThumbnail.setLayerThumbnail(pageStore.curIndex, img,maxLenght)
    div.appendChild(img)
    div.onclick = (e: any) => {
+      let index=+e.target.dataset.index
+      if(index==pageStore.curIndex)return 
+      
+      // 切换当前页
       pageStore.changeCurrentPage(e.target.dataset.index);
+
+      // 重置内容
+      (document.querySelector(".content") as HTMLElement).innerHTML = "";
+      // 重置缩略图
+      layerThumbnail.resetLayerThumbnail(index)
+
       useCorrespondence().getFn('central')?.()
       let allItem = document.getElementsByClassName("layer-item");
       Array.prototype.forEach.call(allItem, (item: any) => {
@@ -46,7 +56,10 @@ const addLayerThumbnail = () => {
       e.target.classList.add("layer-choose");
    }
 }
+//重置你内容
 useCorrespondence().addFn('drawImg', () => {
+   let container = document.querySelector(".content") as HTMLElement;
+   if(container)container.innerHTML = "";
    addLayerThumbnail()
    setUniformHeight()
 })

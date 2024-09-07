@@ -30,7 +30,7 @@ const showContent = ref<HTMLDivElement | null>(null);
 watch(() => usePage.pageNum, () => {
     nextTick(() => {
         let taraget = showContent.value as HTMLDivElement;
-        dragCreateElement(taraget,usePage.getCurrentPage()!.id)
+        dragCreateElement(taraget)
         central()
     })
 })

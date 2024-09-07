@@ -22,9 +22,10 @@ const useLayerThumbnail = defineStore("LayerThumbnail", {
         deleteLayerThumbnail(currentPageId: number) {
             this.canvas.delete(currentPageId);
         },
-        resetLayerThumbnail(currentPageId: number) {
-            let img = this.canvas.get(currentPageId)!.img;
+        resetLayerThumbnail(currentPageId: number) {         
+            let img = this.canvas.get(currentPageId)!.img;         
             let taraget = document.querySelector(".content") as HTMLElement;
+            //重解析内容
             html2canvas(taraget).then(function (canvas) {
                 let dataURL = canvas.toDataURL("image/png");
                 img!.src = dataURL;
