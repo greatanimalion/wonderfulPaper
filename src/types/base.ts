@@ -10,3 +10,9 @@ export type Base ={
     border:string,
     cursor:string,
 }
+export type BaseProps = {
+    width?:string,
+    height?:string,
+    resizeHeight?:string,
+    resizeWidth?:string,
+}

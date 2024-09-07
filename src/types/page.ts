@@ -1,15 +1,12 @@
+import { BaseProps } from "./base";
 export type Page = {
   id: number;
-  width: string;
-  height: string;
   title?: string;
   content?: string;
   zIndex: string;
   pageElements:HTMLElement[];
   zoom: number|1,
-  resizeHeight?: string,
-  resizeWidth?: string,
-};
+} & BaseProps;
 export type PageStore = {
   pageNum: number
   pages: Map<string, Page>

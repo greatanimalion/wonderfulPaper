@@ -15,7 +15,7 @@ const useLayerThumbnail = defineStore("LayerThumbnail", {
                 img.src = dataURL;
 
                 //@ts-ignore
-                img.style[maxLength] = '100%';
+                img.style[maxLength] = '95%';
 
             })
         },
