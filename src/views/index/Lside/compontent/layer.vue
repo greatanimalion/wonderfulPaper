@@ -25,7 +25,6 @@ function setUniformHeight() {
       else div.style.margin = `${gap}px auto  ${top}px auto`;
    })
 }
-console.log(pageStore.getCurrentPage()?.resizeHeight);
 
 const addLayerThumbnail = () => {
    const div = document.createElement("div");
@@ -47,7 +46,7 @@ const addLayerThumbnail = () => {
       e.target.classList.add("layer-choose");
    }
 }
-useCorrespondence().addFn('draw', () => {
+useCorrespondence().addFn('drawImg', () => {
    addLayerThumbnail()
    setUniformHeight()
 })

@@ -1,5 +1,5 @@
 /**
- * 重基本元素中脱出元素并创建新元素
+ * 重基本元素中拖出元素并创建新元素
 */
 
 import { useElementStyleStore, useLayerThumbnail, usePageStore } from "@/store";
@@ -43,7 +43,6 @@ export default function dragCreateElement(taraget: HTMLDivElement, currentPageId
                 height: width,
                 width: height,
             })
-            // console.log(pageStore.getCurrentPage().pageElements);
         }
         e.preventDefault()
     }

@@ -35,7 +35,7 @@ const pageConfig = reactive({ ...pageDefaulteValue })
 const resetValue = () => {
    for(const key in pageDefaulteValue){
     //@ts-ignore
-      pageConfig[key] = defaulteValue[key]
+      pageConfig[key] = pageDefaulteValue[key]
    }
 }
 const createPage = () => {
@@ -43,7 +43,7 @@ const createPage = () => {
     if (!pageStore.createPage(keyFromStringToNumber<'zIndex',typeof pageConfig>(pageConfig,[ 'zIndex']))) return
     propos.create?.()
     nextTick(() => {
-        useCorrespondence().getFn('draw')?.()
+        useCorrespondence().getFn('drawImg')?.()
     })
 }
 
