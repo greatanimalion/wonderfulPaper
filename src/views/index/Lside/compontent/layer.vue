@@ -39,7 +39,6 @@ const addLayerThumbnail = () => {
       let allItem = document.getElementsByClassName("layer-item");
       Array.prototype.forEach.call(allItem, (item: any) => {
          item.classList.remove("layer-choose");
-
       })
       e.target.classList.add("layer-choose");
    }

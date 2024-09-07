@@ -2,13 +2,13 @@
  * 重基本元素中脱出元素并创建新元素
 */
 
-import {useElementStyleStore,useLayerThumbnail,usePageStore} from "@/store";
+import { useElementStyleStore, useLayerThumbnail, usePageStore } from "@/store";
 import { parseCss } from "@/utils/parseCss";
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX = 0, finalY = 0;
-let pageStore:any
-export default function dragCreateElement(taraget: HTMLDivElement ,currentPageId:number) {
+let pageStore: any
+export default function dragCreateElement(taraget: HTMLDivElement, currentPageId: number) {
     const layerThumbnail = useLayerThumbnail();
     const elementStyleStore = useElementStyleStore();
     taraget.ondragover = (e: DragEvent) => { e.preventDefault(); }
@@ -29,17 +29,21 @@ export default function dragCreateElement(taraget: HTMLDivElement ,currentPageId
             element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
             layerThumbnail.resetLayerThumbnail(currentPageId)
-           let {resizeHeight,resizeWidth}=parseCss(element.style.cssText,['width','height'])
-            pageStore=pageStore||usePageStore()
+            let height = parseCss(element.style.cssText, ['heigth'])['height'].replace('px', '')
+            let width = parseCss(element.style.cssText, ['width'])['width'].replace('px', '')
+            pageStore = pageStore || usePageStore()
             pageStore.getCurrentPage()?.pageElements.push({
-                id:Date.now(),
-                el:element,
-                parent:taraget,
-                style:element.style.cssText,
-                children:[],
-                resizeHeight,
-                resizeWidth
+                id: Date.now(),
+                el: element,
+                parent: taraget,
+                style: element.style.cssText,
+                children: [],
+                resizeHeight: (Number(height) * pageStore.getCurrentPage().zoom).toFixed(0),
+                resizeWidth: (Number(width) * pageStore.getCurrentPage().zoom).toFixed(0),
+                height: width,
+                width: height,
             })
+            // console.log(pageStore.getCurrentPage().pageElements);
         }
         e.preventDefault()
     }
