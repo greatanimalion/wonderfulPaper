@@ -20,6 +20,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
         finalX = e.screenX - distanceCorrectionX + Number(taraget.parentElement!.scrollLeft.toFixed(0)) - (+getComputedStyle(taraget).marginLeft.replace('px', ''));
         let directive = e.dataTransfer?.getData('directive').split(':') || [];
         if (directive[0] === 'create') {
+            if(directive[1] === '')return 
             let element = document.createElement(directive[1]);
             taraget.appendChild(element);
             element.style.cssText = elementStyleStore.getCommonElementStyle(directive[1]) || '';
@@ -31,10 +32,9 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             layerThumbnail.resetLayerThumbnail(pageStore.curIndex)
             let height = parseCss(element.style.cssText, ['heigth'])['height'].replace('px', '')
             let width = parseCss(element.style.cssText, ['width'])['width'].replace('px', '')
-            console.log(height, width);
-            
             pageStore.getCurrentPage()?.children.push({
                 id: Date.now(),
+                type: directive[1],
                 el: element,
                 parent: taraget,
                 style: element.style.cssText,

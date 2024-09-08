@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { Page, PageStore, Pagedefault, } from '@/types/page'
 import { SubElement } from '@/types/element';
 import { message } from 'ant-design-vue';
-import debounce from "@/utils/debounce"
+
 const usePageStore = defineStore('page', {
   state: () => ({
     pageNum: 0,
@@ -28,18 +28,26 @@ const usePageStore = defineStore('page', {
       return this.pages.get(Number(index))
     },
     changeCurrentPage(index: number | string) {
-      this.curIndex = Number(index)
-      /**
-       * 
-       * 
-       * 
-       * 处理逻辑渲染页面
-       * 
-       * 
-       * 
-       * 
-       * 
-      */
+      this.curIndex = Number(index);
+      (document.querySelector(".content") as HTMLElement).innerHTML = "";
+      let curPage = this.pages.get(this.curIndex)
+      function createEl(element: SubElement) {
+        let el = document.createElement(element.type)
+        el.style.cssText = element.style
+        el.style.width = `${element.resizeWidth}px`
+        el.style.height = `${element.resizeHeight}px`
+        el.style.top = `${element.resizeTop}px`
+        el.style.left = `${element.resizeLeft}px`
+        element.parent?.append(el)
+        element.el = el
+        if (element.children.length == 0) return
+        element.children.forEach((e) => {
+          createEl(e)
+        })
+      }
+      curPage?.children.forEach((item: SubElement) => {
+        createEl(item)
+      })
     },
     getPageNum() {
       return this.pageNum;
@@ -57,37 +65,35 @@ const usePageStore = defineStore('page', {
     },
     setZoom(zoom: number) {
       let curPage = this.pages.get(this.curIndex)
-      if (!curPage) { return message.error('请创建初始页面') }
+      if (!curPage) { return message.error('请创选着操作页面') }
       const calculateZoom = curPage.zoom + zoom
       if (calculateZoom < 0.1) { return message.warning('防缩比例不能小于0.1'); }
       curPage.zoom = calculateZoom
       curPage.resizeWidth = ((Number(curPage.width) * calculateZoom).toFixed(0))
       curPage.resizeHeight = ((Number(curPage.height) * calculateZoom).toFixed(0))
-      let resize = debounce(() => {
-        console.log(zoom);
-        this.pages.get(this.curIndex)?.children.forEach((item: SubElement) => {
-          //递归遍历每个节点的子元素，并更新他们的宽高
-          let recursion = (element: SubElement) => {
-            element.resizeWidth = ((Number(element.width) * calculateZoom).toFixed(0))
-            element.resizeHeight = ((Number(element.height) * calculateZoom).toFixed(0))
-            element.resizeTop = ((Number(element.top) * calculateZoom).toFixed(0))
-            element.resizeLeft = ((Number(element.left) * calculateZoom).toFixed(0))
-            if (element.el) {
-              element.el.style.width = `${element.resizeWidth}px`
-              element.el.style.height = `${element.resizeHeight}px`
-              element.el.style.top = `${element.resizeTop}px`
-              element.el.style.left = `${element.resizeLeft}px`
-            }
-            if (element.children.length !== 0) {
-              element.children.forEach((item) => {
-                recursion(item as SubElement)
-              })
-            }
+      this.pages.get(this.curIndex)?.children.forEach((item: SubElement) => {
+        //递归遍历每个节点的子元素，并更新他们的宽高
+        let recursion = (element: SubElement) => {
+          element.resizeWidth = ((Number(element.width) * calculateZoom).toFixed(0))
+          element.resizeHeight = ((Number(element.height) * calculateZoom).toFixed(0))
+          element.resizeTop = ((Number(element.top) * calculateZoom).toFixed(0))
+          console.log(element);
+          
+          element.resizeLeft = ((Number(element.left) * calculateZoom).toFixed(0))
+          if (element.el) {
+            element.el.style.width = `${element.resizeWidth}px`
+            element.el.style.height = `${element.resizeHeight}px`
+            element.el.style.top = `${element.resizeTop}px`
+            element.el.style.left = `${element.resizeLeft}px`
           }
-          recursion(item)
-        })
-      }, 1000)
-      resize()
+          if (element.children.length !== 0) {
+            element.children.forEach((item) => {
+              recursion(item as SubElement)
+            })
+          }
+        }
+        recursion(item)
+      })
     },
     deletePage(index: number | string) {
       this.pages.delete(Number(index))

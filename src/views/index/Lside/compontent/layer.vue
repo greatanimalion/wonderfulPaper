@@ -44,12 +44,11 @@ const addLayerThumbnail = () => {
       if(index==pageStore.curIndex)return 
       // 切换当前页
       pageStore.changeCurrentPage(e.target.dataset.index);
-      // 重置内容
-      (document.querySelector(".content") as HTMLElement).innerHTML = "";
+
       // 由数据渲染页面
-      
+
       // 重置缩略图
-      layerThumbnail.resetLayerThumbnail(index)
+      // layerThumbnail.resetLayerThumbnail(index)
       useCorrespondence().getFn('central')?.()
       let allItem = document.getElementsByClassName("layer-item");
       Array.prototype.forEach.call(allItem, (item: any) => {
