@@ -13,7 +13,7 @@
     "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": true,
     "jsx": "preserve",
 
     "strict": true,
@@ -23,5 +23,4 @@
   },
   
   "include": ["src/**/**/*.ts", "src/**/*.tsx", "src/**/*.vue","src/**/*.d.ts", "src/router", "src/utils/test/keyFromStringToNumber.test.js"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

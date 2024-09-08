@@ -1,5 +1,5 @@
 <template>
-    <a-layout>
+    <a-layout style="height: 100%;">
         <a-layout-sider style="background-color: var(--sideBGColor);">
             <div class="logo" ><span ref="logo">wonderful</span>Paper</div>
             <hr>
@@ -7,7 +7,7 @@
                 <LSide></LSide>
             </a-menu> 
         </a-layout-sider>
-        <a-layout>
+        <a-layout >
             <a-layout-header style="background: #fff; padding:0;">
                <Tool></Tool>
             </a-layout-header>
@@ -50,11 +50,11 @@ hr {
     background-color: var(--sideBGColor);
     width: 100px
 }
-
+/* 
 .css-dev-only-do-not-override-16pw25h {
     height: 100%;
 
-}
+} */
 
 #components-layout-demo-custom-trigger .logo {
     height: 32px;
