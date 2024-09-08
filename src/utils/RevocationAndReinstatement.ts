@@ -10,6 +10,8 @@ let reinstatementStack : Action[]=[]
 function revocation() {
     let action = revocationStack.pop() as Action
     if(!action) return
+
+    
     action.revocation()
     reinstatementStack.push(action)
 }
@@ -17,19 +19,19 @@ function revocation() {
  * @description: 恢复某个操作，并将其加入撤销栈中
 */
 function reinstatement() {
-    let action =revocationStack.pop()!
+    let action =reinstatementStack.pop()!
     if(!action) return
     action.reinstatement()
-    reinstatementStack.push(action)
+    revocationStack.push(action)
 }
 /**
  * @description: 执行某个操作，并将其加入撤销栈中
- * @param {any} thing 要执行的操作
+ * @param {any} action 要执行的操作
 */
 function doThing(action:Action){
-    reinstatementStack.push(action)
+    revocationStack.push(action)
     if(revocationStack.length>15){
-        revocationStack.shift()!.destory()
+        revocationStack.shift()
     }
 }
 

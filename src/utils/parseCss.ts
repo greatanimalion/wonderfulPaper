@@ -5,6 +5,7 @@
 */
 
 export function parseCss(css: string,options:string[]):Record<string,string> {
+    options
     let res:Record<string,string>={} 
     css.split(';').forEach(line=>{ 
         if(line.trim()=='')return 
