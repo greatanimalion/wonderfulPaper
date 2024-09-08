@@ -50,11 +50,6 @@ hr {
     background-color: var(--sideBGColor);
     width: 100px
 }
-/* 
-.css-dev-only-do-not-override-16pw25h {
-    height: 100%;
-
-} */
 
 #components-layout-demo-custom-trigger .logo {
     height: 32px;
