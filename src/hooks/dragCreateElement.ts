@@ -4,6 +4,8 @@
 
 import { useElementStyleStore, useLayerThumbnail, usePageStore } from "@/store";
 import { parseCss } from "@/utils/parseCss";
+import RevocationAndReinstatement from "@/utils/RevocationAndReinstatement";
+import { Action } from "@/types/RevocationAndReinstatement";
 //距离纠正
 let distanceCorrectionX = 0, distanceCorrectionY = 0;
 let finalX: string | number = 0, finalY: string | number = 0;
@@ -14,7 +16,6 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
     const pageStore = usePageStore();
     taraget.ondragover = (e: DragEvent) => { e.preventDefault(); }
     taraget.ondrop = (e: DragEvent) => {
-        console.log(taraget.parentElement!.scrollTop);
         distanceCorrectionX = e.clientX - taraget.offsetLeft;
         distanceCorrectionY = e.clientY - taraget.offsetTop;
         //修正距离 + 页面滚动距离
@@ -29,7 +30,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             element.style.top = `${finalY}px`;
             element.style.left = `${finalX}px`;
             element.setAttribute('draggable', 'true');
-            element.setAttribute('candrag', 'true');
+            // element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
             layerThumbnail.resetLayerThumbnail(pageStore.curIndex)
             let height = parseCss(element.style.cssText, ['heigth'])['height'].replace('px', '')
@@ -51,6 +52,20 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
                 left: finalX / curPage.zoom,
                 top: finalY / curPage.zoom,
             })
+            // 记录撤销和恢复动作
+            RevocationAndReinstatement.doThing({
+                type: 'CREATE_ELEMENT',
+                revocation(){
+                    element.style.display='none'
+                },
+                reinstatement(){
+                    element.style.display='block'
+                },
+                destory(){
+                    element.remove()
+                    curPage?.children.pop()
+                }
+            } as Action)
         }
         e.preventDefault()
     }

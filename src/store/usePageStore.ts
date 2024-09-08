@@ -40,6 +40,7 @@ const usePageStore = defineStore('page', {
         el.style.left = `${element.resizeLeft}px`
         element.parent?.append(el)
         element.el = el
+        el.draggable = true
         if (element.children.length == 0) return
         element.children.forEach((e) => {
           createEl(e)
@@ -68,7 +69,6 @@ const usePageStore = defineStore('page', {
       if (!curPage) { return message.error('请创选着操作页面') }
       const calculateZoom = curPage.zoom + zoom
       if (calculateZoom < 0.1) { return message.warning('防缩比例不能小于0.1'); }
-      
       curPage.zoom = calculateZoom
       curPage.resizeWidth = ((Number(curPage.width) * calculateZoom).toFixed(0))
       curPage.resizeHeight = ((Number(curPage.height) * calculateZoom).toFixed(0))

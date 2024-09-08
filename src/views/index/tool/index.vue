@@ -1,7 +1,18 @@
 <template>
     <div class="tool-bar">
-        <div><UnorderedListOutlined style="font-size: 25px;" /></div>
-        <div><DragOutlined  style="font-size: 25px;" /></div>
+        <div>
+            <Tooltip title="更多"><UnorderedListOutlined style="font-size: 25px;" /></Tooltip>
+        </div>
+        <div>
+           <Tooltip title="撤销"><RollbackOutlined style="font-size: 25px;" @click="revocation()" /></Tooltip>
+        </div>
+        <div>
+           <Tooltip title="恢复"><RetweetOutlined style="font-size: 25px;" @click="reinstatement()" /></Tooltip>
+        </div>
+       
+        <div>
+            <Tooltip title="拖拽"><DragOutlined style="font-size: 25px;" /></Tooltip>   
+        </div>
         <a-popover placement="bottomRight">
             <template #content>
                 <div class="user-options">登录</div>
@@ -18,17 +29,22 @@
 </template>
 
 <script setup lang="ts">
-import { UnorderedListOutlined, DragOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { UnorderedListOutlined, DragOutlined, UserOutlined, RollbackOutlined, RetweetOutlined } from '@ant-design/icons-vue';
+import Tooltip from '@/components/Tooltip.vue';
+import RevocationAndReinstatement from '@/utils/RevocationAndReinstatement';
+const { revocation, reinstatement } = RevocationAndReinstatement;
+
 </script>
 
 <style scoped>
 .tool-bar {
-   padding: 0 5px;
+    padding: 0 5px;
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .tool-bar>div {
     height: 40px;
     width: 40px;
@@ -39,6 +55,7 @@ import { UnorderedListOutlined, DragOutlined, UserOutlined } from '@ant-design/i
     cursor: pointer;
     transition: all 0.3s;
 }
+
 .tool-bar>div:hover {
     background-color: #f5f5f5;
 }
