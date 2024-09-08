@@ -23,11 +23,10 @@ import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import dragCreateElement from '@/hooks/dragCreateElement';
 import useCorrespondence from '@/hooks/useCorrespondence';
-import { subElementZoom,debounce } from '@/utils/index';
 const pageStore = usePageStore()
 let defaultHeight: number = 0;
 const showContent = ref<HTMLDivElement | null>(null);
-let restZoom=debounce.default(subElementZoom.default,500);
+
 watch(() => pageStore.pageNum, () => {
     nextTick(() => {
         let taraget = showContent.value as HTMLDivElement;
@@ -42,7 +41,6 @@ watch(() => !!pageStore.pageNum, () => {
         event.preventDefault();
         pageStore.setZoom(event.wheelDelta > 0 ? 0.1 : -0.1);
         central()
-        restZoom(showContent.value,pageStore)
     }, { passive: false });
 })
 
