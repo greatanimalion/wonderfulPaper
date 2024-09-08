@@ -3,7 +3,7 @@ import { SubElement } from "./element";
 export type Page = {
   title?: string;
   zIndex: number;
-  pageElements:SubElement[];
+  children:SubElement[];
   zoom: number|1,
 } & BaseProps;
 export type PageStore = {

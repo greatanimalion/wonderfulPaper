@@ -1,6 +1,6 @@
 <template>
     <div class="show-content">
-        <div class="add-page" v-if="usePage.pageNum === 0">
+        <div class="add-page" v-if="pageStore.pageNum === 0">
             <div>
                 <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }"
                     @click="createPage" />
@@ -8,8 +8,8 @@
             </div>
         </div>
         <div class="content" ref="showContent" v-else :style="{
-            width: usePage.getCurrentPage()!.resizeWidth + 'px',
-            height: usePage.getCurrentPage()!.resizeHeight + 'px',
+            width: pageStore.getCurrentPage()!.resizeWidth + 'px',
+            height: pageStore.getCurrentPage()!.resizeHeight + 'px',
             position: 'relative',
         }">
         </div>
@@ -23,33 +23,38 @@ import { usePageStore } from "@/store"
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import dragCreateElement from '@/hooks/dragCreateElement';
 import useCorrespondence from '@/hooks/useCorrespondence';
-const usePage = usePageStore()
+import { subElementZoom,debounce } from '@/utils/index';
+const pageStore = usePageStore()
 let defaultHeight: number = 0;
 const showContent = ref<HTMLDivElement | null>(null);
-
-watch(() => usePage.pageNum, () => {
+let restZoom=debounce.default(subElementZoom.default,500);
+watch(() => pageStore.pageNum, () => {
     nextTick(() => {
         let taraget = showContent.value as HTMLDivElement;
         dragCreateElement(taraget)
         central()
     })
 })
-watch(() => !!usePage.pageNum, () => {
+
+watch(() => !!pageStore.pageNum, () => {
     window.addEventListener('mousewheel', function (event: any) {
         if (!event.ctrlKey) return;
         event.preventDefault();
-        usePage.setZoom(event.wheelDelta > 0 ? 0.1 : -0.1);
+        pageStore.setZoom(event.wheelDelta > 0 ? 0.1 : -0.1);
         central()
+        restZoom(showContent.value,pageStore)
     }, { passive: false });
 })
+
 function central() {
     defaultHeight=defaultHeight?defaultHeight:(+getComputedStyle(showContent.value?.parentElement!).height.replace('px', ''))
-    if ((+usePage.getIndexPage(usePage.curIndex)!.resizeHeight!) < defaultHeight) {
-        const marginTop = ((+getComputedStyle(showContent.value?.parentElement!).height.replace('px', '')) - (+usePage.getIndexPage(usePage.curIndex)!.resizeHeight!)) / 2
+    if ((+pageStore.getIndexPage(pageStore.curIndex)!.resizeHeight!) < defaultHeight) {
+        const marginTop = ((+getComputedStyle(showContent.value?.parentElement!).height.replace('px', '')) - (+pageStore.getIndexPage(pageStore.curIndex)!.resizeHeight!)) / 2
         showContent.value!.style!.marginTop = marginTop.toFixed(0) + 'px'
     }
     else showContent.value!.style!.marginTop ='0px'
 }
+
 useCorrespondence().addFn('central',central)
 const createPage = () => {
     (document.querySelector('.input') as HTMLInputElement).focus()

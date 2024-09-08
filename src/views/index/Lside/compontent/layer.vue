@@ -47,7 +47,7 @@ const addLayerThumbnail = () => {
       // 重置内容
       (document.querySelector(".content") as HTMLElement).innerHTML = "";
       // 由数据渲染页面
-
+      
       // 重置缩略图
       layerThumbnail.resetLayerThumbnail(index)
       useCorrespondence().getFn('central')?.()

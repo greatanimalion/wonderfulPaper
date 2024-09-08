@@ -29,6 +29,17 @@ const usePageStore = defineStore('page', {
     },
     changeCurrentPage(index: number | string) {
       this.curIndex = Number(index)
+      /**
+       * 
+       * 
+       * 
+       * 处理逻辑渲染页面
+       * 
+       * 
+       * 
+       * 
+       * 
+      */
     },
     getPageNum() {
       return this.pageNum;
@@ -40,7 +51,7 @@ const usePageStore = defineStore('page', {
       if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }
       if (this.pageNum > 7) { message.error('最多只能创建7个层级'); return false }
       this.pageNum++;
-      this.pages.set(page.zIndex, Object.assign(page, { id: (+page.zIndex), pageElements: [], zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
+      this.pages.set(page.zIndex, Object.assign(page, { id: (+page.zIndex), children: [], zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
       this.curIndex = +page.zIndex
       return true
     },
@@ -49,25 +60,34 @@ const usePageStore = defineStore('page', {
       if (!curPage) { return message.error('请创建初始页面') }
       const calculateZoom = curPage.zoom + zoom
       if (calculateZoom < 0.1) { return message.warning('防缩比例不能小于0.1'); }
-      curPage.zoom = Number(calculateZoom.toFixed(2))
+      curPage.zoom = calculateZoom
       curPage.resizeWidth = ((Number(curPage.width) * calculateZoom).toFixed(0))
       curPage.resizeHeight = ((Number(curPage.height) * calculateZoom).toFixed(0))
-      debounce(() => {
-        this.pages.get(this.curIndex)?.pageElements.forEach((item) => {
-          let el = item as unknown as SubElement
+      let resize = debounce(() => {
+        console.log(zoom);
+        this.pages.get(this.curIndex)?.children.forEach((item: SubElement) => {
           //递归遍历每个节点的子元素，并更新他们的宽高
           let recursion = (element: SubElement) => {
             element.resizeWidth = ((Number(element.width) * calculateZoom).toFixed(0))
             element.resizeHeight = ((Number(element.height) * calculateZoom).toFixed(0))
+            element.resizeTop = ((Number(element.top) * calculateZoom).toFixed(0))
+            element.resizeLeft = ((Number(element.left) * calculateZoom).toFixed(0))
+            if (element.el) {
+              element.el.style.width = `${element.resizeWidth}px`
+              element.el.style.height = `${element.resizeHeight}px`
+              element.el.style.top = `${element.resizeTop}px`
+              element.el.style.left = `${element.resizeLeft}px`
+            }
             if (element.children.length !== 0) {
               element.children.forEach((item) => {
-                recursion(item as unknown as SubElement)
+                recursion(item as SubElement)
               })
             }
           }
-          recursion(el)
+          recursion(item)
         })
-      }, 300)()
+      }, 1000)
+      resize()
     },
     deletePage(index: number | string) {
       this.pages.delete(Number(index))

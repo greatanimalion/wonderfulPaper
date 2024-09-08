@@ -10,3 +10,4 @@ function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
 函数接受一个参数 o，它是一个类型为 Array<T> 的数组。
 函数的返回类型是 { [K in T]: K }，即一个对象，其键和值都是类型 T 的字符串。
 */
+
