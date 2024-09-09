@@ -1,4 +1,3 @@
-
 export * as creatUUID from './creatUUID';
 export * as debounce from './debounce';
 export * as drag from './drag';
@@ -8,3 +7,4 @@ export * as parseCss from './parseCss';
 export * as someAttributeObject from './someAttributeObject';
 export * as getElementRelativeToElement from './getElementRelativeToElement';
 export * as RevocationAndReinstatement from './RevocationAndReinstatement';
+export * as getTagetMapChild from './getTagetMapChild';

@@ -1,7 +1,8 @@
 import { BaseProps } from "./base";
 export type SubElement = {
     parent: Element | null;
-    children: SubElement[];
+    // children: SubElement[];
+    children: Map<number, SubElement>;
     style: string;
     type: string;
     el?: HTMLElement | null;

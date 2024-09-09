@@ -44,7 +44,7 @@ const usePageStore = defineStore('page', {
         element.el = el
         el.setAttribute('id',"el"+element.id)
         el.setAttribute('candrag',"true")
-        if (element.children.length == 0) return
+        if (element.children.size == 0) return
         element.children.forEach((e) => {
           createEl(e)
         })
@@ -63,7 +63,7 @@ const usePageStore = defineStore('page', {
       if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }
       if (this.pageNum > 7) { message.error('最多只能创建7个层级'); return false }
       this.pageNum++;
-      this.pages.set(page.zIndex, Object.assign(page, { id: (+page.zIndex), children: [], zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
+      this.pages.set(page.zIndex, Object.assign(page, { id: (+page.zIndex), children: new Map(), zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
       this.curIndex = +page.zIndex
       return true
     },
@@ -88,7 +88,7 @@ const usePageStore = defineStore('page', {
             element.el.style.top = `${element.resizeTop}px`
             element.el.style.left = `${element.resizeLeft}px`
           }
-          if (element.children.length !== 0) {
+          if (element.children.size !== 0) {
             element.children.forEach((item) => {
               recursion(item as SubElement)
             })

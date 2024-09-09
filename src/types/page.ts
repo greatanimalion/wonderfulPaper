@@ -3,7 +3,8 @@ import { SubElement } from "./element";
 export type Page = {
   title?: string;
   zIndex: number;
-  children:SubElement[];
+  // children:SubElement[];
+  children: Map<number, SubElement>;
   zoom: number|1,
 } & BaseProps;
 export type PageStore = {
