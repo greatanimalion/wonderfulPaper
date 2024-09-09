@@ -9,4 +9,5 @@ export type SubElement = {
     left: number;
     resizeTop:string;
     resizeLeft:string;
+    heidden:boolean;
 } & Partial<BaseProps>;

@@ -30,8 +30,8 @@ function reinstatement(pageId:number) {
 */
 function doThing(action:Action){
     revocationStack.push(action);
-    if(revocationStack.length>35){
-        revocationStack.shift();
+    if(revocationStack.length>50){
+        revocationStack.shift()?.destory();
     }
 }
 

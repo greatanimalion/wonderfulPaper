@@ -33,6 +33,7 @@ const usePageStore = defineStore('page', {
       let curPage = this.pages.get(this.curIndex)
       //渲染元素
       function createEl(element: SubElement) {
+        if(element.heidden)return
         let el = document.createElement(element.type)
         el.style.cssText = element.style
         el.style.width = `${element.resizeWidth}px`

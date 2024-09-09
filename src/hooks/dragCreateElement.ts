@@ -53,6 +53,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
                 resizeLeft: String(finalX),
                 left: finalX / curPage.zoom,
                 top: finalY / curPage.zoom,
+                heidden: false,
             })
             // 记录撤销和恢复动作
             RevocationAndReinstatement.doThing({
@@ -61,10 +62,12 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
                 revocation(){
                     // element.style.display='none'
                     let el=document.getElementById("el"+id)
+                    curPage!.children[curPage!.children.length-1].heidden=true
                     if(el)el.style.display='none'
                 },
                 reinstatement(){
                     let el=document.getElementById("el"+id)
+                    curPage!.children[curPage!.children.length-1].heidden=false
                     if(el)el.style.display='block'
                 },
                 destory(){

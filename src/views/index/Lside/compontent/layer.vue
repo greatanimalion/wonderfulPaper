@@ -44,9 +44,6 @@ const addLayerThumbnail = () => {
       if(index==pageStore.curIndex)return 
       // 切换当前页
       pageStore.changeCurrentPage(e.target.dataset.index);
-
-      // 由数据渲染页面
-
       // 重置缩略图
       // layerThumbnail.resetLayerThumbnail(index)
       useCorrespondence().getFn('central')?.()
