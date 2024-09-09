@@ -7,12 +7,12 @@
         </div>
         <div>
             <Tooltip title="撤销">
-                <RollbackOutlined style="font-size: 25px;" @click="revocation()" />
+                <RollbackOutlined style="font-size: 25px;" @click="revocation(pageStore.curIndex)" />
             </Tooltip>
         </div>
         <div>
             <Tooltip title="恢复">
-                <RetweetOutlined style="font-size: 25px;" @click="reinstatement()" />
+                <RetweetOutlined style="font-size: 25px;" @click="reinstatement(pageStore.curIndex)" />
             </Tooltip>
         </div>
         <div>
@@ -54,7 +54,8 @@ import RevocationAndReinstatement from '@/utils/RevocationAndReinstatement';
 import img from '@/assets/img.png'
 import img2 from '@/assets/img2.jpg'
 const { revocation, reinstatement } = RevocationAndReinstatement;
-
+import { usePageStore } from '@/store';
+const pageStore = usePageStore();
 import { ref } from 'vue';
 const open = ref<boolean>(false);
 

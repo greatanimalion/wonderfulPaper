@@ -25,6 +25,8 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
         if (directive[0] === 'create') {
             if (directive[1] === '') return
             let element = document.createElement(directive[1]);
+            let id=Date.now()
+            element.setAttribute('id',"el"+id)
             taraget.appendChild(element);
             element.style.cssText = elementStyleStore.getCommonElementStyle(directive[1]) || '';
             element.style.top = `${finalY}px`;
@@ -37,7 +39,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             let width = parseCss(element.style.cssText, ['width'])['width'].replace('px', '')
             let curPage = pageStore.getCurrentPage()
             if (curPage) curPage.children.push({
-                id: Date.now(),
+                id,
                 type: directive[1],
                 el: element,
                 parent: taraget,
@@ -55,14 +57,19 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             // 记录撤销和恢复动作
             RevocationAndReinstatement.doThing({
                 type: 'CREATE_ELEMENT',
+                pageId: pageStore.curIndex,
                 revocation(){
-                    element.style.display='none'
+                    // element.style.display='none'
+                    let el=document.getElementById("el"+id)
+                    if(el)el.style.display='none'
                 },
                 reinstatement(){
-                    element.style.display='block'
+                    let el=document.getElementById("el"+id)
+                    if(el)el.style.display='block'
                 },
                 destory(){
-                    element.remove()
+                    let el=document.getElementById("el"+id)
+                    if(el)el.remove()
                     curPage?.children.pop()
                 }
             } as Action)

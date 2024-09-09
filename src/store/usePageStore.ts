@@ -31,6 +31,7 @@ const usePageStore = defineStore('page', {
       this.curIndex = Number(index);
       (document.querySelector(".content") as HTMLElement).innerHTML = "";
       let curPage = this.pages.get(this.curIndex)
+      //渲染元素
       function createEl(element: SubElement) {
         let el = document.createElement(element.type)
         el.style.cssText = element.style
@@ -40,6 +41,7 @@ const usePageStore = defineStore('page', {
         el.style.left = `${element.resizeLeft}px`
         element.parent?.append(el)
         element.el = el
+        el.setAttribute('id',"el"+element.id)
         el.draggable = true
         if (element.children.length == 0) return
         element.children.forEach((e) => {

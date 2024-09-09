@@ -14,6 +14,5 @@ export default function useMousePosition(element: HTMLBaseElement, object: { x: 
     function removeMouseListener() {
         element.removeEventListener('mousemove', handleMouseMove)
     }
-
     return removeMouseListener
 }
