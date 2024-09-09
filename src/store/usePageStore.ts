@@ -43,7 +43,7 @@ const usePageStore = defineStore('page', {
         element.parent?.append(el)
         element.el = el
         el.setAttribute('id',"el"+element.id)
-        el.draggable = true
+        el.setAttribute('candrag',"true")
         if (element.children.length == 0) return
         element.children.forEach((e) => {
           createEl(e)

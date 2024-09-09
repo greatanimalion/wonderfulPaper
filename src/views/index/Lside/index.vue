@@ -8,7 +8,7 @@
         <ul class="baseElementsUL" ref="baseElementsUL">
             <li v-for="(i) in elementList"><span>{{ i.name }}</span>
                 <div class="baseElement">
-                    <button mytype="button" candrag="true" draggable="true">{{ i.type }}</button>
+                    <button mytype="button" draggable="true">{{ i.type }}</button>
                 </div>
             </li>
         </ul>

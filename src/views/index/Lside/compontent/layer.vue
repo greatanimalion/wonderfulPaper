@@ -41,11 +41,10 @@ const addLayerThumbnail = () => {
    div.appendChild(img)
    div.onclick = (e: any) => {
       let index=+e.target.dataset.index
-      if(index==pageStore.curIndex)return 
+      if(index==pageStore.curIndex)return
+      layerThumbnail.resetLayerThumbnail(pageStore.curIndex) 
       // 切换当前页
       pageStore.changeCurrentPage(e.target.dataset.index);
-      // 重置缩略图
-      // layerThumbnail.resetLayerThumbnail(index)
       useCorrespondence().getFn('central')?.()
       let allItem = document.getElementsByClassName("layer-item");
       Array.prototype.forEach.call(allItem, (item: any) => {
@@ -61,8 +60,6 @@ useCorrespondence().addFn('drawImg', () => {
    addLayerThumbnail()
    setUniformHeight()
 })
-
-
 </script>
 
 <style lang="scss">

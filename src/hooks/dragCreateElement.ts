@@ -4,11 +4,10 @@
 
 import { useElementStyleStore, useLayerThumbnail, usePageStore } from "@/store";
 import { parseCss } from "@/utils/parseCss";
-import RevocationAndReinstatement from "@/utils/RevocationAndReinstatement";
+import {RevocationAndReinstatement,getElementRelativeToElement} from "@/utils";
 import { Action } from "@/types/RevocationAndReinstatement";
-//距离纠正
-let distanceCorrectionX = 0, distanceCorrectionY = 0;
-let finalX: string | number = 0, finalY: string | number = 0;
+
+
 
 export default function dragCreateElement(taraget: HTMLDivElement) {
     const layerThumbnail = useLayerThumbnail();
@@ -16,11 +15,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
     const pageStore = usePageStore();
     taraget.ondragover = (e: DragEvent) => { e.preventDefault(); }
     taraget.ondrop = (e: DragEvent) => {
-        distanceCorrectionX = e.clientX - taraget.offsetLeft;
-        distanceCorrectionY = e.clientY - taraget.offsetTop;
-        //修正距离 + 页面滚动距离
-        finalY = distanceCorrectionY + Number(taraget.parentElement!.scrollTop.toFixed(0))
-        finalX = distanceCorrectionX + Number(taraget.parentElement!.scrollLeft.toFixed(0))
+        let {finalX,finalY}=getElementRelativeToElement.default(e,taraget,'page')
         let directive = e.dataTransfer?.getData('directive').split(':') || [];
         if (directive[0] === 'create') {
             if (directive[1] === '') return
@@ -31,7 +26,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             element.style.cssText = elementStyleStore.getCommonElementStyle(directive[1]) || '';
             element.style.top = `${finalY}px`;
             element.style.left = `${finalX}px`;
-            element.setAttribute('draggable', 'true');
+            element.setAttribute('candrag', 'true');
             // element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
             layerThumbnail.resetLayerThumbnail(pageStore.curIndex)
@@ -56,7 +51,7 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
                 heidden: false,
             })
             // 记录撤销和恢复动作
-            RevocationAndReinstatement.doThing({
+            RevocationAndReinstatement.default.doThing({
                 type: 'CREATE_ELEMENT',
                 pageId: pageStore.curIndex,
                 revocation(){

@@ -6,3 +6,5 @@ export * as isNumber from './isNumber';
 export * as keyFromStringToNumber from './keyFromStringToNumber';
 export * as parseCss from './parseCss';
 export * as someAttributeObject from './someAttributeObject';
+export * as getElementRelativeToElement from './getElementRelativeToElement';
+export * as RevocationAndReinstatement from './RevocationAndReinstatement';
