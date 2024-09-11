@@ -29,11 +29,11 @@ const usePageStore = defineStore('page', {
     },
     changeCurrentPage(index: number | string) {
       this.curIndex = Number(index);
-      (document.querySelector(".content") as HTMLElement).innerHTML = "";
+      document.querySelector(".content")!.innerHTML = "";
       let curPage = this.pages.get(this.curIndex)
       //渲染元素
       function createEl(element: SubElement) {
-        if(element.heidden)return
+        if (element.heidden) return
         let el = document.createElement(element.type)
         el.style.cssText = element.style
         el.style.width = `${element.resizeWidth}px`
@@ -42,8 +42,8 @@ const usePageStore = defineStore('page', {
         el.style.left = `${element.resizeLeft}px`
         element.parent?.append(el)
         element.el = el
-        el.setAttribute('id',"el"+element.id)
-        el.setAttribute('candrag',"true")
+        el.setAttribute('id', "el" + element.id)
+        el.setAttribute('candrag', "true")
         if (element.children.size == 0) return
         element.children.forEach((e) => {
           createEl(e)
@@ -63,8 +63,14 @@ const usePageStore = defineStore('page', {
       if (this.pages.get(page.zIndex)) { message.error('层级已存在'); return false; }
       if (this.pageNum > 7) { message.error('最多只能创建7个层级'); return false }
       this.pageNum++;
-      this.pages.set(page.zIndex, Object.assign(page, { id: (+page.zIndex), children: new Map(), zoom: 1, resizeHeight: page.height, resizeWidth: page.width }))
-      this.curIndex = +page.zIndex
+      this.pages.set(page.zIndex, Object.assign(page, {
+        id: (page.zIndex),
+        children: new Map(),
+        zoom: 1,
+        resizeHeight: page.height,
+        resizeWidth: page.width
+      }))
+      this.curIndex = page.zIndex
       return true
     },
     setZoom(zoom: number) {
