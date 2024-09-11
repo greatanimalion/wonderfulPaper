@@ -33,8 +33,6 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             let height = parseCss(element.style.cssText, ['heigth'])['height'].replace('px', '')
             let width = parseCss(element.style.cssText, ['width'])['width'].replace('px', '')
             let curPage = pageStore.getCurrentPage()!
-
-            // 记录撤销和恢复动作
             let vNode = {
                 id,
                 type: directive[1],
@@ -53,11 +51,11 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
                 heidden: false,
             }
             curPage.children.set(id, vNode)
+             // 记录撤销和恢复动作
             RevocationAndReinstatement.default.doThing({
                 type: 'CREATE_ELEMENT',
                 pageId: pageStore.curIndex,
                 revocation() {
-                    // element.style.display='none'
                     let el = document.getElementById("el" + id)
                     vNode.heidden = true
                     if (el) el.style.display = 'none'

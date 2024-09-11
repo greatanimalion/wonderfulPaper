@@ -13,12 +13,14 @@ document.addEventListener("mousedown", (e: MouseEvent) => {
             }
         } else if (target.getAttribute('candrag')) {
             targetEl = target;
+            // target.style.border = '2px dashed red';
             contain = document.querySelector('.content')!
         }
     }
 })
 document.addEventListener('mouseup', () => {
     if (targetEl) {
+        // targetEl.style.border = 'none';
         let pageStore = usePageStore();
         let id = targetEl.id.replace('el', '');
         let curPage = pageStore.getCurrentPage()!;

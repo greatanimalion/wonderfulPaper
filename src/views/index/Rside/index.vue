@@ -1,8 +1,9 @@
 <template>
     <div>
         <div>工具</div>
-        <canvas></canvas>
-        
+    </div>
+    <div>
+        <div>样式修改</div>
     </div>
     <div>
         <div>组件</div>
