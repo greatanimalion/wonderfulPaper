@@ -7,12 +7,12 @@
         </div>
         <div>
             <Tooltip title="撤销">
-                <RollbackOutlined style="font-size: 25px;" @click="revocation(pageStore.curIndex)" />
+                <RollbackOutlined style="font-size: 25px;"/>
             </Tooltip>
         </div>
         <div>
             <Tooltip title="恢复">
-                <RetweetOutlined style="font-size: 25px;" @click="reinstatement(pageStore.curIndex)" />
+                <RetweetOutlined style="font-size: 25px;"  />
             </Tooltip>
         </div>
         <div>
@@ -50,17 +50,16 @@
 <script setup lang="ts">
 import { UnorderedListOutlined, DragOutlined, UserOutlined, RollbackOutlined, RetweetOutlined } from '@ant-design/icons-vue';
 import Tooltip from '@/components/Tooltip.vue';
-import RevocationAndReinstatement from '@/utils/RevocationAndReinstatement';
+
 import img from '@/assets/img.png'
 import img2 from '@/assets/img2.jpg'
-const { revocation, reinstatement } = RevocationAndReinstatement;
-import { usePageStore } from '@/store';
-const pageStore = usePageStore();
+
+
 import { ref } from 'vue';
 const open = ref<boolean>(false);
 
 const showModal = () => {
-//   open.value = true;
+  open.value = true;
 };
 
 const handleOk = (e: MouseEvent) => {

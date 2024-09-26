@@ -1,9 +1,6 @@
 <template>
     <div>
-        <DefineInput placeHolder="宽度(建议720px)" v-model="pageConfig.width"></DefineInput>
-        <DefineInput placeHolder="高度(建议1440px)" v-model="pageConfig.height"></DefineInput>
-        <DefineInput placeHolder="标题(空)" v-model="pageConfig.title"></DefineInput>
-        <DefineInput placeHolder="层级" v-model="pageConfig.zIndex"></DefineInput>
+       1
         <div>
             <button class="Lbutton" @click="createPage">
                 <PlusOutlined />新建层级
@@ -14,16 +11,16 @@
 </template>
 
 <script setup lang="ts">
-import DefineInput from "@/components/DinfineInput.vue"
+
 import { nextTick, reactive } from 'vue'
 import useCorrespondence from "@/hooks/useCorrespondence";
 import { PlusOutlined } from '@ant-design/icons-vue';
-import { usePageStore } from '@/store/index'
+
 import { message } from 'ant-design-vue';
 import { isNumber } from '@/utils/isNumber';
-import keyFromStringToNumber from "@/utils/keyFromStringToNumber";
+
 const propos = defineProps({ create: Function })
-const pageStore = usePageStore()
+
 const pageDefaulteValue = {
     width: '720',
     height: '1440',
@@ -43,8 +40,6 @@ const createPage = () => {
     !isNumber(pageConfig.height.replace('px', ''), false,true)||
     !isNumber(pageConfig.zIndex, false)
 ) { return message.error('请填写合法宽度、高度、层级,且必须为正整数'); }
-    //创建新页面
-    if (!pageStore.createPage(keyFromStringToNumber<'zIndex',typeof pageConfig>(pageConfig,[ 'zIndex']))) return
     
     propos.create?.()
     nextTick(() => {

@@ -1,6 +1,6 @@
 <template>
     <div style="padding: 10px 0;">
-        <div class="createLayer" v-if="pageStore.pageNum" @click="create = !create">
+        <div class="createLayer"  @click="create = !create">
             <FormOutlined v-show="create" class="layerEditButton" />
             <RollbackOutlined v-show="!create" class="layerEditButton" />
         </div>
@@ -12,19 +12,16 @@
                 </div>
             </li>
         </ul>
-        <div style="margin: 20px 3px 20px 3px;text-align: center;color: aliceblue;">层级</div>
-        <KeepAlive><component :is="create? Create : Layer" :create="()=>{create=!create}" /></KeepAlive> 
+    
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import {  FormOutlined, RollbackOutlined } from '@ant-design/icons-vue';
-import { usePageStore } from '@/store/index'
-import Layer from './compontent/layer.vue'
-import Create from './compontent/create.vue';
 
-const pageStore = usePageStore()
+
+
 const baseElementsUL = ref(null)
 
 const elementList = [
