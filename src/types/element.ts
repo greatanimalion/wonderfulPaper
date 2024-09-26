@@ -1,7 +1,6 @@
 import { BaseProps } from "./base";
 export type SubElement = {
     parent: Element | null;
-    // children: SubElement[];
     children: Map<number, SubElement>;
     style: string;
     type: string;
@@ -12,3 +11,18 @@ export type SubElement = {
     resizeLeft:string;
     heidden:boolean;
 } & Partial<BaseProps>;
+
+export type element={
+    parent:element,
+    children:element[],
+    id:number,
+    event:Function[];
+    props:string[],
+    style:string,
+}
+export type plainElement={
+    children:element[]
+}
+export type vnode={
+    
+}

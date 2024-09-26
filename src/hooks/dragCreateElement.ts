@@ -27,7 +27,6 @@ export default function dragCreateElement(taraget: HTMLDivElement) {
             element.style.top = `${finalY}px`;
             element.style.left = `${finalX}px`;
             element.setAttribute('candrag', 'true');
-            // element.setAttribute('candrag', 'true');
             element.style.position = 'absolute';
             layerThumbnail.resetLayerThumbnail(pageStore.curIndex)
             let height = parseCss(element.style.cssText, ['heigth'])['height'].replace('px', '')

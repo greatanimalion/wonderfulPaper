@@ -60,7 +60,7 @@ import { ref } from 'vue';
 const open = ref<boolean>(false);
 
 const showModal = () => {
-  open.value = true;
+//   open.value = true;
 };
 
 const handleOk = (e: MouseEvent) => {

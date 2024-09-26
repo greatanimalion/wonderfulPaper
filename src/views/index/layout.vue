@@ -29,6 +29,7 @@ import Tool from './tool/index.vue';
 const logo=ref('logo')
 onMounted(() => {
     colorFont(logo.value,{duration:3,color:['#a7a7a7','#9efb7d','#fb7def','#7dc0fb']}) 
+
 })
 
 </script>
