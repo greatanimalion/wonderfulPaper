@@ -18,6 +18,7 @@
             <RSide></RSide>
         </a-layout-sider>
     </a-layout>
+    <Vnode></Vnode>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
@@ -26,6 +27,7 @@ import RSide from './Rside/index.vue';
 import Content from './content/index.vue';
 import colorFont from 'colorfontcolor';
 import Tool from './tool/index.vue';
+import Vnode from "./vnode/index.vue"
 const logo=ref('logo')
 onMounted(() => {
     colorFont(logo.value,{duration:3,color:['#a7a7a7','#9efb7d','#fb7def','#7dc0fb']}) 

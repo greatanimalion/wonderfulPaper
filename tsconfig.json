@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true
   },
   
-  "include": ["src/**/**/*.ts", "src/**/*.tsx", "src/**/*.vue","src/**/*.d.ts", "src/router", "src/utils/test/keyFromStringToNumber.test.js"],
+  "include": ["src/**/**/*.ts", "src/**/*.tsx", "src/**/*.vue","src/**/**/*..vue","src/**/*.d.ts", "src/router", "src/utils/test/keyFromStringToNumber.test.js"],
 }

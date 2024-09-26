@@ -1,36 +1,15 @@
 <template>
     <div style="padding: 10px 0;">
-        <div class="createLayer"  @click="create = !create">
-            <FormOutlined v-show="create" class="layerEditButton" />
-            <RollbackOutlined v-show="!create" class="layerEditButton" />
-        </div>
-        <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">基本元素</div>
-        <ul class="baseElementsUL" ref="baseElementsUL">
-            <li v-for="(i) in elementList"><span>{{ i.name }}</span>
-                <div class="baseElement">
-                    <button mytype="button" draggable="true">{{ i.type }}</button>
-                </div>
-            </li>
-        </ul>
-    
+        <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">缩略图</div>
+        <img src="" alt="">
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import {  FormOutlined, RollbackOutlined } from '@ant-design/icons-vue';
 
 
 
-const baseElementsUL = ref(null)
-
-const elementList = [
-    { name: '按钮', type: 'button' },
-    { name: '输入框', type: 'input' },
-    { name: '图片', type: 'img' },
-    { name: '方块', type: 'div' }
-]
-const create = ref(true)
 
 </script>
 
