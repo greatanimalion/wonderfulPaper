@@ -18,3 +18,19 @@ createApp(App).use(Antd).use(router).use(store).mount('#app')
 //           '您可以看看基本功能，感谢您的支持',
 //       });
 // },1000)
+
+let muen:HTMLDivElement|null = null;
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+document.addEventListener('mousedown', function (e) {
+    if (e.button === 2) {
+        muen = document.querySelector<HTMLDivElement>('#menu-vnode')!
+        muen.style.display = 'block'
+        muen.style.left = e.clientX + 'px'
+        muen.style.top = e.clientY + 'px'
+    }
+    else {
+        if(muen)muen.style.display = 'none'
+    }
+})
