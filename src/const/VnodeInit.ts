@@ -1,0 +1,1 @@
+export const VnodeInit = {height:40,width:80,top:20,left:window.innerWidth/2-40,text:"",type:"div"}

@@ -1,4 +1,4 @@
-import useElementStyleStore from "./elementStyleStore";
+import useElementStyleStore from "./useElementStyleStore";
 
 export {
     useElementStyleStore,

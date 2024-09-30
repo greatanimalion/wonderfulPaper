@@ -1,27 +1,16 @@
-import { nextTick, Ref } from "vue";
-
-// let targetEl: HTMLDivElement | null = null;
-// let contain: HTMLDivElement | null = null;
-
 
 /**
- * 传入容器元素，返回销毁函数
+
 */
-export function elementFromPoint(container: Ref<HTMLDivElement>, callback: (el: HTMLDivElement) => void) {
-    function handleMouseDown(e: MouseEvent) {
-        let target = document.elementFromPoint(e.clientX, e.clientY) as HTMLDivElement | null;
-        callback(target!);
-    }
-    nextTick(() => {
-        container.value.addEventListener("mousedown", handleMouseDown);
-    })
-    return () => {
-        container.value.removeEventListener("mousedown", handleMouseDown);
-    }
+export function elementFromPoint(e: MouseEvent) {
+    document.elementFromPoint(e.clientX, e.clientY) as HTMLDivElement  | null;
 }
 
 
 
+
+// let targetEl: HTMLDivElement | null = null;
+// let contain: HTMLDivElement | null = null;
 
 // if (target) {
 //     //重基本元素框中取出的元素

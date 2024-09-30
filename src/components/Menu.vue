@@ -1,13 +1,20 @@
 <template>
     <ul id="menu-vnode">
-        <li><div></div><div>创建节点</div></li>
+        <li @click="addVnode"><div></div><div>创建子节点</div></li>
         <li><div></div><div>删除节点</div></li>
-
-
     </ul>
 </template>
 
 <script setup lang="ts">
+import useVnodeStroe from '@/store/useVnodeStore'
+const VnodeStroe =useVnodeStroe();
+function addVnode(){
+    
+    let parentVnode = VnodeStroe.curVnode;
+    if(parentVnode)VnodeStroe.addVnode(parentVnode);
+    else console.log('请先选择父节点');
+    alert('创建子节点成功');
+}
 </script>
 
 <style scoped lang="scss">

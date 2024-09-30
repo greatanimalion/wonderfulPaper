@@ -25,7 +25,7 @@ document.addEventListener('contextmenu', function (e) {
   });
 document.addEventListener('mousedown', function (e) {
     if (e.button === 2) {
-        muen = document.querySelector<HTMLDivElement>('#menu-vnode')!
+        muen =muen|| document.querySelector<HTMLDivElement>('#menu-vnode')!
         muen.style.display = 'block'
         muen.style.left = e.clientX + 'px'
         muen.style.top = e.clientY + 'px'
