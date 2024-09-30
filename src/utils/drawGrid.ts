@@ -19,13 +19,7 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
             ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
         }
     }
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.bezierCurveTo(0, 0, 0, 50, 50, 50);
-    ctx.bezierCurveTo(50, 50, 100, 50, 100, 100);
-    ctx.strokeStyle = 'rgba(255,255,255, 0.7)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+
 }
 /**
  * @param target 虚拟节点
@@ -35,7 +29,7 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
 export function drawBezierCurveFromParent(target:Vnode,color:string= 'rgba(255,255,255, 0.7)',Canvas?: Ref<HTMLCanvasElement>|HTMLCanvasElement) {
     if(!target.parent)return 
     // @ts-ignore
-    let canvas:HTMLCanvasElement=(isRef(Canvas)?Canvas.value:Canvas)||document.getElementsByTagName<HTMLCanvasElement>('canvas')
+    let canvas:HTMLCanvasElement=(isRef(Canvas)?Canvas.value:Canvas)||document.getElementsByTagName<HTMLCanvasElement>('canvas')[0]
     const ctx =canvas.getContext('2d')!;
     let y1=target.parent.top+target.parent.height;
     let x1=target.parent.left+target.parent.width/2;

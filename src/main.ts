@@ -31,6 +31,8 @@ document.addEventListener('mousedown', function (e) {
         muen.style.top = e.clientY + 'px'
     }
     else {
-        if(muen)muen.style.display = 'none'
+        setTimeout(()=>{
+            if(muen)muen.style.display = 'none'
+        },100)
     }
 })

@@ -9,6 +9,7 @@ let preElement: HTMLDivElement | null = null;
  * 创建拖动条件 赋予容器内元素拖拽行为
 */
 export function VnodeDrag(contain: Ref<HTMLDivElement>) {
+
    const VnodeStore=useVnodeStroe();
    let t: HTMLDivElement | null;
    function dragMouseDown(e: MouseEvent) {
@@ -21,9 +22,11 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       t?.removeEventListener('mousedown', dragMouseDown);
       t?.removeEventListener('mouseup', stopDrag);
       contain.value.removeEventListener('mousemove', elementDrag);
-      //@ts-ignore
-      t = null
-      
+      if (!VnodeStore.curVnode)return ;
+      VnodeStore.renderVnodeToNode(VnodeStore.curVnode,'drag','rgb(0,0,0)')
+      VnodeStore.curVnode.top=+t!.style.top.replace('px','')
+      VnodeStore.curVnode.left=+t!.style.left.replace('px','')
+      VnodeStore.renderVnodeToNode(VnodeStore.curVnode,'drag')
    }
    function elementDrag(e: MouseEvent) {
       if (!t) return;
@@ -32,33 +35,32 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       const y = offsetY - e.clientY;
       offsetX = e.clientX;
       offsetY = e.clientY;
-      let curTop = String((+t!.getAttribute('y')! - y));
-      let curLeft = String(+t!.getAttribute('x')! - x);
-      t!.setAttribute('y', curTop)
-      t!.setAttribute('x', curLeft)
+      let curTop = String((+getComputedStyle(t).top.replace('px', '')! - y));
+      let curLeft = String(+getComputedStyle(t).left.replace('px', '')! - x);
+      t!.style.top = curTop+'px';
+      t!.style.left = curLeft+'px';
    }
    function handle(e: MouseEvent) {
       if (preElement) {
+         preElement.style.outline='none'
          preElement.removeAttribute('data-drag');
-         preElement.style.stroke = 'white';
          VnodeStore.clearTarget()
+         t=null
       }
       //@ts-ignore
-      if(e.target!.tagName !== 'rect')return ;
+      if(e.target!.className !== 'vnode')return ;
       let target = e.target as HTMLDivElement;
       VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
-      target!.style.stroke = "red";
+      target!.style.outline = "red 2px solid";
       target!.dataset.drag = 'true';
       preElement = target;
       target.addEventListener('mousedown', dragMouseDown);
       target.addEventListener('mouseup', stopDrag);
-      t = target
+      t = target      
    }
    contain.value.addEventListener('click', handle);
-   return {
-      destory() {
+   return function destory(){
          contain.value.removeEventListener('click', handle);
-      }
    }
 }
 

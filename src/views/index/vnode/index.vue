@@ -1,15 +1,14 @@
 <template>
     <div class="contain">
-        <svg ref="contain" width="200" height="100">
-            <rect  x="500" y="100" width="100" height="50" id="0"
-                style="fill:white;stroke:white;stroke-width:2;fill-opacity:0.8;stroke-opacity:0.9" rx="5" ry="5" />
-        </svg>
+        <div ref="contain" class="contain-box" width="200" height="100">
+            
+        </div>
         <canvas ref="canvas"></canvas>
     </div>
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { onUnmounted, Ref, ref } from 'vue';
 import { VnodeDrag } from '@/hooks/useDrag';
 import drawGrid from '@/utils/drawGrid';
 import { onMounted } from 'vue';
@@ -17,13 +16,17 @@ import useVnodeStroe from '@/store/useVnodeStore'
 const vnodeStore = useVnodeStroe()
 const canvas = ref<HTMLCanvasElement>();
 const contain = ref<HTMLDivElement>();
-vnodeStore.init()
+
+let unmnted:Function[]=[];
 onMounted(() => {
+    vnodeStore.init()
     drawGrid(canvas as Ref<HTMLCanvasElement>)
-    VnodeDrag(contain as Ref<HTMLDivElement>);
+    unmnted.push(VnodeDrag(contain as Ref<HTMLDivElement>));
 })
 
-
+onUnmounted(() => {
+    unmnted.forEach(fn => fn());
+})
 </script>
 
 <style scoped>
@@ -37,15 +40,11 @@ onMounted(() => {
     z-index: 2;
 }
 
-svg {
+.contain-box {
     width: 100%;
     height: 100%;
     position: relative;
     z-index: 2;
 }
 
-
-rect[data-drag] {
-    cursor: move;
-}
 </style>

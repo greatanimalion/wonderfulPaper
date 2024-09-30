@@ -7,13 +7,12 @@
 
 <script setup lang="ts">
 import useVnodeStroe from '@/store/useVnodeStore'
+import { message } from 'ant-design-vue';
 const VnodeStroe =useVnodeStroe();
-function addVnode(){
-    
+function addVnode(e: MouseEvent){ 
     let parentVnode = VnodeStroe.curVnode;
-    if(parentVnode)VnodeStroe.addVnode(parentVnode);
-    else console.log('请先选择父节点');
-    alert('创建子节点成功');
+    if(!parentVnode)return message.error('请选择父节点');
+    if(parentVnode)VnodeStroe.createSubVnode(parentVnode,{top:e.clientY,left:e.clientX});
 }
 </script>
 
