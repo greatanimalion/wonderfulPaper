@@ -1,8 +1,9 @@
 <template>
     <div class="contain">
         <div ref="contain" class="contain-box" width="200" height="100">
-            
+
         </div>
+        <svg class="svg"></svg>
         <canvas ref="canvas"></canvas>
     </div>
 </template>
@@ -17,11 +18,12 @@ const vnodeStore = useVnodeStroe()
 const canvas = ref<HTMLCanvasElement>();
 const contain = ref<HTMLDivElement>();
 
-let unmnted:Function[]=[];
+let unmnted: Function[] = [];
 onMounted(() => {
     vnodeStore.init()
     drawGrid(canvas as Ref<HTMLCanvasElement>)
     unmnted.push(VnodeDrag(contain as Ref<HTMLDivElement>));
+
 })
 
 onUnmounted(() => {
@@ -41,11 +43,18 @@ onUnmounted(() => {
     color: black;
 }
 
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .contain-box {
     width: 100%;
     height: 100%;
     position: relative;
     z-index: 2;
 }
-
 </style>

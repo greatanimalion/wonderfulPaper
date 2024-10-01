@@ -17,6 +17,7 @@ class vnode {
     type: string;
     events: {};
     text: string | undefined;
+    lineToParent: any;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
         this.id = creatUUID();
         this.parent = parent
@@ -43,13 +44,13 @@ class vnode {
         document.querySelector('svg')?.appendChild(ract);
     }
 }
-let container:SVGSVGElement | null=null;
+let container: SVGSVGElement | null = null;
 const VnodeStore1 = defineStore("VnodeStore", {
     state: (): {
         plainVnode: plainVnode,
         VnodeTree: Vnode | null,
         curVnode: Vnode | null,
-    
+
     } => ({
         plainVnode: [],
         VnodeTree: null,
@@ -60,27 +61,33 @@ const VnodeStore1 = defineStore("VnodeStore", {
             let index = this.plainVnode.findIndex((item) => { return item.id === id })
             return this.plainVnode[index]
         },
-        renderVnodeToNode(target: Vnode, type: 'add' | 'drag',color?:string) {
+        /**
+         * 渲染成真实节点
+        */
+        renderVnodeToNode(target: Vnode, type: 'add' | 'drag', color?: string) {
             if (type === 'add') {
                 drawBezierCurveFromParent(target);
-                if(!container)return;
-                const div=document.createElement('div');
-                div.setAttribute('id',target.id.toString());
+                if (!container) return;
+                const div = document.createElement('div');
+                div.setAttribute('id', target.id.toString());
                 div.classList.add('vnode');
-                div.style.cssText=`top:${target.top}px;left:${target.left}px;`;
+                div.style.cssText = `top:${target.top}px;left:${target.left}px;`;
                 container.appendChild(div);
+                return;
             }
-            else {
-                function traverse(target: Vnode) {
-                    if (target.parent) drawBezierCurveFromParent(target,color)
-                    target.children.forEach((v) => {
-                        traverse(v)
-                    })
-                }
-                traverse(target)
+            function traverse(target: Vnode) {
+                if (target.parent)drawBezierCurveFromParent(target, color)
+                target.children.forEach((v) => {
+                    traverse(v)
+                })
             }
+            traverse(target)
+
         },
-        createSubVnode(parent: Vnode,options:VnodeOptions={}) {
+        /**
+         * 创建子节点,同时渲染成真实dom节点
+        */
+        createSubVnode(parent: Vnode, options: VnodeOptions = {}) {
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)
             parent.children.push(newVnode)
             this.plainVnode.push(newVnode)
@@ -92,9 +99,12 @@ const VnodeStore1 = defineStore("VnodeStore", {
         clearTarget() {
             this.curVnode = null
         },
+        /**
+         * 初始化，创建根节点，同时渲染成真实dom节点
+        */
         init() {
-            container=document.querySelector('.contain-box');            
-            this.VnodeTree = new vnode(Object.assign({}, VnodeInit,{left:window.innerWidth/2}), undefined)
+            container = document.querySelector('.contain-box');
+            this.VnodeTree = new vnode(Object.assign({}, VnodeInit, { left: window.innerWidth / 2 }), undefined)
             this.renderVnodeToNode(this.VnodeTree, 'add')
             this.plainVnode.push(this.VnodeTree)
         }

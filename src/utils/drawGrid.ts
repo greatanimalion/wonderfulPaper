@@ -26,20 +26,26 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
  * @param color 绘制颜色
  * @param Canvas 容器
 */
-export function drawBezierCurveFromParent(target:Vnode,color:string= 'rgba(255,255,255, 0.7)',Canvas?: Ref<HTMLCanvasElement>|HTMLCanvasElement) {
+export function drawBezierCurveFromParent(target:Vnode,color:string= 'rgba(255,255,255, 0.7)') {
     if(!target.parent)return 
+    target.lineToParent?.remove();
     // @ts-ignore
-    let canvas:HTMLCanvasElement=(isRef(Canvas)?Canvas.value:Canvas)||document.getElementsByTagName<HTMLCanvasElement>('canvas')[0]
-    const ctx =canvas.getContext('2d')!;
+    let svg=document.querySelector('.svg') as SVGAElement;
     let y1=target.parent.top+target.parent.height;
     let x1=target.parent.left+target.parent.width/2;
     let x2=target.left+target.width/2;
-    let y2=target.top;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.bezierCurveTo(x1, y1,x1,(y1+y2)/2,(x1+x2)/2, (y1+y2)/2);
-    ctx.bezierCurveTo((x1+x2)/2, (y1+y2)/2,x2, (y1+y2)/2, x2, y2);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.stroke();    
+    let y2=target.top;   
+    const path = document.createElementNS("http://www.w3.org/2000/svg",'path');
+    path.setAttribute('stroke', 'white');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('fill', 'none');
+    
+    // 设置四次贝塞尔曲线的控制点和终点坐标
+    const controlPoint1 = { x: x1, y: y1 };
+    const controlPoint2 = { x: x1,y: (y1 + y2)/2 };
+    const controlPoint3 = { x: x2, y: (y1 + y2)/2 };
+    const endPoint = { x: x2, y: y2 };
+    path.setAttribute('d', `M${controlPoint1.x},${controlPoint1.y} C${controlPoint2.x},${controlPoint2.y} ${controlPoint3.x},${controlPoint3.y} ${endPoint.x},${endPoint.y}`);
+    svg.appendChild(path);
+    target.lineToParent=path;
 }
