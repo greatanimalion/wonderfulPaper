@@ -55,12 +55,31 @@ button {
   position: absolute;
   top: 500px;
   left: 40px;
-  width: 80px;
+  min-width: 80px;
   height: 40px;
   background-color: aliceblue;
   cursor: pointer;
   border-radius: 5px;
+  /* line-height: 40px; */
+  text-align: center;
+  font-size: 15px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
 }
 .vnode[data-drag] {
   cursor: move;
+}
+.inherit-input{
+  display: inline;
+  line-height: 100%;
+  width: 80px;
+  height: 100%;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  background-color: inherit;
 }

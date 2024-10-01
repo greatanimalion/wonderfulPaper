@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+</body>
+<script>
+    // 创建 SVG 元素
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '500');
+    svg.setAttribute('height', '500');
+    document.body.appendChild(svg);
+
+    // 初始控制点和终点坐标
+    let controlPoint1X = 200;
+    let controlPoint1Y = 200;
+    let controlPoint2X = 300;
+    let controlPoint2Y = 200;
+    let endPointX = 400;
+    let endPointY = 100;
+
+    // 绘制贝塞尔曲线函数
+    function updateCurve() {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', `M100,100 C${controlPoint1X},${controlPoint1Y} ${controlPoint2X},${controlPoint2Y} ${endPointX},${endPointY}`);
+        path.setAttribute('stroke', 'green');
+        path.setAttribute('stroke-width', '2');
+        path.setAttribute('fill', 'none');
+        svg.appendChild(path);
+        setInterval(() => {
+            path.remove();
+        },100)
+    }
+
+    // 定时更新曲线
+    setInterval(() => {
+        controlPoint1X += 5;
+        controlPoint1Y += 5;
+        controlPoint2X -= 5;
+        controlPoint2Y -= 5;
+        endPointX += 5;
+        endPointY += 5;
+        updateCurve();
+    }, 100);
+</script>
+
+</html>

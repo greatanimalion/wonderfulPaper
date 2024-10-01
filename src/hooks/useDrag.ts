@@ -9,7 +9,6 @@ let preElement: HTMLDivElement | null = null;
  * 创建拖动条件 赋予容器内元素拖拽行为
 */
 export function VnodeDrag(contain: Ref<HTMLDivElement>) {
-
    const VnodeStore=useVnodeStroe();
    let t: HTMLDivElement | null;
    function dragMouseDown(e: MouseEvent) {
@@ -59,6 +58,22 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       t = target      
    }
    contain.value.addEventListener('click', handle);
+   contain.value.addEventListener('dblclick', (e:any)=>{
+      if(e.target&&e.target.className !== 'vnode')return ;
+      const element = e.target as HTMLDivElement;
+      const input = document.createElement('input');
+      input.classList.add('inherit-input');
+      input.type = 'text';
+      input.value = element.innerText;
+      element.innerHTML = '';
+      element.appendChild(input);
+      input.focus();
+      input.addEventListener('blur', () => {
+         element.innerHTML = input.value;
+      });
+      
+      
+   })
    return function destory(){
          contain.value.removeEventListener('click', handle);
    }

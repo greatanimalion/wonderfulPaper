@@ -18,7 +18,7 @@
             <RSide></RSide>
         </a-layout-sider>
     </a-layout>
-    <Vnode></Vnode>
+    <Vnode v-show="showVnode"></Vnode>
     <Menu></Menu>
 </template>
 <script lang="ts" setup>
@@ -31,9 +31,14 @@ import Tool from './tool/index.vue';
 import Vnode from "./vnode/index.vue"
 import Menu from '@/components/Menu.vue';
 const logo=ref('logo')
+const showVnode=ref(false)
 onMounted(() => {
     colorFont(logo.value,{duration:3,color:['#a7a7a7','#9efb7d','#fb7def','#7dc0fb']}) 
-
+    window.addEventListener('keydown',(e)=>{
+            if(e.ctrlKey&&e.key=='q'){
+                showVnode.value=!showVnode.value
+            }
+    })
 })
 
 </script>
