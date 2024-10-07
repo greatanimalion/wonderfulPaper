@@ -1,10 +1,13 @@
 <template>
     <div class="show-content">
-        <div class="add-page">
-            <div>
+        <div class="add-page" v-if="!page" >
+            <div @click="page=true">
                 <PlusSquareOutlined :style="{ fontSize: '100px', color: '#1890ff', cursor: 'pointer' }" />
-                <div style="text-align: center;font-size: 18px;"></div>
+                <div style="text-align: center;font-size: 18px;" >创建页面</div>
             </div>
+        </div>
+        <div else  class="content">
+            1212
         </div>
     </div>
 </template>
@@ -12,9 +15,8 @@
 
 <script setup lang="ts">
 import { PlusSquareOutlined } from '@ant-design/icons-vue';
-
-
-
+import { ref } from 'vue';
+const page=ref(false)
 
 </script>
 
@@ -26,7 +28,6 @@ import { PlusSquareOutlined } from '@ant-design/icons-vue';
     overflow: hidden;
     overflow-y: scroll;
     overflow-x: scroll;
-
     &::-webkit-scrollbar {
         width: 4px;
         height: 4px;

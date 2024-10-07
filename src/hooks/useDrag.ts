@@ -69,6 +69,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       element.appendChild(input);
       input.focus();
       input.addEventListener('blur', () => {
+         if(input.value===''&&VnodeStore.curVnode)input.value=String(VnodeStore.curVnode.id);
          element.innerHTML = input.value;
       });
       

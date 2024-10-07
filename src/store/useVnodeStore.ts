@@ -72,6 +72,7 @@ const VnodeStore1 = defineStore("VnodeStore", {
                 div.setAttribute('id', target.id.toString());
                 div.classList.add('vnode');
                 div.style.cssText = `top:${target.top}px;left:${target.left}px;`;
+                div.innerText = target.text || target.id.toString();
                 container.appendChild(div);
                 return;
             }

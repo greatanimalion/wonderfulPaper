@@ -30,16 +30,22 @@ import colorFont from 'colorfontcolor';
 import Tool from './tool/index.vue';
 import Vnode from "./vnode/index.vue"
 import Menu from '@/components/Menu.vue';
+import {setFn} from '@/utils/busEventFns'
 const logo=ref('logo')
 const showVnode=ref(false)
+function openVnode(){
+    showVnode.value=!showVnode.value
+}
 onMounted(() => {
     colorFont(logo.value,{duration:3,color:['#a7a7a7','#9efb7d','#fb7def','#7dc0fb']}) 
     window.addEventListener('keydown',(e)=>{
             if(e.ctrlKey&&e.key=='q'){
-                showVnode.value=!showVnode.value
+                openVnode()
             }
     })
+    setFn('openVnode',openVnode)
 })
+
 
 </script>
 <style scoped>

@@ -20,6 +20,11 @@
                 <DragOutlined style="font-size: 25px;" />
             </Tooltip>
         </div>
+        <div ref="openVnode">
+            <Tooltip title="添加节点">
+                <PlusSquareOutlined style="font-size: 25px;"  />
+            </Tooltip>
+        </div>
         <a-popover placement="bottomRight">
             <template #content>
                 <div class="user-options">
@@ -50,18 +55,20 @@
 <script setup lang="ts">
 import { UnorderedListOutlined, DragOutlined, UserOutlined, RollbackOutlined, RetweetOutlined } from '@ant-design/icons-vue';
 import Tooltip from '@/components/Tooltip.vue';
-
+import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import img from '@/assets/img.png'
 import img2 from '@/assets/img2.jpg'
-
-
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
+import { getFn } from '@/utils/busEventFns';
 const open = ref<boolean>(false);
 
 const showModal = () => {
   open.value = true;
 };
-
+const openVnode = ref<HTMLDivElement>();
+nextTick(() => {
+    openVnode.value!.onclick=getFn('openVnode')||(()=>{console.log('openVnode')})
+});
 const handleOk = (e: MouseEvent) => {
   console.log(e);
   open.value = false;
