@@ -1,3 +1,5 @@
+import { ElementType } from "@/const/elementType";
+
 export type Vnode = {
     id: number;
     name?: string;
@@ -5,15 +7,16 @@ export type Vnode = {
     left: number;
     width: number;
     height: number;
-    type: 'img' | 'div' | 'input' | 'textarea' | string;
+    type: ElementType;
     style: string;
     events: { [key: string]: () => void };
     children: Vnode[];
     parent: Vnode | undefined;
     text: string | undefined;
     lineToParent?: any;
+    HTML: HTMLElement | null;
     createElement: () => void;
-    createVnode: () => void;
+    createHTML: () => void;
 }
 export type VnodeOptions = Partial<Vnode>;
 

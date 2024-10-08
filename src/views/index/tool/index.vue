@@ -53,21 +53,25 @@
 </template>
 
 <script setup lang="ts">
-import { UnorderedListOutlined, DragOutlined, UserOutlined, RollbackOutlined, RetweetOutlined } from '@ant-design/icons-vue';
+import { UnorderedListOutlined, DragOutlined, UserOutlined, RollbackOutlined, RetweetOutlined ,PlusSquareOutlined} from '@ant-design/icons-vue';
 import Tooltip from '@/components/Tooltip.vue';
-import { PlusSquareOutlined } from '@ant-design/icons-vue';
 import img from '@/assets/img.png'
 import img2 from '@/assets/img2.jpg'
 import { nextTick, ref } from 'vue';
 import { getFn } from '@/utils/busEventFns';
+import usePageStore from '@/store/usePageStore';
+import { message } from 'ant-design-vue';
 const open = ref<boolean>(false);
-
+const pageStore = usePageStore();
 const showModal = () => {
   open.value = true;
 };
 const openVnode = ref<HTMLDivElement>();
 nextTick(() => {
-    openVnode.value!.onclick=getFn('openVnode')||(()=>{console.log('openVnode')})
+    openVnode.value!.onclick=()=>{
+        if(!pageStore.created)return message.error('请先创建页面！')
+        getFn('openVnode')?.()
+    }
 });
 const handleOk = (e: MouseEvent) => {
   console.log(e);

@@ -1,11 +1,12 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import Antd from 'ant-design-vue';
+import Antd, { message } from 'ant-design-vue';
 import 'ant-design-vue/dist/reset.css';
 import router from '@/router/index'
 import { createPinia } from "pinia";
 import './utils/elementFromPoint'
+
 // import { notification } from 'ant-design-vue';
 const store = createPinia();
 // console.log(import.meta.env);
@@ -18,6 +19,7 @@ createApp(App).use(Antd).use(router).use(store).mount('#app')
 //           '您可以看看基本功能，感谢您的支持',
 //       });
 // },1000)
+
 
 let muen:HTMLDivElement|null = null;
 document.addEventListener('contextmenu', function (e) {

@@ -3,8 +3,9 @@ import { Vnode, plainVnode, VnodeOptions } from "@/types/Vnode";
 import { VnodeInit } from "@/const/VnodeInit";
 import { drawBezierCurveFromParent } from '@/utils/drawGrid';
 import { creatUUID } from '@/utils/creatUUID';
-
-
+import useElementStyleStore from "./useElementStyleStore";
+import { ElementType } from "@/const/elementType";
+let elementStyleStore
 class vnode {
     id: number;
     parent: Vnode | undefined;
@@ -14,11 +15,13 @@ class vnode {
     width: number;
     style: string;
     height: number;
-    type: string;
+    type: ElementType;
     events: {};
     text: string | undefined;
     lineToParent: any;
+    HTML: HTMLElement | null;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
+        elementStyleStore=useElementStyleStore()
         this.id = creatUUID();
         this.parent = parent
         this.children = []
@@ -27,12 +30,24 @@ class vnode {
         this.width = options.width || 0
         this.height = options.height || 0
         this.type = options.type || 'div'
-        this.style = ''
+        this.style = elementStyleStore.getCommonElementStyle(this.type)||''
         this.events = {}
         this.text = options.text
+        if(this.id==0)this.HTML = document.querySelector('.content')
+        else this.HTML = this.createHTML()
     }
-    createVnode() {
-        throw new Error('Method not implemented.');
+    createHTML() {
+        let vnode=this
+        let element=document.createElement(vnode.type)
+        vnode.HTML=element
+        element.id="el"+vnode.id.toString()
+        element.style.cssText=vnode.style
+        element.style.top=vnode.top+'px'
+        element.style.left=vnode.left+'px'
+        element.style.width=vnode.width+'px'
+        element.style.height=vnode.height+'px'
+        vnode.parent?.HTML?.appendChild(element)
+        return element
     }
     createElement() {
         let ract = document.createElement('ract');
@@ -44,6 +59,7 @@ class vnode {
         document.querySelector('svg')?.appendChild(ract);
     }
 }
+
 let container: SVGSVGElement | null = null;
 const VnodeStore1 = defineStore("VnodeStore", {
     state: (): {
@@ -101,14 +117,18 @@ const VnodeStore1 = defineStore("VnodeStore", {
             this.curVnode = null
         },
         /**
-         * 初始化，创建根节点，同时渲染成真实dom节点
+         * 初始化，创建根节点，同时渲染成节点
         */
         init() {
             container = document.querySelector('.contain-box');
-            this.VnodeTree = new vnode(Object.assign({}, VnodeInit, { left: window.innerWidth / 2 }), undefined)
+            //@ts-ignore
+            this.VnodeTree = new vnode(Object.assign({}, VnodeInit, { left: window.innerWidth / 2,type: 'div' }), undefined)
             this.renderVnodeToNode(this.VnodeTree, 'add')
             this.plainVnode.push(this.VnodeTree)
-        }
+        },
+        /**
+         * 渲染成html
+        */
     }
 })
 export default VnodeStore1;

@@ -13,9 +13,9 @@ import { VnodeDrag } from '@/hooks/useDrag';
 import drawGrid from '@/utils/drawGrid';
 import { onMounted } from 'vue';
 import {CloseSquareOutlined} from '@ant-design/icons-vue'
-import useVnodeStroe from '@/store/useVnodeStore'
+
 import { getFn } from '@/utils/busEventFns';
-const vnodeStore = useVnodeStroe()
+
 const canvas = ref<HTMLCanvasElement>();
 const contain = ref<HTMLDivElement>();
 let unmnted: Function[] = [];
@@ -24,7 +24,7 @@ let resizeRender = () => {
 }
 const Openref=ref<HTMLDivElement>()
 onMounted(() => {
-    vnodeStore.init()
+
     drawGrid(canvas as Ref<HTMLCanvasElement>);
     unmnted.push(VnodeDrag(contain as Ref<HTMLDivElement>));
     window.addEventListener('resize', resizeRender)

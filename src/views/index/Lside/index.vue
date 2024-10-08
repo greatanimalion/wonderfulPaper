@@ -1,8 +1,9 @@
 <template>
-    <div style="padding: 10px 0;">
+    <div style="padding: 10px 0;text-align: center;">
         <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">缩略图</div>
-        <img src="" alt="">
+        <div><img src="" class="layerThumbnail"></div>
     </div>
+    <div>1313131</div>
 </template>
 
 <script setup lang="ts">
@@ -17,8 +18,6 @@
     cursor: pointer;
     color: #fff;
 }
-
-
 .createLayer {
     position: absolute;
     z-index: 10;
@@ -26,6 +25,9 @@
     width: 30px;
     height: 30px;
     left: 152px;
+}
+.layerThumbnail {
+    border-radius: 2px;
 }
 li {
     color: wheat;
