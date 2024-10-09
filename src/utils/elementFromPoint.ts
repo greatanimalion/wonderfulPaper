@@ -3,7 +3,7 @@
 
 */
 export function elementFromPoint(e: MouseEvent) {
-    document.elementFromPoint(e.clientX, e.clientY) as HTMLDivElement  | null;
+    return document.elementFromPoint(e.clientX, e.clientY) as HTMLDivElement  | null;
 }
 
 

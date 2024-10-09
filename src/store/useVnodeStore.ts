@@ -33,9 +33,10 @@ class vnode {
         this.style = elementStyleStore.getCommonElementStyle(this.type)||''
         this.events = {}
         this.text = options.text
-        if(this.id==0)this.HTML = document.querySelector('.content')
+        if(this.id==0)this.HTML = document.querySelector('.content')!.firstChild as HTMLDivElement
         else this.HTML = this.createHTML()
     }
+    // 创建html
     createHTML() {
         let vnode=this
         let element=document.createElement(vnode.type)
@@ -46,9 +47,13 @@ class vnode {
         element.style.left=vnode.left+'px'
         element.style.width=vnode.width+'px'
         element.style.height=vnode.height+'px'
+        element.style.position='absolute'
+        element.style.top=0+'px'
+        element.style.left=0+'px'
         vnode.parent?.HTML?.appendChild(element)
         return element
     }
+    //创建真实节点
     createElement() {
         let ract = document.createElement('ract');
         ract.style.cssText = "fill: white; stroke: white; stroke-width: 2; fill-opacity: 0.8; stroke-opacity: 0.9;"

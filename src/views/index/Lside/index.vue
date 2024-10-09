@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 10px 0;text-align: center;">
         <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">缩略图</div>
-        <div><img src="" class="layerThumbnail"></div>
+        <div class="layerBOX"><img src="" class="layerThumbnail"></div>
     </div>
     <div>1313131</div>
 </template>
@@ -26,8 +26,13 @@
     height: 30px;
     left: 152px;
 }
-.layerThumbnail {
+.layerBOX{
+    height: 110px;
+    width: 98%;
+    outline: #6b6b6b solid 1px;
+    margin: auto;
     border-radius: 2px;
+    padding: 5px;
 }
 li {
     color: wheat;

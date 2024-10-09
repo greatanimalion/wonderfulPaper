@@ -9,7 +9,6 @@ const usePageStore = defineStore("pages", {
     }),
     actions: {
         init(width: string, heigth: string) {
-
             this.width = width + "px";
             this.heigth = heigth + "px";
             this.created = true;
