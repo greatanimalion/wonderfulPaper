@@ -33,6 +33,9 @@
     margin: auto;
     border-radius: 2px;
     padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 li {
     color: wheat;

@@ -1,10 +1,18 @@
 <template>
     <div v-show="!!target.el" class="el">
         <div class="rotate"></div>
-        <div class="line top"    :style="{top:elInfor.top+'px',width:elInfor.width+'px',left:elInfor.left+'px'}   "><button class="btn"></button></div>
-        <div class="line buttom" :style="{top:elInfor.top+elInfor.height+'px',width:elInfor.width+'px',left:elInfor.left+'px'}"><button class="btn"></button></div>
-        <div class="line left"   :style="{top:elInfor.top+'px',height:elInfor.height+'px',left:elInfor.left+'px'}"><button class="btn" ></button></div>
-        <div class="line right"  :style="{top:elInfor.top+'px',height:elInfor.height+'px',left:elInfor.left+elInfor.width+'px'}"><button class="btn"></button></div>
+        <div class="line top"    :style="{top:elInfor.top-2+'px',width:elInfor.width+'px',left:elInfor.left+'px'}">
+            <button class="btn" style="cursor:ns-resize"></button>
+        </div>
+        <div class="line buttom" :style="{top:elInfor.top+elInfor.height+'px',width:elInfor.width+'px',left:elInfor.left+'px'}">
+            <button class="btn" style="cursor:ns-resize"></button>
+        </div>
+        <div class="line left"   :style="{top:elInfor.top+'px',height:elInfor.height+'px',left:elInfor.left-2+'px'}">
+            <button class="btn" style="cursor:ew-resize"></button>
+        </div>
+        <div class="line right"  :style="{top:elInfor.top+'px',height:elInfor.height+'px',left:elInfor.left+elInfor.width+'px'}">
+            <button class="btn" style="cursor:ew-resize"></button>
+        </div>
     </div>
 </template>
 
@@ -35,9 +43,9 @@ watch(()=>target.el, () => {
 
 button {
     padding: 0;
-    width: 5px;
-    height: 5px;
-    border-radius: 40%;
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 2px;
     background-color:var(--line-color);
 }
 
@@ -49,29 +57,29 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-   
+   --line-width: 2px;
     &.top {
         border-top: 1px var(--line-color) dashed;
         width: 100%;
-        height: 1px;
+        height: var(--line-width);
     }
 
     &.buttom {
         border-bottom: 1px var(--line-color) dashed;
         width: 100%;
-        height: 1px;
+        height: var(--line-width);
     }
 
     &.left {
         border-left: 1px var(--line-color) dashed;
         height: 100%;
-        width: 1px;
+        width: var(--line-width);
     }
 
     &.right {
         border-right: 1px var(--line-color) dashed;
         height: 100%;
-        width: 1px;
+        width: var(--line-width);
     }
 }
 </style>
