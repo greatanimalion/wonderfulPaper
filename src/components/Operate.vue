@@ -18,7 +18,14 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
-const elInfor=reactive({
+type ElInfor = {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    rotate: number;
+}
+const elInfor=reactive<ElInfor>({
     top:0,
     left:0,
     width:0,
@@ -28,15 +35,18 @@ const elInfor=reactive({
 const { target } = defineProps<{ target: { el: HTMLElement|undefined } }>();
 watch(()=>target.el, () => {
     if(!target.el)return ;
+
     const rect = getComputedStyle(target.el);
     elInfor.top = +target.el.style.top.replace('px', '');
     elInfor.left = +target.el.style.left.replace('px', '');
     elInfor.width = +rect.width.replace('px', '');
     elInfor.height = +rect.height.replace('px', '');
+})
+watch(()=>elInfor.height, () => {
     console.log(elInfor);
     
 })
-
+defineExpose({elInfor})
 </script>
 
 <style scoped>
@@ -48,7 +58,10 @@ button {
     border-radius: 2px;
     background-color:var(--line-color);
 }
-
+.el{
+    position: absolute;
+    top: 0;
+}
 .line {
     z-index: 1;
     padding: 0;

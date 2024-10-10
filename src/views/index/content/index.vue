@@ -10,9 +10,9 @@
             </div>
         </div>
         <div v-else class="content" ref="content">
-            <div :style="{ width: `${page.width}px`, height: `${page.height}px`,position:'relative' }">
-                <Operate :target="target"></Operate>
-            </div>
+            <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"
+                ref="operateContent"></div>
+            <Operate :target="target" ref="operate"></Operate>
         </div>
     </div>
 </template>
@@ -20,24 +20,28 @@
 
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
-import { nextTick, onMounted, reactive, ref } from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 import useLayerImgStore from '@/store/useLayerImgStore';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { getFn } from '@/utils/busEventFns';
 import Operate from '@/components/Operate.vue';
 import { elementFromPoint } from '@/utils/elementFromPoint';
+import { htmlDrag } from '@/hooks/useDrag';
 const content = ref<HTMLDivElement>()
+const operateContent = ref<HTMLDivElement>()
+    const operate = ref<InstanceType<typeof Operate>>();
 const vnodeStore = useVnodeStore();
 const layerImgStore = useLayerImgStore();
 const pageStore = usePageStore();
+
 //当前选择的元素
-let target =reactive<{ el: HTMLElement|undefined }>({
-    el:undefined
+let target = reactive<{ el: HTMLElement | undefined }>({
+    el: undefined
 });
 const page = reactive<{ width: string, height: string, create: boolean }>({
-    width: '',
-    height: '',
+    width: '720',
+    height: '1440',
     create: false
 })
 function initPage() {
@@ -53,39 +57,29 @@ function initPage() {
 function createPage() {
     let height = Number(page.height);
     let width = Number(page.width);
-    if (isNaN(height) || isNaN(width)) {
-        return message.error('请输入正确的页面宽高');
-    }
-    if (width < 100 || height < 100 || width > 100000 || height > 100000) {
-        return message.error('页面宽高不能超过100000px或低于100px');
-    }
+    if (isNaN(height) || isNaN(width)) {return message.error('请输入正确的页面宽高');}
+    if (width < 300 || height < 300 || width > 100000 || height > 100000) {return message.error('页面宽高不能超过100000px或低于300px');}
     page.create = true;
     pageStore.init(page.width, page.height)
     initPage();
     layerImgStore.setMaxLen(width > height ? "width" : "height")
-}
-let zoom = 1;
-let zoomStep = 0.1;
-onMounted(() => {
+    //初始化页面
     let pageState: Function;
+    let zoom = 1;
+    let zoomStep = 0.1;
     nextTick(() => {
         //取出页面切换函数
         pageState = getFn('openVnode');
-        //拖拽
-        let startX, startY, initialLeft, initialTop;
-        document.querySelector('.show-content')?.addEventListener('click', function (e: any) {
+        operateContent.value!.addEventListener('click', function (e: any) {
             let el = elementFromPoint(e);
-            if(!el?.id.startsWith('el'))return target.el=undefined;
-            target.el=el
-            startX = e.clientX;
-            startY = e.clientY;
-            // initialLeft = content.value!.offsetLeft;
-            // initialTop = content.value!.offsetTop;
-            document.addEventListener('mousemove', () => { });
-            document.addEventListener('mouseup', () => { });
+            if (!el?.id.startsWith('el')) return target.el = undefined;
+            target.el = el
+            htmlDrag(el, operateContent.value!, ({ left, top }: { left: number, top: number }) => {
+                operate.value!.elInfor.top = top;
+                operate.value!.elInfor.left = left;
+            })
         })
     })
-
     //监听鼠标放大缩小
     window.addEventListener('mousewheel', function (event: any) {
         if (pageState && pageState(true)) return
@@ -105,9 +99,8 @@ onMounted(() => {
         if (+top > 0) content.value!.style.top = `${top}px`;
         else Pagecontent.style.top = '0';
     }, { passive: false });
+}
 
-
-})
 </script>
 
 <style scoped lang="scss">
