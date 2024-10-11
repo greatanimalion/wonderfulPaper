@@ -1,16 +1,16 @@
 <template>
-    <div v-show="!!target.el" class="el">
+    <div v-show="!!elInfor.el" class="el" :style="{top:elInfor.top+'px',left:elInfor.left+'px'}">
         <div class="rotate"></div>
-        <div class="line top"    :style="{top:elInfor.top-2+'px',width:elInfor.width+'px',left:elInfor.left+'px'}">
+        <div class="line top"    :style="{top:-3+'px',width:elInfor.width+'px',left:'0px'}">
             <button class="btn" style="cursor:ns-resize"></button>
         </div>
-        <div class="line buttom" :style="{top:elInfor.top+elInfor.height+'px',width:elInfor.width+'px',left:elInfor.left+'px'}">
+        <div class="line buttom" :style="{top:elInfor.height+'px',width:elInfor.width+'px',left:'0px'}">
             <button class="btn" style="cursor:ns-resize"></button>
         </div>
-        <div class="line left"   :style="{top:elInfor.top+'px',height:elInfor.height+'px',left:elInfor.left-2+'px'}">
+        <div class="line left"   :style="{top:'0px',height:elInfor.height+'px',left:-2+'px'}">
             <button class="btn" style="cursor:ew-resize"></button>
         </div>
-        <div class="line right"  :style="{top:elInfor.top+'px',height:elInfor.height+'px',left:elInfor.left+elInfor.width+'px'}">
+        <div class="line right"  :style="{top:'0px',height:elInfor.height+'px',left:elInfor.width+'px'}">
             <button class="btn" style="cursor:ew-resize"></button>
         </div>
     </div>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
 type ElInfor = {
+    el: HTMLElement|undefined;
     top: number;
     left: number;
     width: number;
@@ -26,19 +27,19 @@ type ElInfor = {
     rotate: number;
 }
 const elInfor=reactive<ElInfor>({
+    el: undefined,
     top:0,
     left:0,
     width:0,
     height:0,
     rotate:0
 })
-const { target } = defineProps<{ target: { el: HTMLElement|undefined } }>();
-watch(()=>target.el, () => {
-    if(!target.el)return ;
 
-    const rect = getComputedStyle(target.el);
-    elInfor.top = +target.el.style.top.replace('px', '');
-    elInfor.left = +target.el.style.left.replace('px', '');
+watch(()=>elInfor.el, () => {
+    if(!elInfor.el)return ;
+    const rect = getComputedStyle(elInfor.el);
+    elInfor.top = +elInfor.el.style.top.replace('px', '');
+    elInfor.left = +elInfor.el.style.left.replace('px', '');
     elInfor.width = +rect.width.replace('px', '');
     elInfor.height = +rect.height.replace('px', '');
 })

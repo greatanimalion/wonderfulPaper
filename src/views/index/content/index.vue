@@ -12,7 +12,7 @@
         <div v-else class="content" ref="content">
             <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"
                 ref="operateContent"></div>
-            <Operate :target="target" ref="operate"></Operate>
+            <Operate ref="operate"></Operate>
         </div>
     </div>
 </template>
@@ -26,19 +26,14 @@ import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { getFn } from '@/utils/busEventFns';
 import Operate from '@/components/Operate.vue';
-import { elementFromPoint } from '@/utils/elementFromPoint';
-import { htmlDrag } from '@/hooks/useDrag';
+import { init } from '@/hooks/useDrag';
 const content = ref<HTMLDivElement>()
 const operateContent = ref<HTMLDivElement>()
-    const operate = ref<InstanceType<typeof Operate>>();
+const operate = ref<InstanceType<typeof Operate>>();
 const vnodeStore = useVnodeStore();
 const layerImgStore = useLayerImgStore();
 const pageStore = usePageStore();
 
-//当前选择的元素
-let target = reactive<{ el: HTMLElement | undefined }>({
-    el: undefined
-});
 const page = reactive<{ width: string, height: string, create: boolean }>({
     width: '720',
     height: '1440',
@@ -57,30 +52,29 @@ function initPage() {
 function createPage() {
     let height = Number(page.height);
     let width = Number(page.width);
-    if (isNaN(height) || isNaN(width)) {return message.error('请输入正确的页面宽高');}
-    if (width < 300 || height < 300 || width > 100000 || height > 100000) {return message.error('页面宽高不能超过100000px或低于300px');}
+    if (isNaN(height) || isNaN(width)) { return message.error('请输入正确的页面宽高'); }
+    if (width < 300 || height < 300 || width > 100000 || height > 100000) { return message.error('页面宽高不能超过100000px或低于300px'); }
     page.create = true;
     pageStore.init(page.width, page.height)
     initPage();
     layerImgStore.setMaxLen(width > height ? "width" : "height")
     //初始化页面
     let pageState: Function;
-    let zoom = 1;
-    let zoomStep = 0.1;
     nextTick(() => {
         //取出页面切换函数
         pageState = getFn('openVnode');
-        operateContent.value!.addEventListener('click', function (e: any) {
-            let el = elementFromPoint(e);
-            if (!el?.id.startsWith('el')) return target.el = undefined;
-            target.el = el
-            htmlDrag(el, operateContent.value!, ({ left, top }: { left: number, top: number }) => {
+        //初始化鼠标拖拽
+        init(operateContent.value!,(t: HTMLElement)=>{
+            operate.value!.elInfor.el=t;
+        },({ left, top }: { left: number, top: number }) => {
                 operate.value!.elInfor.top = top;
                 operate.value!.elInfor.left = left;
             })
-        })
+
     })
     //监听鼠标放大缩小
+    let zoom = 1;
+    let zoomStep = 0.1;
     window.addEventListener('mousewheel', function (event: any) {
         if (pageState && pageState(true)) return
         if (!event.ctrlKey) return;
