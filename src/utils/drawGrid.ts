@@ -30,10 +30,10 @@ export function drawBezierCurveFromParent(target:Vnode,color:string= 'rgba(255,2
     target.lineToParent?.remove();
     // @ts-ignore
     let svg=document.querySelector('.svg') as SVGAElement;
-    let y1=target.parent.top+target.parent.height;
-    let x1=target.parent.left+target.parent.width/2;
-    let x2=target.left+target.width/2;
-    let y2=target.top;   
+    let y1=target.parent.vTop+target.parent.height;
+    let x1=target.parent.vLeft+target.parent.width/2;
+    let x2=target.vLeft+target.width/2;
+    let y2=target.vTop;   
     const path = document.createElementNS("http://www.w3.org/2000/svg",'path');
     path.setAttribute('stroke', 'white');
     path.setAttribute('stroke-width', '2');

@@ -34,11 +34,15 @@ class vnode {
     vHTML: HTMLElement | null;
     absoluteTop: number;
     absoluteLeft: number;
+    vTop: number;
+    vLeft: number;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
         elementStyleStore = useElementStyleStore()
         this.id = creatUUID();
         this.parent = parent
         this.children = []
+        this.vTop=options.vTop || 0
+        this.vLeft=options.vLeft || 0
         this.top = options.top || 0
         this.left = options.left || 0
         this.width = options.width || 0
@@ -79,7 +83,7 @@ class vnode {
             const div = document.createElement('div');
             div.setAttribute('id', target.id.toString());
             div.classList.add('vnode');
-            div.style.cssText = `top:${target.top}px;left:${target.left}px;`;
+            div.style.cssText = `top:${target.vTop}px;left:${target.vLeft}px;`;
             div.innerText = target.text || target.id.toString();
             container.appendChild(div);
             target.vHTML = div

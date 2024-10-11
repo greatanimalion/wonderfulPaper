@@ -3,13 +3,16 @@ import { ElementType } from "@/const/elementType";
 export type Vnode = {
     id: number;
     name?: string;
-
+    //dom的位置
     top: number;
     left: number;
     width: number;
     height: number;
     absoluteTop: number;
     absoluteLeft: number;
+    //节点的位置
+    vTop: number;
+    vLeft: number;
 
     type: ElementType;
     style: string;

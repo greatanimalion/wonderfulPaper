@@ -1,6 +1,7 @@
 import { Ref } from "vue";
 import useVnodeStroe from '@/store/useVnodeStore'
 import usePageStore from "@/store/usePageStore";
+import useLayerImgStore from "@/store/useLayerImgStore";
 import { elementFromPoint } from "@/utils/elementFromPoint";
 let offsetX: number, offsetY: number;
 let target: HTMLDivElement | null;
@@ -22,8 +23,8 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       preElement?.removeEventListener('mouseup', stopDrag);
       contain.value.removeEventListener('mousemove', elementDrag);
       if (!VnodeStore.curVnode) return;
-      VnodeStore.curVnode.top = +preElement!.style.top.replace('px', '')
-      VnodeStore.curVnode.left = +preElement!.style.left.replace('px', '')
+      VnodeStore.curVnode.vTop = +preElement!.style.top.replace('px', '')
+      VnodeStore.curVnode.vLeft = +preElement!.style.left.replace('px', '')
       VnodeStore.curVnode.renderVnodeToNode('drag')
       preElement = null;
    }
@@ -90,6 +91,7 @@ let dragState = {
 export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, callBack?: Function) {
    const PageStore = usePageStore();
    const VnodeStore = useVnodeStroe();
+   const layerImgStore = useLayerImgStore();
    let mouseDownELement: HTMLDivElement | null = null
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
@@ -101,6 +103,8 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
          if (target) target.style.cursor = "default";
          target = null;
          setTimeout(() => {VnodeStore.clearTarget()},0)
+         //更新缩略图
+         layerImgStore.setLayerImg()
       }
       callBack0 && callBack0(target)
    }
