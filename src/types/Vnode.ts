@@ -15,8 +15,9 @@ export type Vnode = {
     text: string | undefined;
     lineToParent?: any;
     HTML: HTMLElement | null;
-    createElement: () => void;
-    createHTML: () => void;
+    vHTML: HTMLElement | null;
+    renderVnodeToNode: Function;
+    createHTML: Function;
 }
 export type VnodeOptions = Partial<Vnode>;
 

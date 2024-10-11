@@ -10,8 +10,7 @@
             </div>
         </div>
         <div v-else class="content" ref="content">
-            <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"
-                ref="operateContent"></div>
+            <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"ref="operateContent"></div>
             <Operate ref="operate"></Operate>
         </div>
     </div>
@@ -26,7 +25,7 @@ import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { getFn } from '@/utils/busEventFns';
 import Operate from '@/components/Operate.vue';
-import { init } from '@/hooks/useDrag';
+import { initHTMLDrag } from '@/hooks/useDrag';
 const content = ref<HTMLDivElement>()
 const operateContent = ref<HTMLDivElement>()
 const operate = ref<InstanceType<typeof Operate>>();
@@ -64,7 +63,7 @@ function createPage() {
         //取出页面切换函数
         pageState = getFn('openVnode');
         //初始化鼠标拖拽
-        init(operateContent.value!,(t: HTMLElement)=>{
+        initHTMLDrag(operateContent.value!,(t: HTMLElement)=>{
             operate.value!.elInfor.el=t;
         },({ left, top }: { left: number, top: number }) => {
                 operate.value!.elInfor.top = top;
@@ -91,7 +90,8 @@ function createPage() {
         visualSpace.style.width = +page.width * zoom + 'px';
         let top = ((content.value!.parentElement?.clientHeight || 0) / 2 - (Number(+page.height * zoom) / 2)).toFixed(2);
         if (+top > 0) content.value!.style.top = `${top}px`;
-        else Pagecontent.style.top = '0';
+        else content.value!.style.top = '0';
+        pageStore.scale = zoom;
     }, { passive: false });
 }
 

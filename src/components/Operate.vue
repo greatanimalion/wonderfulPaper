@@ -1,23 +1,25 @@
 <template>
-    <div v-show="!!elInfor.el" class="el" :style="{top:elInfor.top+'px',left:elInfor.left+'px'}">
+    <div v-show="!!elInfor.el" class="el" :style="{top:elInforFinal.top,left:elInforFinal.left}">
         <div class="rotate"></div>
-        <div class="line top"    :style="{top:-3+'px',width:elInfor.width+'px',left:'0px'}">
+        <div class="line top"    :style="{top:-2+'px',width:elInforFinal.width,left:'0px'}">
             <button class="btn" style="cursor:ns-resize"></button>
         </div>
-        <div class="line buttom" :style="{top:elInfor.height+'px',width:elInfor.width+'px',left:'0px'}">
+        <div class="line buttom" :style="{top:elInforFinal.height,width:elInforFinal.width,left:'0px'}">
             <button class="btn" style="cursor:ns-resize"></button>
         </div>
-        <div class="line left"   :style="{top:'0px',height:elInfor.height+'px',left:-2+'px'}">
+        <div class="line left"   :style="{top:'0px',height:elInforFinal.height,left:-2+'px'}">
             <button class="btn" style="cursor:ew-resize"></button>
         </div>
-        <div class="line right"  :style="{top:'0px',height:elInfor.height+'px',left:elInfor.width+'px'}">
+        <div class="line right"  :style="{top:'0px',height:elInforFinal.height,left:elInforFinal.width}">
             <button class="btn" style="cursor:ew-resize"></button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
+import usePageStore from '@/store/usePageStore';
+const pageStore = usePageStore();
 type ElInfor = {
     el: HTMLElement|undefined;
     top: number;
@@ -35,6 +37,14 @@ const elInfor=reactive<ElInfor>({
     rotate:0
 })
 
+let elInforFinal=computed(()=>({
+    top: elInfor.top*pageStore.scale+'px',
+    left: elInfor.left*pageStore.scale+'px',
+    width: elInfor.width*pageStore.scale+'px',
+    height: elInfor.height*pageStore.scale+'px',
+    rotate: elInfor.rotate*pageStore.scale+'px'
+}))
+
 watch(()=>elInfor.el, () => {
     if(!elInfor.el)return ;
     const rect = getComputedStyle(elInfor.el);
@@ -43,10 +53,7 @@ watch(()=>elInfor.el, () => {
     elInfor.width = +rect.width.replace('px', '');
     elInfor.height = +rect.height.replace('px', '');
 })
-watch(()=>elInfor.height, () => {
-    console.log(elInfor);
-    
-})
+
 defineExpose({elInfor})
 </script>
 

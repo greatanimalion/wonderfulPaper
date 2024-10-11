@@ -1,5 +1,4 @@
 import { Vnode } from "@/types/Vnode";
-import { isRef } from "vue";
 import {Ref } from "vue";
 
 export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
@@ -27,7 +26,7 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
  * @param Canvas 容器
 */
 export function drawBezierCurveFromParent(target:Vnode,color:string= 'rgba(255,255,255, 0.7)') {
-    if(!target.parent)return 
+    if(!target||!target.parent)return 
     target.lineToParent?.remove();
     // @ts-ignore
     let svg=document.querySelector('.svg') as SVGAElement;

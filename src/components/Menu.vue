@@ -1,7 +1,7 @@
 <template>
     <ul id="menu-vnode">
         <li @click="addVnode"><div></div><div>创建子节点</div></li>
-        <li><div></div><div>删除节点</div></li>
+        <li @click="deleteVnode"><div></div><div>删除节点</div></li>
     </ul>
 </template>
 
@@ -13,6 +13,11 @@ function addVnode(e: MouseEvent){
     let parentVnode = VnodeStroe.curVnode;
     if(!parentVnode)return message.error('请选择父节点');
     if(parentVnode)VnodeStroe.createSubVnode(parentVnode,{top:e.clientY,left:e.clientX});
+}
+function deleteVnode(){
+    let curVnode = VnodeStroe.curVnode;
+    if(!curVnode)return message.error('请选择删除节点');
+    VnodeStroe.deleteVnode();
 }
 </script>
 
