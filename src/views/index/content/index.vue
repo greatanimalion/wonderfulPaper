@@ -69,7 +69,6 @@ function createPage() {
                 operate.value!.elInfor.top = top;
                 operate.value!.elInfor.left = left;
             })
-
     })
     //监听鼠标放大缩小
     let zoom = 1;

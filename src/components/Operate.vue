@@ -1,75 +1,80 @@
 <template>
-    <div v-show="!!elInfor.el" class="el" :style="{top:elInforFinal.top,left:elInforFinal.left}">
+    <div v-show="!!elInfor.el" class="el" :style="{ top: elInforFinal.top, left: elInforFinal.left }">
         <div class="rotate"></div>
-        <div class="line top"    :style="{top:-2+'px',width:elInforFinal.width,left:'0px'}">
+        <div class="line top" :style="{ top: -2 + 'px', width: elInforFinal.width, left: '0px' }">
             <button class="btn" style="cursor:ns-resize"></button>
         </div>
-        <div class="line buttom" :style="{top:elInforFinal.height,width:elInforFinal.width,left:'0px'}">
+        <div class="line buttom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
             <button class="btn" style="cursor:ns-resize"></button>
         </div>
-        <div class="line left"   :style="{top:'0px',height:elInforFinal.height,left:-2+'px'}">
+        <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left: -2 + 'px' }">
             <button class="btn" style="cursor:ew-resize"></button>
         </div>
-        <div class="line right"  :style="{top:'0px',height:elInforFinal.height,left:elInforFinal.width}">
+        <div class="line right" :style="{ top: '0px', height: elInforFinal.height, left: elInforFinal.width }">
             <button class="btn" style="cursor:ew-resize"></button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, watch, watchEffect } from 'vue';
 import usePageStore from '@/store/usePageStore';
+import useVnodeStore from '@/store/useVnodeStore';
+const vnodeStore = useVnodeStore();
 const pageStore = usePageStore();
 type ElInfor = {
-    el: HTMLElement|undefined;
+    el: HTMLElement | undefined;
     top: number;
     left: number;
     width: number;
     height: number;
     rotate: number;
 }
-const elInfor=reactive<ElInfor>({
+const elInfor = reactive<ElInfor>({
     el: undefined,
-    top:0,
-    left:0,
-    width:0,
-    height:0,
-    rotate:0
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    rotate: 0
 })
 
-let elInforFinal=computed(()=>({
-    top: elInfor.top*pageStore.scale+'px',
-    left: elInfor.left*pageStore.scale+'px',
-    width: elInfor.width*pageStore.scale+'px',
-    height: elInfor.height*pageStore.scale+'px',
-    rotate: elInfor.rotate*pageStore.scale+'px'
+let elInforFinal = computed(() => ({
+    top: elInfor.top * pageStore.scale + 'px',
+    left: elInfor.left * pageStore.scale + 'px',
+    width: elInfor.width * pageStore.scale + 'px',
+    height: elInfor.height * pageStore.scale + 'px',
+    rotate: elInfor.rotate * pageStore.scale + 'px'
 }))
 
-watch(()=>elInfor.el, () => {
-    if(!elInfor.el)return ;
-    const rect = getComputedStyle(elInfor.el);
-    elInfor.top = +elInfor.el.style.top.replace('px', '');
-    elInfor.left = +elInfor.el.style.left.replace('px', '');
-    elInfor.width = +rect.width.replace('px', '');
-    elInfor.height = +rect.height.replace('px', '');
+watchEffect(() => {
+    if (!elInfor.el) return;
+    let curVnode = vnodeStore.curVnode;
+    if (!curVnode) return
+    elInfor.top = curVnode.parent!.absoluteTop+curVnode.top;
+    elInfor.left = curVnode.parent!.absoluteLeft+curVnode.left;
+    elInfor.width = curVnode.width;
+    elInfor.height = curVnode.height;
 })
 
-defineExpose({elInfor})
+
+defineExpose({ elInfor })
 </script>
 
 <style scoped>
-
 button {
     padding: 0;
     min-width: 10px;
     min-height: 10px;
     border-radius: 2px;
-    background-color:var(--line-color);
+    background-color: var(--line-color);
 }
-.el{
+
+.el {
     position: absolute;
     top: 0;
 }
+
 .line {
     z-index: 1;
     padding: 0;
@@ -78,7 +83,8 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-   --line-width: 2px;
+    --line-width: 2px;
+
     &.top {
         border-top: 1px var(--line-color) dashed;
         width: 100%;

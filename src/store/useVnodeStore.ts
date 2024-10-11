@@ -12,8 +12,8 @@ let elementStyleStore
  * 先序遍历调用回调函数
 */
 function traverse<T extends { children: T[] }>(target:T ,callBack: Function) {
-    target.children.forEach((v) => {
-        callBack(v)
+    callBack(target)
+    target.children.forEach((v) => {      
         traverse(v,callBack)
     })
 }
@@ -32,6 +32,8 @@ class vnode {
     lineToParent: any;
     HTML: HTMLElement | null;
     vHTML: HTMLElement | null;
+    absoluteTop: number;
+    absoluteLeft: number;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
         elementStyleStore = useElementStyleStore()
         this.id = creatUUID();
@@ -46,6 +48,8 @@ class vnode {
         this.events = {}
         this.text = options.text
         this.vHTML = null
+        this.absoluteTop = this.parent?.absoluteTop || 0
+        this.absoluteLeft = this.parent?.absoluteLeft || 0
         if (this.id == 0) this.HTML = document.querySelector('.content')!.firstChild as HTMLDivElement
         else this.HTML = this.createHTML()
     }
@@ -94,7 +98,7 @@ class vnode {
 }
 
 let container: SVGSVGElement | null = null;
-const VnodeStore = defineStore("VnodeStore", {
+const VnodeStore = defineStore("useVnodeStore", {
     state: (): {
         plainVnode: plainVnode,
         VnodeTree: Vnode | null,
@@ -140,9 +144,11 @@ const VnodeStore = defineStore("VnodeStore", {
             this.plainVnode.splice(this.plainVnode.indexOf(vnode), 1)
             vnode.parent?.children.splice(vnode.parent.children.indexOf(vnode), 1)
             vnode.parent?.renderVnodeToNode('add', 'rgba(255, 0, 0, 0.5)')
-            vnode.HTML?.remove()
-            vnode.vHTML?.remove()
-            vnode.lineToParent?.remove()
+            traverse(vnode, (e: Vnode) => {
+                e.lineToParent?.remove()
+                e.HTML?.remove()
+                e.vHTML?.remove()
+            })
         }
     }
 })

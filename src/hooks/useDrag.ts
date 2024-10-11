@@ -89,21 +89,30 @@ let dragState = {
 */
 export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, callBack?: Function) {
    const PageStore = usePageStore();
+   const VnodeStore = useVnodeStroe();
    let mouseDownELement: HTMLDivElement | null = null
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
       if (curTarget?.id.startsWith('el')) {
          target = curTarget!//target 点击的元素
          target.style.cursor = "move";
+         VnodeStore.setTarget(VnodeStore.findVnode(+target.id.replace('el', '')))
       } else {
          if (target) target.style.cursor = "default";
          target = null;
+         setTimeout(() => {VnodeStore.clearTarget()},0)
       }
       callBack0 && callBack0(target)
    }
    contain.addEventListener("mousedown", startDragEvent);
    contain.addEventListener("mousemove", dragEvent);
    contain.addEventListener('mouseup', () => {
+      if(!target||!mouseDownELement)return 
+      let curVnode=VnodeStore.curVnode!
+      curVnode.top = +target!.style.top.replace('px', '')
+      curVnode.left = +target!.style.left.replace('px', '')
+      curVnode.absoluteTop= +curVnode.parent!.absoluteTop+curVnode!.top;
+      curVnode.absoluteLeft=+curVnode.parent!.absoluteLeft+curVnode!.left;
       mouseDownELement = null;
    });
    function dragEvent(e: MouseEvent) {
@@ -113,7 +122,7 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
       let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
       target!.style.left = `${left}px`;
       target!.style.top = `${top}px`;
-      callBack && callBack({ left, top })
+      callBack && callBack({ left: left+VnodeStore.curVnode!.parent!.absoluteLeft, top: top+VnodeStore.curVnode!.parent!.absoluteTop })
    }
    function startDragEvent(e: MouseEvent) {
       if (!target) return;
