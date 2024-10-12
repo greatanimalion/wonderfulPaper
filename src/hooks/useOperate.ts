@@ -1,6 +1,7 @@
 import {ElInfor,DirectionType} from "@/types/OperateBorderLine"
 import {Reactive } from "vue";
 import useVnodeStore from "@/store/useVnodeStore";
+import usePageStore from "@/store/usePageStore";
 import { Vnode } from "@/types/Vnode";
 type stateType = {
   startX: number,
@@ -25,8 +26,15 @@ const diffState: stateType = {
   elWidth: 0,
   elHeight: 0,
 }
-//初始元素单独属性，单独记录，避免重复创建销毁属性
+//初始元素单独属性，单独记录，避免重复创建销毁属性，造成不必要的性能浪费 ，同时避免密集计算的多余
 const elState={
+  top:0,
+  left:0,
+  width:0,
+  height:0,
+}
+//初始元素单独属性，单独记录，避免重复创建销毁属性，造成不必要的性能浪费 ，同时避免密集计算的多余
+const writeToStoreState={
   top:0,
   left:0,
   width:0,
@@ -37,9 +45,10 @@ let direction: DirectionType ="top"
 
 export default function useOperate(curState: Reactive<ElInfor>) {
   const vnodeStore = useVnodeStore();
-  let container = document.querySelector<HTMLDivElement>('.content')!;
+  const pageStore = usePageStore();
+  let container = document.querySelector<HTMLDivElement>('.show-content')!;
   container.onmousedown = (e: MouseEvent) => {
-    flage = true;
+    if(!vnodeStore.curVnode) return
     //记录鼠标按下时的位置
     diffState.startX = e.clientX;
     diffState.startY = e.clientY;
@@ -57,13 +66,14 @@ export default function useOperate(curState: Reactive<ElInfor>) {
     if (!flage) return
     diff.x = e.clientX - diffState.startX;
     diff.y = e.clientY - diffState.startY;
-    handleResize(curState,vnodeStore.curVnode!);
+    handleResize(curState,vnodeStore.curVnode!,pageStore.scale);    
   }
   container.onmouseup = () => {
     flage = false;
   }
   const setDirection=(type:DirectionType)=>{
     direction=type
+    flage = true;
   }
   return setDirection;
 }
@@ -71,32 +81,52 @@ export default function useOperate(curState: Reactive<ElInfor>) {
 /**
  * @param type 方向类型
 */
-function handleResize(curState:ElInfor,vnode:Vnode) {
+function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
   
-  //+1是小点哥高度原因
+  //+1是小点高度原因
   if (direction === 'top') {
-    curState.top = diffState.elTop + diff.y-1;
-    curState.height = diffState.elHeight - diff.y;
-    curState.el!.style.top = `${elState.top+diff.y}px`;
-    curState.el!.style.height = `${elState.height-diff.y}px`;
-    vnode.top = curState.top;
+
+    writeToStoreState.top = elState.top+diff.y/scale;
+    writeToStoreState.height = elState.height-diff.y/scale;
+
+    curState.top = writeToStoreState.top + diff.y-1;
+    curState.height = writeToStoreState.height - diff.y;
+    curState.el!.style.top = `${writeToStoreState.top}px`;
+    curState.el!.style.height = `${writeToStoreState.height}px`;
+
+    vnode.top = writeToStoreState.top;
+    vnode.height =  writeToStoreState.height;
     return 
   }
   if (direction === 'left') {
-    curState.left = diffState.elLeft + diff.x;
-    curState.width = diffState.elWidth - diff.x;
-    curState.el!.style.left = `${elState.left+diff.x}px`;
-    curState.el!.style.width = `${elState.width-diff.x}px`;
+    writeToStoreState.left = elState.left+diff.x/scale;
+    writeToStoreState.width = elState.width-diff.x/scale;
+
+    curState.left = writeToStoreState.left;
+    curState.width = writeToStoreState.width;
+    curState.el!.style.left = `${writeToStoreState.left}px`;
+    curState.el!.style.width = `${writeToStoreState.width}px`;
+
+    vnode.left = writeToStoreState.left;
+    vnode.width = writeToStoreState.width;
     return
   }
   if (direction === 'bottom') {
-    curState.height = diffState.elHeight + diff.y - 1;
-    curState.el!.style.height = `${elState.height+diff.y}px`;
+    writeToStoreState.height = elState.height+diff.y/scale;
+
+    curState.height = writeToStoreState.height - 1;
+    curState.el!.style.height = `${writeToStoreState.height}px`;
+
+    vnode.height = writeToStoreState.height;
     return
   }
   if (direction === 'right') {
-    curState.width = diffState.elWidth + diff.x;
-    curState.el!.style.width = `${elState.width+diff.x}px`;
+    writeToStoreState.width = elState.width+diff.x/scale;
+
+    curState.width = writeToStoreState.width;
+    curState.el!.style.width = `${writeToStoreState.width}px`;
+
+    vnode.width = writeToStoreState.width;
     return
   }
   if (direction === 'rotate') {
