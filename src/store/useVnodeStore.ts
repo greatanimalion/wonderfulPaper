@@ -21,11 +21,11 @@ class vnode {
     id: number;
     parent: Vnode | undefined;
     children: never[];
-    top: number;
-    left: number;
-    width: number;//与style的top和left一致，但出于性能考虑，单独设置
-    style: string;//与style的top和left一致，但出于性能考虑，单独设置
-    height: number;
+    top: number;//与style的top一致，但出于性能考虑，单独设置
+    left: number;//与style的left一致，但出于性能考虑，单独设置
+    width: number;//与style的width一致，但出于性能考虑，单独设置
+    height: number;//与style的height一致，但出于性能考虑，单独设置
+    style: string;
     type: ElementType;
     events: {};
     text: string | undefined;
@@ -134,6 +134,7 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 更新节点属性
          * @param target 目标节点
          * @param options 新属性
+         * @param diff 差异更新
          * 仅更新节点的位置，宽高，样式属性，不改变解节点的事件等，不涉及虚拟节点dom的改变
         */
         updataVnode(target: Vnode, options: Omit<VnodeOptions,'events'|'lineToParent'|'HTML'|'vHTML'|'vTop'|'vLeft'>) {

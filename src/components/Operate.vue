@@ -2,25 +2,25 @@
     <div v-show="!!elInfor.el" class="el" :style="{ top: elInforFinal.top, left: elInforFinal.left }">
         <div class="rotate"></div>
         <div class="line top" :style="{ top: -2 + 'px', width: elInforFinal.width, left: '0px' }">
-            <button @mousedown="updateDirection('top')" class="btn" style="cursor:ns-resize"></button>
+            <button @mousedown="updateDirection('top')"></button>
         </div>
         <div class="line bottom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
-            <button  @mousedown="updateDirection('bottom')"  class="btn" style="cursor:ns-resize"></button>
+            <button @mousedown="updateDirection('bottom')"></button>
         </div>
         <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left: -2 + 'px' }">
-            <button  @mousedown="updateDirection('left')" class="btn" style="cursor:ew-resize"></button>
+            <button @mousedown="updateDirection('left')"></button>
         </div>
         <div class="line right" :style="{ top: '0px', height: elInforFinal.height, left: elInforFinal.width }">
-            <button  @mousedown="updateDirection('right')" class="btn" style="cursor:ew-resize"></button>
+            <button @mousedown="updateDirection('right')"></button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watchEffect} from 'vue';
+import { computed, reactive, watchEffect } from 'vue';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
-import  { ElInfor, DirectionType} from "@/types/OperateBorderLine"
+import { ElInfor, DirectionType } from "@/types/OperateBorderLine"
 import useOperate from "@/hooks/useOperate"
 const vnodeStore = useVnodeStore();
 const pageStore = usePageStore();
@@ -52,14 +52,14 @@ watchEffect(() => {
     elInfor.width = curVnode.width;
     elInfor.height = curVnode.height;
 })
-const updateDirection = (direction:DirectionType ) => {
+const updateDirection = (direction: DirectionType) => {
     useOperate(elInfor)(direction)
 }
 
 defineExpose({ elInfor })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 button {
     padding: 0;
     min-width: 10px;
@@ -82,28 +82,45 @@ button {
     justify-content: center;
     align-items: center;
     --line-width: 2px;
+    --line-color: rgb(255, 85, 198);
+
     &.top {
         border-top: var(--line-color) var(--line-width) dashed;
         width: 100%;
         height: 0px;
+
+        button {
+            cursor: ns-resize;
+        }
     }
 
     &.bottom {
         border-bottom: var(--line-color) var(--line-width) dashed;
         width: 100%;
         height: 0px;
+
+        button {
+            cursor: ns-resize;
+        }
     }
 
     &.left {
         border-left: var(--line-color) var(--line-width) dashed;
         height: 100%;
         width: 0px;
+        button {
+            cursor: ew-resize;
+        }
+
     }
 
     &.right {
         border-right: var(--line-color) var(--line-width) dashed;
         height: 100%;
         width: 0px;
+        button {
+            cursor: ew-resize;
+        }
     }
 }
 </style>

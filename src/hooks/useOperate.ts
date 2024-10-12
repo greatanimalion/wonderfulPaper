@@ -1,6 +1,7 @@
 import {ElInfor,DirectionType} from "@/types/OperateBorderLine"
 import {Reactive } from "vue";
-
+import useVnodeStore from "@/store/useVnodeStore";
+import { Vnode } from "@/types/Vnode";
 type stateType = {
   startX: number,
   startY: number,
@@ -10,10 +11,12 @@ type stateType = {
   elHeight: number,
 }
 
+//记录鼠标摁下后鼠标移动的距离
 const diff={
   x:0,
   y:0,
 }
+//初始选着的元素的位置信息
 const diffState: stateType = {
   startX: 0,
   startY: 0,
@@ -22,6 +25,7 @@ const diffState: stateType = {
   elWidth: 0,
   elHeight: 0,
 }
+//初始元素单独属性，单独记录，避免重复创建销毁属性
 const elState={
   top:0,
   left:0,
@@ -32,6 +36,7 @@ let flage = false;
 let direction: DirectionType ="top"
 
 export default function useOperate(curState: Reactive<ElInfor>) {
+  const vnodeStore = useVnodeStore();
   let container = document.querySelector<HTMLDivElement>('.content')!;
   container.onmousedown = (e: MouseEvent) => {
     flage = true;
@@ -52,7 +57,7 @@ export default function useOperate(curState: Reactive<ElInfor>) {
     if (!flage) return
     diff.x = e.clientX - diffState.startX;
     diff.y = e.clientY - diffState.startY;
-    handleResize(curState);
+    handleResize(curState,vnodeStore.curVnode!);
   }
   container.onmouseup = () => {
     flage = false;
@@ -66,14 +71,15 @@ export default function useOperate(curState: Reactive<ElInfor>) {
 /**
  * @param type 方向类型
 */
-function handleResize(curState:ElInfor) {
+function handleResize(curState:ElInfor,vnode:Vnode) {
+  
   //+1是小点哥高度原因
   if (direction === 'top') {
     curState.top = diffState.elTop + diff.y-1;
     curState.height = diffState.elHeight - diff.y;
-
     curState.el!.style.top = `${elState.top+diff.y}px`;
     curState.el!.style.height = `${elState.height-diff.y}px`;
+    vnode.top = curState.top;
     return 
   }
   if (direction === 'left') {
