@@ -23,8 +23,8 @@ class vnode {
     children: never[];
     top: number;
     left: number;
-    width: number;
-    style: string;
+    width: number;//与style的top和left一致，但出于性能考虑，单独设置
+    style: string;//与style的top和left一致，但出于性能考虑，单独设置
     height: number;
     type: ElementType;
     events: {};
@@ -89,9 +89,6 @@ class vnode {
             target.vHTML = div
             return;
         }
-        // traverse<Vnode>(target.parent!, (e:Vnode) => {
-        //     if (e)drawBezierCurveFromParent(e, color)
-        // })
         else {
             drawBezierCurveFromParent(target);
             target.children.forEach((v) => {
@@ -132,6 +129,22 @@ const VnodeStore = defineStore("useVnodeStore", {
         },
         clearTarget() {
             this.curVnode = null
+        },
+        /**
+         * 更新节点属性
+         * @param target 目标节点
+         * @param options 新属性
+         * 仅更新节点的位置，宽高，样式属性，不改变解节点的事件等，不涉及虚拟节点dom的改变
+        */
+        updataVnode(target: Vnode, options: Omit<VnodeOptions,'events'|'lineToParent'|'HTML'|'vHTML'|'vTop'|'vLeft'>) {
+            target.top = options.top || target.top
+            target.left = options.left || target.left
+            target.width = options.width || target.width
+            target.height = options.height || target.height
+            target.style = options.style || target.style
+            target.type = options.type || target.type
+            target.text = options.text || target.text
+            
         },
         /**
          * 初始化，创建根节点，同时渲染成节点

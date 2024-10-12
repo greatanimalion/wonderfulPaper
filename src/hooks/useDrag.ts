@@ -103,8 +103,6 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
          if (target) target.style.cursor = "default";
          target = null;
          setTimeout(() => {VnodeStore.clearTarget()},0)
-         //更新缩略图
-         layerImgStore.setLayerImg()
       }
       callBack0 && callBack0(target)
    }
@@ -118,6 +116,8 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
       curVnode.absoluteTop= +curVnode.parent!.absoluteTop+curVnode!.top;
       curVnode.absoluteLeft=+curVnode.parent!.absoluteLeft+curVnode!.left;
       mouseDownELement = null;
+      //更新缩略图
+      layerImgStore.setLayerImg()
    });
    function dragEvent(e: MouseEvent) {
       if (!target && !mouseDownELement) return;

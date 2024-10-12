@@ -5,12 +5,13 @@ import Antd, { message } from 'ant-design-vue';
 import 'ant-design-vue/dist/reset.css';
 import router from '@/router/index'
 import { createPinia } from "pinia";
+import operate from '@/directive'
 import './utils/elementFromPoint'
 
 // import { notification } from 'ant-design-vue';
 const store = createPinia();
 // console.log(import.meta.env);
-createApp(App).use(Antd).use(router).use(store).mount('#app')
+createApp(App).use(Antd).use(router).use(store).use(operate).mount('#app')
 
 // setTimeout(()=>{
 //     notification.open({

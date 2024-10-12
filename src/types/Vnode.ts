@@ -1,6 +1,6 @@
 import { ElementType } from "@/const/elementType";
 
-export type Vnode = {
+export interface Vnode  {
     id: number;
     name?: string;
     //dom的位置
