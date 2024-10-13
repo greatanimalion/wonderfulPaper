@@ -1,24 +1,17 @@
 <template>
-    <a-layout style="height: 100%;">
-        <a-layout-sider style="background-color: var(--sideBGColor);" width="250px">
+    <div class="layout">
+        <div class="material">
             <div class="logo"><span ref="logo">wonderful</span>Paper</div>
-            <hr>
-            <a-menu style="background-color: var(--sideBGColor);" mode="inline">
-                <Material></Material>
-            </a-menu>
-        </a-layout-sider>
-        <a-layout>
-            <a-layout-header style="background: #fff; padding:0;">
-                <FunctionBar></FunctionBar>
-            </a-layout-header>
-            <a-layout-content :style="{ margin: '24px 16px', padding: '0px', background: '#fff', minHeight: '280px' }">
-                <Editor></Editor>
-            </a-layout-content>
-        </a-layout>
-        <a-layout-sider class="siderStyle" width="250px">
+            <Material></Material>
+        </div>
+        <div class="workspace">
+            <FunctionBar></FunctionBar>
+            <Editor></Editor>
+        </div>
+        <div class="config">
             <ElementConfig></ElementConfig>
-        </a-layout-sider>
-    </a-layout>
+        </div>
+    </div>
     <Vnode v-show="showVnode"></Vnode>
     <Menu></Menu>
 </template>
@@ -58,32 +51,38 @@ onMounted(() => {
 
 
 </script>
-<style scoped>
+<style scoped lang="scss">
+.layout {
+    height: 100%;
+    width: 100vw;
+    display: flex;
+
+    .workspace {
+        width:calc(100vw - 500px);
+        background-color: #ffffff;
+    }
+
+    .config {
+        min-width: 250px;
+        flex-basis: 0;
+    }
+
+    .material {
+        min-width: 250px;
+        flex-basis: 0;
+    }
+}
+
 .logo {
-    color: #a7a7a7;
+    color: var(--difine-font-color-light);
     text-align: center;
-    padding: 16px 0;
     font-size: 20px;
+    height: 55px;
+    line-height: 55px;
+    background: var(--bg-color);
 }
 
 hr {
     border: 0.5px solid #444444;
-}
-
-.siderStyle {
-    text-align: center;
-    color: #fff;
-    background-color: var(--sideBGColor);
-    width: 100px
-}
-
-#components-layout-demo-custom-trigger .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
-}
-
-.site-layout .site-layout-background {
-    background: #fff;
 }
 </style>

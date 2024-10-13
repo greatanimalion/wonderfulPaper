@@ -2,15 +2,18 @@
     <div class="show-content">
         <div class="add-page" v-if="!page.create">
             <div>
-                <h2><a-input placeholder="宽度(px)" v-model:value="page.width"></a-input></h2>
-                <h2><a-input placeholder="高度(px)" v-model:value="page.height"></a-input></h2>
-                <a-button type="primary" style="width: 184px;">
-                    <div @click="createPage">创建页面</div>
-                </a-button>
+                <v-sheet class="mx-auto" width="300">
+                    <v-form @submit.prevent>
+                        <v-text-field v-model="page.width" label="宽度"></v-text-field>
+                        <v-text-field v-model="page.height" label="高度"></v-text-field>
+                        <v-btn class="mt-2" @click="createPage" block>创建页面</v-btn>
+                    </v-form>
+                </v-sheet>
             </div>
         </div>
         <div v-else class="content" ref="content">
-            <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"ref="operateContent"></div>
+            <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"
+                ref="operateContent"></div>
             <Operate ref="operate"></Operate>
         </div>
     </div>
@@ -60,12 +63,12 @@ function createPage() {
         //取出页面切换函数
         pageState = getFn('openVnode');
         //初始化鼠标拖拽
-        initHTMLDrag(operateContent.value!,(t: HTMLElement)=>{
-            operate.value!.elInfor.el=t;
-        },({ left, top }: { left: number, top: number }) => {
-                operate.value!.elInfor.top = top;
-                operate.value!.elInfor.left = left;
-            })
+        initHTMLDrag(operateContent.value!, (t: HTMLElement) => {
+            operate.value!.elInfor.el = t;
+        }, ({ left, top }: { left: number, top: number }) => {
+            operate.value!.elInfor.top = top;
+            operate.value!.elInfor.left = left;
+        })
     })
     //监听鼠标放大缩小
     let zoom = 1;
@@ -95,11 +98,11 @@ function createPage() {
 <style scoped lang="scss">
 .show-content {
     padding: 10px;
-    width: 100%;
-    height: 100%;
     overflow: hidden;
     overflow-y: scroll;
     overflow-x: scroll;
+    width: 100%;
+    height: calc(100vh - 55px);
     &::-webkit-scrollbar {
         width: 4px;
         height: 4px;

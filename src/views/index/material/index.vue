@@ -1,15 +1,14 @@
 <template>
     <div class="MaterialSide">
-        <div style="padding: 5px 0;text-align: center;">
-            <!-- <div style="margin: 10px 3px 20px 3px;text-align: center;color: aliceblue;">缩略图</div> -->
+        <div style="padding:1px 0 5px 0;text-align: center;">
             <div class="layerBOX"><img src="" class="layerThumbnail"></div>
         </div>
         <div class="selectBox">
-            <a-radio-group v-model:value="active" size="large">
-                <a-radio-button value="BasicComponents" style="color: #a9a9a9;">基本组件</a-radio-button>
-                <a-radio-button value="AdvancedComponents" style="color: #a9a9a9;">封装组件</a-radio-button>
-                <a-radio-button value="PremiumContainers" style="color: #a9a9a9;">高级容器</a-radio-button>
-            </a-radio-group>
+            <v-tabs v-model="active" align-tabs="center" color="deep-red-accent-4" >
+                <v-tab style="width:33.3%;" value="BasicComponents">基本组件</v-tab>
+                <v-tab style="width:33.3%;" value="AdvancedComponents">封装组件</v-tab>
+                <v-tab style="width:33.3%;" value="PremiumContainers">高级容器</v-tab>
+            </v-tabs>
         </div>
         <div class="componentBox">
             <keep-alive>
@@ -37,50 +36,33 @@ const tabs = {
     margin-top: 10px;
     height: 100%;
     overflow: auto;
+
     &::-webkit-scrollbar {
         width: 4px;
         height: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
         background-color: #999;
         border-radius: 4px;
     }
 }
-.MaterialSide{
-    height:calc(100vh - 62px);
+
+.MaterialSide {
+    height: calc(100vh - 62px);
     display: flex;
     flex-direction: column;
-    gap:0px;
+    gap: 0px;
     overflow: auto;
 }
+
 .selectBox {
-    text-align: center;
     height: 40px;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-    color: #ffffff !important;
-}
-
-.ant-radio-group {
-    background-color: #605f5f;
-    width: 100%;
-
-    .ant-radio-button-wrapper {
-        background-color: #333333;
-        border-radius: 0;
-        width: 33.3%;
-        font-size: 12px;
-        // font-family: ;
-        color: var(--difine-font-color-light)!important;
+    .v-btn{
+        min-width: 0!important;
     }
 }
 
-.layerEditButton {
-    font-size: 20px;
-    cursor: pointer;
-    color: #fff;
-}
 
 .createLayer {
     position: absolute;
@@ -97,7 +79,7 @@ const tabs = {
     outline: #6b6b6b solid 1px;
     margin: auto;
     border-radius: 2px;
-    padding: 5px;
+    padding:0 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -107,7 +89,6 @@ const tabs = {
         max-height: 100%;
     }
 }
-
 li {
     color: wheat;
     margin: 5px 4px;

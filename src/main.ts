@@ -1,27 +1,21 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import Antd, { message } from 'ant-design-vue';
-import 'ant-design-vue/dist/reset.css';
 import router from '@/router/index'
 import { createPinia } from "pinia";
 import operate from '@/directive'
-import './utils/elementFromPoint'
 
-// import { notification } from 'ant-design-vue';
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+const vuetify = createVuetify({
+    components,
+    directives,
+  })
 const store = createPinia();
-// console.log(import.meta.env);
-createApp(App).use(Antd).use(router).use(store).use(operate).mount('#app')
-
-// setTimeout(()=>{
-//     notification.open({
-//         message: '网站正在建设中，请耐心等待！！！！！',
-//         description:
-//           '您可以看看基本功能，感谢您的支持',
-//       });
-// },1000)
-
-
+createApp(App).use(vuetify).use(router).use(store).use(operate).mount('#app')
 let muen:HTMLDivElement|null = null;
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();

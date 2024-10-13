@@ -9,7 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --sideBGColor:#333;
+  --bj-color:#242424;
   --difine-font-color-light:#c4c2c2;
 }
 *{
@@ -83,4 +83,7 @@ button {
   font-weight: inherit;
   font-family: inherit;
   background-color: inherit;
+}
+ul{
+  list-style: none;
 }

@@ -22,6 +22,9 @@ function deleteVnode(){
 </script>
 
 <style scoped lang="scss">
+#menu-vnode{
+    display: none;
+}
 ul{
     background: #fff;
     border: #e9edf2;

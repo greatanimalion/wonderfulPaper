@@ -1,20 +1,19 @@
 <template>
-    <a-tooltip placement="bottom">
-        <template #title>
-            <span> {{ title }}</span>
-        </template>
+    <div>
+        <v-tooltip activator="parent" location="bottom">{{ title }}</v-tooltip>
         <slot></slot>
-    </a-tooltip>
+    </div>
 </template>
 
 <script setup lang="ts">
+
+
 defineProps({
-    title:{
-        type:String,
+    title: {
+        type: String,
     }
 })
 
-// defineSlots()
 </script>
 
 <style scoped></style>

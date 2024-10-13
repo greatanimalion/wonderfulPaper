@@ -5,7 +5,8 @@
             <button @mousedown="updateDirection('top')"></button>
         </div>
         <div class="line bottom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
-            <button @mousedown="updateDirection('bottom')"></button>
+            <button @mousedown="updateDirection('bottom')"></button> 
+            <div>W:{{elInfor.width.toFixed(0)}}px,H:{{elInfor.height.toFixed(0)}}px</div>
         </div>
         <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left: -2 + 'px' }">
             <button @mousedown="updateDirection('left')"></button>
@@ -98,7 +99,16 @@ button {
         border-bottom: var(--line-color) var(--line-width) dashed;
         width: 100%;
         height: 0px;
-
+        position: relative;
+        div{
+            position: absolute;
+            top: 3px;
+            left: 1px;
+            font-size: 10px;
+            background-color: rgb(255 0 169);
+            border-radius: 3px;
+            padding: 0 3px;
+        }
         button {
             cursor: ns-resize;
         }

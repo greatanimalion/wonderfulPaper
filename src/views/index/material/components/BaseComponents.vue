@@ -14,14 +14,16 @@ import {BASE_ELEMENT} from '@/const/baseElement'
 ul{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 5px;
+    gap: 10px;
     padding: 0 5px;
+    margin-top: 5px;
 }
 li{
     line-height: 40px;
     text-align: center;
     color:var(--difine-font-color-light);
     cursor: pointer;
+    font-size: 14px;
     border-radius: 3px;
     border: 1px solid #605f5f;
     transition: all 0.3s;
