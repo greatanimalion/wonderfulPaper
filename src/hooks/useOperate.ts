@@ -89,8 +89,8 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
     writeToStoreState.top = elState.top+diff.y/scale;
     writeToStoreState.height = elState.height-diff.y/scale;
 
-    curState.top = writeToStoreState.top + diff.y-1;
-    curState.height = writeToStoreState.height - diff.y;
+    curState.top = writeToStoreState.top-1;
+    curState.height = writeToStoreState.height;
     curState.el!.style.top = `${writeToStoreState.top}px`;
     curState.el!.style.height = `${writeToStoreState.height}px`;
 
