@@ -5,7 +5,6 @@ let taraget: HTMLElement|undefined
 const useLayerImgStore = defineStore('layerImg', {
     state: () => ({
         layerImg: '',
-        WH: 'width',
     }),
     actions: {
         setLayerImg(t?: HTMLElement) {
@@ -16,17 +15,8 @@ const useLayerImgStore = defineStore('layerImg', {
                 innerThis.layerImg = dataURL;
                 img=img||document.querySelector<HTMLImageElement>('.layerThumbnail')
                 img!.src=dataURL;
-                if(innerThis.WH=='width'){
-                    img!.style.width='170px';
-                    img!.style.height='auto';
-                }else{
-                    img!.style.width='auto';
-                    img!.style.height='100px';
-                }
+               
             })
-        },
-        setMaxLen(WH: 'width'|'height') {
-            this.WH = WH;
         },
     }
 })

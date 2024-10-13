@@ -15,8 +15,6 @@
         </div>
     </div>
 </template>
-
-
 <script setup lang="ts">
 import { message } from 'ant-design-vue';
 import { nextTick, reactive, ref } from 'vue';
@@ -56,7 +54,6 @@ function createPage() {
     page.create = true;
     pageStore.init(page.width, page.height)
     initPage();
-    layerImgStore.setMaxLen(width > height ? "width" : "height")
     //初始化页面
     let pageState: Function;
     nextTick(() => {
@@ -95,7 +92,6 @@ function createPage() {
 }
 
 </script>
-
 <style scoped lang="scss">
 .show-content {
     padding: 10px;
@@ -104,7 +100,6 @@ function createPage() {
     overflow: hidden;
     overflow-y: scroll;
     overflow-x: scroll;
-
     &::-webkit-scrollbar {
         width: 4px;
         height: 4px;

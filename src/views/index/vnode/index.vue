@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { nextTick, onUnmounted, Ref, ref } from 'vue';
 import { VnodeDrag } from '@/hooks/useDrag';
-import drawGrid from '@/utils/drawGrid';
+import drawGrid from '@/hooks/useDraw';
 import { onMounted } from 'vue';
 import { CloseSquareOutlined } from '@ant-design/icons-vue'
 

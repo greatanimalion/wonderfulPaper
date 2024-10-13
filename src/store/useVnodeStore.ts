@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { Vnode, plainVnode, VnodeOptions } from "@/types/Vnode";
 import { VnodeInit } from "@/const/VnodeInit";
-import { drawBezierCurveFromParent } from '@/utils/drawGrid';
+import { drawBezierCurveFromParent } from '@/hooks/useDraw';
 import { creatUUID } from '@/utils/creatUUID';
 import useElementStyleStore from "./useElementStyleStore";
 import { ElementType } from "@/const/elementType";
@@ -36,6 +36,8 @@ class vnode {
     absoluteLeft: number;
     vTop: number;
     vLeft: number;
+    vWidth: number;
+    vHeight: number;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
         elementStyleStore = useElementStyleStore()
         this.id = creatUUID();
@@ -43,6 +45,8 @@ class vnode {
         this.children = []
         this.vTop=options.vTop || 0
         this.vLeft=options.vLeft || 0
+        this.vWidth=options.vWidth || 0
+        this.vHeight=options.vHeight || 0
         this.top = options.top || 0
         this.left = options.left || 0
         this.width = options.width || 0

@@ -10,6 +10,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --sideBGColor:#333;
+  --difine-font-color-light:#c4c2c2;
 }
 *{
   margin: 0;
