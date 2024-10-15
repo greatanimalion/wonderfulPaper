@@ -103,15 +103,6 @@ function createPage() {
     overflow-x: scroll;
     width: 100%;
     height: calc(100vh - 55px);
-    &::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: #999;
-        border-radius: 4px;
-    }
 }
 
 .add-page {

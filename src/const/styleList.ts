@@ -1,209 +1,176 @@
-export const divStyle = {
-    color:{
-        primary: '#333',
-        descriptions:'字体颜色'
+export default {
+    top: {
+        descriptions: '相对顶部',
+        value: ["auto", "10px", "20px", "30px", "40px", "50px", "..."]
     },
-    size:{
-        primary: '16px',
-        descriptions:'字体大小'
+    left: {
+        descriptions: '相对左侧',
+        value: ["auto", "10px", "20px", "30px", "40px", "50px", "..."]
     },
-    weight:{
-        primary: '400',
-        descriptions:'字体粗细'
+    width: {
+        descriptions: '宽度',
+        value: ["auto", "100%", "200px", "300px", "400px", "500px", "..."]
     },
-    lineHeight:{
-        primary: '1.5',
-        descriptions:'行高'
+    height: {
+        descriptions: '高度',
+        value: ["auto", "100%", "200px", "300px", "400px", "500px", "..."]
     },
-    letterSpacing:{
-        primary: '0',
-        descriptions:'字间距'
+    color: {
+        descriptions: '颜色',
+        value: ["red", "blue", "green", "yellow", "black", "white", "..."]
     },
-    fontFamily:{
-        primary: 'Arial, sans-serif',
-        descriptions:'字体'
+    size: {
+        descriptions: '字体大小',
+        value: ["12px", "14px", "16px", "18px", "20px", "22px", "..."]
     },
-    textDecoration:{
-        primary: 'none',
-        descriptions:'文本装饰'
+    weight: {
+        descriptions: '字体粗细',
+        value: ["100", "200", "300", "400", "500", "600", "700", "800", "900", "..."]
     },
-    textShadow:{
-        primary: 'none',
-        descriptions:'文本阴影'
+    lineHeight: {
+        descriptions: '行高',
+        value: ["1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "..."]
     },
-    textOverflow:{
-        primary: 'ellipsis',
-        descriptions:'文本溢出'
+    letterSpacing: {
+        descriptions: '字距',
+        value: ["0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "..."]
     },
-    whiteSpace:{
-        primary: 'normal',
-        descriptions:'空白处理'
+    fontFamily: {
+        descriptions: '字体',
+        value: ["Arial", "Helvetica", "Tahoma", "Verdana", "Georgia", "Times New Roman", "Courier New", "Lucida Console", "..."]
     },
-    wordBreak:{
-        primary: 'normal',
-        descriptions:'单词换行'
+    fontSize: {
+        descriptions: '字体大小',
+        value: ["12px", "14px", "16px", "18px", "20px", "22px", "..."]
     },
-    wordWrap:{
-        primary: 'normal',
-        descriptions:'单词包裹'
+    textDecoration: {
+        descriptions: '文本装饰',
+        value: ["none", "underline", "overline", "line-through", "blink"]
     },
-    textAlign:{
-        primary: 'left',
-        descriptions:'文本对齐'
+    textShadow: {
+        descriptions: '文本阴影',
+        value: ["none", "x位移 y位移 blur 颜色", "1px 1px 1px #000", "2px 2px 2px #000", "3px 3px 3px #000", "..."]
     },
-    verticalAlign:{
-        primary: 'top',
-        descriptions:'垂直对齐'
+    textOverflow: {
+        descriptions: '文本溢出',
+        value: ["clip", "ellipsis"]
     },
-    background:{
-        primary: 'none',
-        descriptions:'背景',
-        subMenuProps:{
-            backgroundColor:{
-                primary: 'none',
-                descriptions:'背景颜色'
-            },
-            backgroundImage:{
-                primary: 'none',
-                descriptions:'背景图片'
-            },
-            backgroundPosition:{
-                primary: '0% 0%',
-                descriptions:'背景位置'
-            },
-            backgroundSize:{
-                primary: 'auto',
-                descriptions:'背景尺寸'
-            },
-            backgroundRepeat:{
-                primary: 'no-repeat',
-                descriptions:'背景重复'
-            }
-        }
+    whiteSpace: {
+        descriptions: '空白处理',
+        value: ["normal", "nowrap", "pre", "pre-wrap", "pre-line"]
     },
-    border:{
-        primary: 'none',
-        descriptions:'边框',
-        subMenuProps:{
-            leftBorder:{
-                primary: 'none',
-                descriptions:'左边框'
-            },
-            rightBorder:{
-                primary: 'none',
-                descriptions:'右边框'
-            },
-            bottomBorder:{
-                primary: 'none',
-                descriptions:'下边框'
-            },
-            topBorder:{
-                primary: 'none',
-                descriptions:'上边框'
-            }
-        }
+    wordBreak: {
+        descriptions: '单词换行',
+        value: ["normal", "break-all", "keep-all"]
     },
-    borderRadius:{
-        primary: '0',
-        descriptions:'边框圆角',
-        subMenuProps:{
-            leftBorderRadius:{
-                primary: '0',
-                descriptions:'左上角圆角'
-            },
-            rightBorderRadius:{
-                primary: '0',
-                descriptions:'右上角圆角'
-            },
-            bottomBorderRadius:{
-                primary: '0',
-                descriptions:'下上角圆角'
-            },
-            topBorderRadius:{
-                primary: '0',
-                descriptions:'左下角圆角'
-            }
-        }
+    wordWrap: {
+        descriptions: '单词包裹',
+        value: ["normal", "break-word"]
     },
-    borderWidth:{
-        primary: '0',
-        descriptions:'边框宽度',
-        subMenuProps:{
-            leftBorderWidth:{
-                primary: '0',
-                descriptions:'左边框宽度'
-            },
-            rightBorderWidth:{
-                primary: '0',
-                descriptions:'右边框宽度'
-            },
-            bottomBorderWidth:{
-                primary: '0',
-                descriptions:'下边框宽度'
-            },
-            topBorderWidth:{
-                primary: '0',
-                descriptions:'上边框宽度'
-            }
-        }
+    textAlign: {
+        descriptions: '文本对齐',
+        value: ["left", "center", "right", "justify"]
     },
-    borderColor:{
-        primary: 'none',
-        descriptions:'边框颜色'
+    verticalAlign: {
+        descriptions: '垂直对齐',
+        value: ["top", "middle", "bottom", "baseline"]
     },
-    boxShadow:{
-        primary: 'none',
-        descriptions:'盒子阴影'
+    backgroundColor: {
+        descriptions: '背景颜色',
+        value: ["none", "red", "#fffff", "green", "rgb(255,255,255)", "black", "rgba(255,255,255,0.5)", "..."]
     },
-    opacity:{
-        primary: '1',
-        descriptions:'透明度'
+    backgroundImage: {
+        descriptions: '背景图片',
+        value: ['http://www.example.com/image.jpg.....']
     },
-    cursor:{
-        primary: 'auto',
-        descriptions:'光标'
+    backgroundPosition: {
+        descriptions: '背景位置',
+        value: ["x位移 y位移", "0% 0%", "50% 50%", "100% 100%"]
     },
-    userSelect:{
-        primary: 'auto',
-        descriptions:'用户选择'
+    backgroundSize: {
+        descriptions: '背景尺寸',
+        value: ["auto", "cover", "contain"]
     },
-    pointerEvents:{
-        primary: 'auto',
-        descriptions:'指针事件'
+    backgroundRepeat: {
+        descriptions: '背景重复',
+        value: ["no-repeat", "repeat-x", "repeat-y"]
     },
-    content:{
-        primary: 'none',
-        descriptions:'内容'
+    border: {
+        descriptions: '边框',
+        value: ["none", "边框厚度 边框样式 边框颜色", "1px solid #000", "2px dashed #000", "..."]
     },
-    borderSpacing:{
-        primary: '0',
-        descriptions:'边框间距'
+    leftBorder: {
+        descriptions: '左边框',
+        value: ["none", "边框厚度 边框样式 边框颜色", "1px solid #000", "2px dashed #000", "..."]
     },
-    direction:{
-        primary: 'ltr',
-        descriptions:'文本方向'
+    rightBorder: {
+        descriptions: '右边框',
+        value: ["none", "边框厚度 边框样式 边框颜色", "1px solid #000", "2px dashed #000", "..."]
+    },
+    bottomBorder: {
+        descriptions: '下边框',
+        value: ["none", "边框厚度 边框样式 边框颜色", "1px solid #000", "2px dashed #000", "..."]
+    },
+    topBorder: {
+        descriptions: '上边框',
+        value: ["none", "边框厚度 边框样式 边框颜色", "1px solid #000", "2px dashed #000", "..."]
+    },
+    borderRadius: {
+        descriptions: '圆角',
+        value: ["0 0 0 0", "左上 右上 左下 右下", "1px 1px 1px 1px", "2px 2px 2px 2px", "3px 3px 3px 3px", "..."]
+    },
+    boxShadow: {
+        descriptions: '盒子阴影',
+        value: ["none", "x位移 y位移 blur 范围 颜色", "1px 2px 1px 10px #000", "2px 2px 2px 1px red", "..."]
+    },
+    padding: {
+        descriptions: '内边距',
+        value: ["0", "10px", "20px", "30px", "40px", "50px", "..."]
+    },
+    margin: {
+        descriptions: '外边距',
+        value: ["0", "10px", "20px", "30px", "40px", "50px", "..."]
+    },
+    opacity: {
+        descriptions: '透明度',
+        value: ["0", "0.5", "1", "..."]
+    },
+    cursor: {
+        descriptions: '光标',
+        value: ["auto", "default", "pointer", "move", "not-allowed", "crosshair", "text", "wait", "help", "progress"]
+    },
+    blur: {
+        descriptions: '模糊',
+        value: ["0", "1px", "2px", "3px", "4px", "5px", "..."]
+    },
+    filter: {
+        descriptions: '滤镜',
+        value: ["none", "blur(5px)", "brightness(0.5)", "contrast(2)", "drop-shadow(16px 16px 20px blue)", "grayscale(1)", "hue-rotate(180deg)", "invert(1)", "opacity(0.5)", "saturate(2)", "sepia(1)"]
     }
-}
+} as Record<string,{descriptions:string,value:string[]}>
 
-export const imgStyle={
-    width:{
-        primary: '100%',
-        descriptions:'宽度'
-    },
-    height:{
-        primary: 'auto',
-        descriptions:'高度'
-    },
-    objectFit:{
-        primary: 'cover',
-        descriptions:'图片缩放'
-    },
-    opacity:{
-        primary: '1',
-        descriptions:'透明度'
-    },
-    filter:{
-        primary: 'none',
-        descriptions:'滤镜'
-    }
+export const emputyProps = {
+    top:'',
+    left:'',
+    width: "",
+    height: "",
+    color: "",
+    size: "",
+    weight: "",
+    lineHeight: "",
+    letterSpacing: "",
+    fontFamily: "",
+    fontSize: "",
+    textDecoration: "",
+    textShadow: "",
+    textOverflow: "",
+    whiteSpace: "",
+    wordBreak: "",
+    wordWrap: "",
+    textAlign: "",
+    verticalAlign: "",
+    backgroundColor: "",
+    backgroundImage: "",
+    backgroundPosition: "",
+    backgroundSize: "",
 }

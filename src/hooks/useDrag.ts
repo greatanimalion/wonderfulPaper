@@ -83,8 +83,8 @@ let dragState = {
 }
 /**
  * @param element 容器元素
- * @param callBack0 回调函数，传入一个选择元素
- * @param callBack 回调函数，传入一个对象，包含left和top属性
+ * @param callBack0 回调函数，传入一个选择的元素
+ * @param callBack 回调函数，传入一个对象，包含实时left和top属性
  * @returns 返回一个函数，销毁监听：
  * html元素拖拽行为
 */

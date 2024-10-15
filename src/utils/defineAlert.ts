@@ -15,14 +15,13 @@ export interface AlertInfo {
     title: ''
   })
   
-  export const alert = (type:messageType,title: string, message: string) => {
+  export const alert = (type:messageType,message: string) => {
     newAlert.value.id = Math.random().toString()
     newAlert.value.type = type
     newAlert.value.message = message
-    newAlert.value.title = title
   }
   
-  export default function(type:messageType,title: string, message: string){
-    return alert(type, title,message)
+  export default function(type:messageType,title: string){
+    return alert(type, title)
   }
   

@@ -3,7 +3,6 @@
             <Tooltip title="更多">
                 <UnorderedListOutlined style="font-size: 25px;" />
             </Tooltip>
-
             <Tooltip title="撤销">
                 <RollbackOutlined style="font-size: 25px;"/>
             </Tooltip>
@@ -14,9 +13,7 @@
 
             <Tooltip title="拖拽">
                 <DragOutlined style="font-size: 25px;" />
-            </Tooltip>
-
-       
+            </Tooltip>       
             <Tooltip title="添加节点" @click.native="handleClick('addNode')" >
                 <PlusSquareOutlined style="font-size: 25px;"  />
             </Tooltip>
@@ -31,11 +28,9 @@ import usePageStore from '@/store/usePageStore';
 import Alert from '@/utils/defineAlert'
 const pageStore = usePageStore();
 
-const handleClick = (type: string) => { console.log(121);
+const handleClick = (type: string) => {
     if (type === 'addNode') {
-       
-        
-          if(!pageStore.created)return Alert('error','警告','请先创建页面！')
+        if(!pageStore.created)return Alert('error','请先创建页面！')
         getFn('openVnode')?.()
     }
 }

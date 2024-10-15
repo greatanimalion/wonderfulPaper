@@ -87,3 +87,15 @@ button {
 ul{
   list-style: none;
 }
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 4px;
+}
+:root::-webkit-scrollbar{
+  width: 0px;
+}

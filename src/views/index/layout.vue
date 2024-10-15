@@ -53,10 +53,9 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 .layout {
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     display: flex;
-
     .workspace {
         width:calc(100vw - 500px);
         background-color: #ffffff;
