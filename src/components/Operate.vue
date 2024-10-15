@@ -48,10 +48,10 @@ watch(()=>elInfor.el,() => {
     if (!elInfor.el&&!vnodeStore.curVnode) return;
     let curVnode = vnodeStore.curVnode;
     if (!curVnode) return
-    elInfor.top = curVnode.parent!.absoluteTop + curVnode.top;
-    elInfor.left = curVnode.parent!.absoluteLeft + curVnode.left;
-    elInfor.width = curVnode.width;
-    elInfor.height = curVnode.height;
+    elInfor.top = curVnode.parent?.absoluteTop||0 + curVnode.top-1;
+    elInfor.left = curVnode.parent?.absoluteLeft||0 + curVnode.left-1;
+    elInfor.width = curVnode.width+2;
+    elInfor.height = curVnode.height+2;
 })
 const updateDirection = (direction: DirectionType) => {
     useOperate(elInfor)(direction)

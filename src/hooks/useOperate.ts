@@ -88,13 +88,12 @@ export default function useOperate(curState: Reactive<ElInfor>) {
 */
 function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
   
-  //+1是小点高度原因
   if (direction === 'top') {
     writeToStoreState.top = elState.top+diff.y/scale;
     writeToStoreState.height = elState.height-diff.y/scale;
 
-    curState.top = elState.CTop+diff.y/scale-1;
-    curState.height = writeToStoreState.height;
+    curState.top = elState.CTop+diff.y/scale;
+    curState.height = writeToStoreState.height+2;
     curState.el!.style.top = `${writeToStoreState.top}px`;
     curState.el!.style.height = `${writeToStoreState.height}px`;
 
@@ -107,7 +106,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
     writeToStoreState.width = elState.width-diff.x/scale;
 
     curState.left = elState.CLeft+diff.x/scale;
-    curState.width = writeToStoreState.width;
+    curState.width = writeToStoreState.width+2;
     curState.el!.style.left = `${writeToStoreState.left}px`;
     curState.el!.style.width = `${writeToStoreState.width}px`;
 
@@ -118,7 +117,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
   if (direction === 'bottom') {
     writeToStoreState.height = elState.height+diff.y/scale;
 
-    curState.height = writeToStoreState.height - 1;
+    curState.height = writeToStoreState.height+2;
     curState.el!.style.height = `${writeToStoreState.height}px`;
 
     vnode.height = writeToStoreState.height;
@@ -127,7 +126,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
   if (direction === 'right') {
     writeToStoreState.width = elState.width+diff.x/scale;
 
-    curState.width = writeToStoreState.width;
+    curState.width = writeToStoreState.width+2;
     curState.el!.style.width = `${writeToStoreState.width}px`;
 
     vnode.width = writeToStoreState.width;

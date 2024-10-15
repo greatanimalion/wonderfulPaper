@@ -15,7 +15,7 @@
         
         <div class="modify-style-content">
             <div class="item" v-for="item, index in propsItem" :key="index">
-                <v-combobox  style="height: 55px;" :label="item.title" v-model="finalStyle[item.origin]" :items="item.valueItems"></v-combobox>
+                <v-combobox  style="height: 55px;" :label="item.title"  v-model="finalStyle[item.origin]" :items="item.valueItems"></v-combobox>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { FormOutlined, BgColorsOutlined, DeploymentUnitOutlined } from '@ant-design/icons-vue';
-import { isRef, shallowReactive, shallowRef, watch, watchEffect } from 'vue';
+import { shallowReactive, shallowRef, watch, watchEffect } from 'vue';
 import useVnodeStore from '@/store/useVnodeStore';
 import parseCssToObject,{parseObjectToCssText} from '@/utils/parseCssToObject';
 import styleSheet,{emputyProps} from '@/const/styleList';
@@ -56,7 +56,7 @@ watchEffect(() => {
 })
 
 watch(()=>vnodeStore.curVnode, () => {  
-    if (!!vnodeStore.curVnode&&vnodeStore.curVnode.parent) {
+    if (!!vnodeStore.curVnode&&!!vnodeStore.curVnode.parent) {
         preVndoe = vnodeStore.curVnode;
         let cssObject = parseCssToObject(vnodeStore.curVnode!.style);
             console.log(12121);
@@ -67,15 +67,15 @@ watch(()=>vnodeStore.curVnode, () => {
             top:vnodeStore.curVnode!.top+'px',
             left:vnodeStore.curVnode!.left.toFixed(1)+'px'
         }
-        // setTimeout(() => {
-        //     propsItem.value = Object.keys(cssObject).map((e) =>{
-        //     finalStyle[e]=cssObject[e]; 
-        //     return {
-        //         origin:e,title:styleSheet[e].descriptions||'未定义',
-        //         value:cssObject[e]||'', valueItems: styleSheet[e].value||['未定义']
-        //     }
-        // }) 
-        // },4)
+        setTimeout(() => {
+            propsItem.value = Object.keys(cssObject).map((e) =>{
+            finalStyle[e]=cssObject[e]; 
+            return {
+                origin:e,title:styleSheet[e].descriptions||'未定义',
+                value:cssObject[e]||'', valueItems: styleSheet[e].value||['未定义']
+            }
+        }) 
+        },4)
     }
 })
 
