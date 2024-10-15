@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch, watchEffect } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { ElInfor, DirectionType } from "@/types/OperateBorderLine"
