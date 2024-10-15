@@ -28,6 +28,8 @@ const diffState: stateType = {
 }
 //初始元素单独属性，单独记录，避免重复创建销毁属性，造成不必要的性能浪费 ，同时避免密集计算的多余
 const elState={
+  CTop:0,
+  CLeft:0,
   top:0,
   left:0,
   width:0,
@@ -61,6 +63,9 @@ export default function useOperate(curState: Reactive<ElInfor>) {
     elState.left=+curState.el!.style.left.replace('px','')
     elState.width=+curState.el!.style.width.replace('px','')
     elState.height=+curState.el!.style.height.replace('px','')
+    //获取组件的位置信息
+    elState.CTop=curState.top
+    elState.CLeft=curState.left
   }
   container.onmousemove = (e: MouseEvent) => {
     if (!flage) return
@@ -85,11 +90,10 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
   
   //+1是小点高度原因
   if (direction === 'top') {
-
     writeToStoreState.top = elState.top+diff.y/scale;
     writeToStoreState.height = elState.height-diff.y/scale;
 
-    curState.top = writeToStoreState.top-1;
+    curState.top = elState.CTop+diff.y/scale-1;
     curState.height = writeToStoreState.height;
     curState.el!.style.top = `${writeToStoreState.top}px`;
     curState.el!.style.height = `${writeToStoreState.height}px`;
@@ -102,7 +106,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
     writeToStoreState.left = elState.left+diff.x/scale;
     writeToStoreState.width = elState.width-diff.x/scale;
 
-    curState.left = writeToStoreState.left;
+    curState.left = elState.CLeft+diff.x/scale;
     curState.width = writeToStoreState.width;
     curState.el!.style.left = `${writeToStoreState.left}px`;
     curState.el!.style.width = `${writeToStoreState.width}px`;

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watchEffect } from 'vue';
+import { computed, reactive, watch, watchEffect } from 'vue';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { ElInfor, DirectionType } from "@/types/OperateBorderLine"
@@ -27,9 +27,9 @@ const vnodeStore = useVnodeStore();
 const pageStore = usePageStore();
 
 const elInfor = reactive<ElInfor>({
-    el: undefined,
-    top: 0,
-    left: 0,
+    el: undefined,//被拖动的元素
+    top: 0,//本组件的高
+    left: 0,//本组件的宽
     width: 0,
     height: 0,
     rotate: 0
@@ -44,8 +44,8 @@ let elInforFinal = computed(() => ({
     rotate: elInfor.rotate * pageStore.scale + 'px'
 }))
 
-watchEffect(() => {
-    if (!elInfor.el) return;
+watch(()=>elInfor.el,() => {
+    if (!elInfor.el&&!vnodeStore.curVnode) return;
     let curVnode = vnodeStore.curVnode;
     if (!curVnode) return
     elInfor.top = curVnode.parent!.absoluteTop + curVnode.top;

@@ -14,9 +14,13 @@ export default function parseCssToObject(css: string):Record<string,string> {
     return res;
 }
 
+/**
+ * 解析对象，返回css样式字符串,并丢弃top、left、heigth、width属性
+ * @param css 样式对象
+*/
 export function parseObjectToCssText(css:Record<string,string>):string {
     let res:string=''
-    Object.entries(css).map(([key,value])=>{if(value=='')return ;else res+=`${key}:${value};`})
+    Object.entries(css).map(([key,value])=>{if(value==''||key=='top'||key=='left'||key=='heigth'||key=='width')return ;else res+=`${key}:${value};`})
     return res
 }
 
