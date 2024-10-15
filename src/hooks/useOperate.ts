@@ -106,7 +106,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
     writeToStoreState.width = elState.width-diff.x/scale;
 
     curState.left = elState.CLeft+diff.x/scale;
-    curState.width = writeToStoreState.width+2;
+    curState.width = writeToStoreState.width;
     curState.el!.style.left = `${writeToStoreState.left}px`;
     curState.el!.style.width = `${writeToStoreState.width}px`;
 
@@ -126,7 +126,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
   if (direction === 'right') {
     writeToStoreState.width = elState.width+diff.x/scale;
 
-    curState.width = writeToStoreState.width+2;
+    curState.width = writeToStoreState.width;
     curState.el!.style.width = `${writeToStoreState.width}px`;
 
     vnode.width = writeToStoreState.width;

@@ -45,7 +45,7 @@ let preVndoe:Vnode|null = null;
 const debouncedUpdateStyle = debounce(() => {
     preVndoe!.style = parseObjectToCssText(finalStyle);
     preVndoe!.HTML!.style.cssText+= preVndoe!.style;
-},300)
+},200)
 watchEffect(() => {
     for(let _key in finalStyle){
          //收集依赖

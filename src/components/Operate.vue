@@ -1,6 +1,8 @@
 <template>
     <div v-show="!!elInfor.el" class="el" :style="{ top: elInforFinal.top, left: elInforFinal.left }">
-        <div class="rotate"></div>
+        <!-- <div class="line rotate" :style="{ top: -30 + 'px', width: elInforFinal.width, height:0, left: '0px' }">
+            <button @mousedown="updateDirection('rotate')"></button>
+        </div> -->
         <div class="line top" :style="{ top: -2 + 'px', width: elInforFinal.width, left: '0px' }">
             <button @mousedown="updateDirection('top')"></button>
         </div>
@@ -37,10 +39,10 @@ const elInfor = reactive<ElInfor>({
 
 
 let elInforFinal = computed(() => ({
-    top: elInfor.top * pageStore.scale + 'px',
-    left: elInfor.left * pageStore.scale + 'px',
-    width: elInfor.width * pageStore.scale + 'px',
-    height: elInfor.height * pageStore.scale + 'px',
+    top: (elInfor.top -1)* pageStore.scale + 'px',
+    left: (elInfor.left-1) * pageStore.scale + 'px',
+    width: (elInfor.width+2) * pageStore.scale + 'px',
+    height: (elInfor.height) * pageStore.scale + 'px',
     rotate: elInfor.rotate * pageStore.scale + 'px'
 }))
 
@@ -48,9 +50,9 @@ watch(()=>elInfor.el,() => {
     if (!elInfor.el&&!vnodeStore.curVnode) return;
     let curVnode = vnodeStore.curVnode;
     if (!curVnode) return
-    elInfor.top = curVnode.parent?.absoluteTop||0 + curVnode.top-1;
-    elInfor.left = curVnode.parent?.absoluteLeft||0 + curVnode.left-1;
-    elInfor.width = curVnode.width+2;
+    elInfor.top = curVnode.parent?.absoluteTop||0 + curVnode.top;
+    elInfor.left = curVnode.parent?.absoluteLeft||0 + curVnode.left;
+    elInfor.width = curVnode.width;
     elInfor.height = curVnode.height+2;
 })
 const updateDirection = (direction: DirectionType) => {

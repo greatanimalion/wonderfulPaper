@@ -96,6 +96,7 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
       if (curTarget?.id.startsWith('el')) {
+         if(target)target.style.cursor = "default";
          target = curTarget!//target 点击的元素
          target.style.cursor = "move";
          VnodeStore.setTarget(VnodeStore.findVnode(+target.id.replace('el', '')))
