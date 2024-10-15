@@ -12,10 +12,11 @@
                 <FormOutlined />添加样式
             </v-btn>
         </div>
-        
+
         <div class="modify-style-content">
-            <div class="item" v-for="item, index in propsItem" :key="index">
-                <v-combobox  style="height: 55px;" :label="item.title"  v-model="finalStyle[item.origin]" :items="item.valueItems"></v-combobox>
+            <div class="item" v-for="item, index in finalStyle" :key="index">
+                <v-combobox style="height: 55px;" :label="item.descriptions" v-model="item.value"
+                    :items="item.values"></v-combobox>
             </div>
         </div>
     </div>
@@ -31,51 +32,66 @@
 
 <script setup lang="ts">
 import { FormOutlined, BgColorsOutlined, DeploymentUnitOutlined } from '@ant-design/icons-vue';
-import { shallowReactive, shallowRef, watch, watchEffect } from 'vue';
+import { watch, watchEffect, markRaw, reactive, WatchHandle } from 'vue';
 import useVnodeStore from '@/store/useVnodeStore';
-import parseCssToObject,{parseObjectToCssText} from '@/utils/parseCssToObject';
-import styleSheet,{emputyProps} from '@/const/styleList';
-import type {Vnode} from '@/types/Vnode'
+import parseCssToObject, { parseObjectToCssText } from '@/utils/parseCssToObject';
+import styleSheet from '@/const/styleList';
+import type { Vnode } from '@/types/Vnode'
 import debounce from '@/utils/debounce';
 const vnodeStore = useVnodeStore();
-let propsItem = shallowRef();
-let rawStyle = {...emputyProps}
-let finalStyle = shallowReactive<Record<string, string>>(rawStyle);
-let preVndoe:Vnode|null = null;
-const debouncedUpdateStyle = debounce(() => {
-    preVndoe!.style = parseObjectToCssText(finalStyle);
-    preVndoe!.HTML!.style.cssText+= preVndoe!.style;
-},200)
-watchEffect(() => {
-    for(let _key in finalStyle){
-         //收集依赖
-        finalStyle[_key];
+let finalStyle = reactive((() => {
+    let item: any = {};
+    for (let key in styleSheet) {
+        item[key] = {};
+        item[key].descriptions = styleSheet[key].descriptions;
+        item[key].values = markRaw(styleSheet[key].value);
+        item[key].value = '';
     }
-    if(!preVndoe)return;
-    debouncedUpdateStyle();
+    return item as Record<string, { descriptions: string, values: string[], value: string }>;
+})())
+
+let preVndoe: Vnode | null = null;
+const debouncedUpdateStyle = debounce((obj: Record<string, string>) => {
+    preVndoe!.style = parseObjectToCssText(obj);
+    preVndoe!.HTML!.style.cssText += preVndoe!.style;
+}, 200)
+let _flage = false;//除第一次依赖搜集外，其他时候减少无用代码执行
+watchEffect(() => {
+    if (!_flage) {
+        for (let _key in finalStyle) {
+            //收集依赖
+            finalStyle[_key].value;
+        }
+        _flage = true;
+        return;
+    }
+    if (!preVndoe) return;
+    let obj = {} as Record<string, string>;
+    for (let key in finalStyle) {
+        obj[key] = finalStyle[key].value;
+    }
+    debouncedUpdateStyle(obj);
 })
 
-watch(()=>vnodeStore.curVnode, () => {  
-    if (!!vnodeStore.curVnode&&!!vnodeStore.curVnode.parent) {
+
+let _scope:WatchHandle
+watch(() => vnodeStore.curVnode, () => {    
+    if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {
         preVndoe = vnodeStore.curVnode;
         let cssObject = parseCssToObject(vnodeStore.curVnode!.style);
-            console.log(12121);
-                cssObject={
+        console.log(12121);
+        cssObject = {
             ...cssObject,
-            width:vnodeStore.curVnode!.width+'px',
-            height:vnodeStore.curVnode!.height.toFixed(1)+'px',
-            top:vnodeStore.curVnode!.top+'px',
-            left:vnodeStore.curVnode!.left.toFixed(1)+'px'
+            width: vnodeStore.curVnode!.width + 'px',
+            height: vnodeStore.curVnode!.height.toFixed(1) + 'px',
+            top: vnodeStore.curVnode!.top + 'px',
+            left: vnodeStore.curVnode!.left.toFixed(1) + 'px'
         }
-        setTimeout(() => {
-            propsItem.value = Object.keys(cssObject).map((e) =>{
-            finalStyle[e]=cssObject[e]; 
-            return {
-                origin:e,title:styleSheet[e].descriptions||'未定义',
-                value:cssObject[e]||'', valueItems: styleSheet[e].value||['未定义']
-            }
-        }) 
-        },4)
+        for (let key in cssObject) {
+            finalStyle[key].value = cssObject[key];
+        }
+        //专门对 top、left、width、height 进行监听,由于其改变的频繁性，单独收集其依赖，
+        
     }
 })
 
@@ -88,6 +104,7 @@ watch(()=>vnodeStore.curVnode, () => {
         overflow: auto;
     }
 }
+
 .item {
     height: 55px;
 }
