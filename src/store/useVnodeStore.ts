@@ -122,7 +122,10 @@ const VnodeStore = defineStore("useVnodeStore", {
         /**
          * 创建子节点,同时渲染成真实dom节点
         */
-        createSubVnode(parent: Vnode, options: VnodeOptions = {}) {
+        createSubVnode(parent: Vnode|null, options: VnodeOptions = {}) {
+            console.log(111);
+            
+            if(!parent)parent=this.VnodeTree!
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)
             parent.children.push(newVnode)
             this.plainVnode.push(newVnode)
@@ -167,8 +170,6 @@ const VnodeStore = defineStore("useVnodeStore", {
             vnode.parent?.renderVnodeToNode('add', 'rgba(255, 0, 0, 0.5)')
             traverse(vnode, (e: Vnode) => {
                 e.lineToParent?.remove()
-                console.log(e.HTML);
-                
                 e.HTML?.remove()
                 e.vHTML?.remove()
             })

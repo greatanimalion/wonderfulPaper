@@ -13,16 +13,18 @@
             </v-btn>
         </div>
         <div class="modify-style-content">
-            <div class="item">
-                <VCombobox keyName="height" v-model="TLHW.height" label="高度"></VCombobox>
-                <VCombobox keyName="width" v-model="TLHW.width" label="宽度"></VCombobox>
-                <VCombobox keyName="top" v-model="TLHW.top" label="相对上侧"></VCombobox>
-                <VCombobox keyName="left" v-model="TLHW.left" label="相对左侧"></VCombobox>
-            </div>
-            <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value!==''">
-                <VCombobox :keyName="item.key" v-model="item.value" :label="item.descriptions"></VCombobox>
-                <!-- <v-combobox @update:search="(e:string)=>{console.log(e)}" style="height: 55px;" :label="item.descriptions" :model-value="item.value"
+            <div v-show="!!vnodeStore.curVnode">
+                <div class="item">
+                    <VCombobox keyName="height" v-model="TLHW.height" label="高度"></VCombobox>
+                    <VCombobox keyName="width" v-model="TLHW.width" label="宽度"></VCombobox>
+                    <VCombobox keyName="top" v-model="TLHW.top" label="相对上侧"></VCombobox>
+                    <VCombobox keyName="left" v-model="TLHW.left" label="相对左侧"></VCombobox>
+                </div>
+                <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value !== ''">
+                    <VCombobox :keyName="item.key" v-model="item.value" :label="item.descriptions"></VCombobox>
+                    <!-- <v-combobox @update:search="(e:string)=>{console.log(e)}" style="height: 55px;" :label="item.descriptions" :model-value="item.value"
                     :items="item.values"></v-combobox> -->
+                </div>
             </div>
         </div>
     </div>
@@ -38,20 +40,20 @@
 
 <script setup lang="ts">
 import { FormOutlined, BgColorsOutlined, DeploymentUnitOutlined } from '@ant-design/icons-vue';
-import { watch,reactive, computed } from 'vue';
+import { watch, reactive, computed } from 'vue';
 import useVnodeStore from '@/store/useVnodeStore';
 import parseCssToObject from '@/utils/parseCssToObject';
 import styleSheet from '@/const/styleList';
 import type { Vnode } from '@/types/Vnode'
-import VCombobox  from '@/components/vComBoBox.vue';
+import VCombobox from '@/components/vComBoBox.vue';
 const vnodeStore = useVnodeStore();
 
-let TLHW=computed(()=>{
+let TLHW = computed(() => {
     return {
-        height:vnodeStore.curVnode?.height.toFixed(0)?vnodeStore.curVnode.height.toFixed(0)+'px':'',
-        width:vnodeStore.curVnode?.width.toFixed(0)?vnodeStore.curVnode.width.toFixed(0)+'px':'',
-        top:vnodeStore.curVnode?.top.toFixed(0)?vnodeStore.curVnode?.top.toFixed(0)+'px':'',
-        left:vnodeStore.curVnode?.left.toFixed(0)?vnodeStore.curVnode?.left.toFixed(0)+'px':''
+        height: vnodeStore.curVnode?.height.toFixed(0) ? vnodeStore.curVnode.height.toFixed(0) + 'px' : '',
+        width: vnodeStore.curVnode?.width.toFixed(0) ? vnodeStore.curVnode.width.toFixed(0) + 'px' : '',
+        top: vnodeStore.curVnode?.top.toFixed(0) ? vnodeStore.curVnode?.top.toFixed(0) + 'px' : '',
+        left: vnodeStore.curVnode?.left.toFixed(0) ? vnodeStore.curVnode?.left.toFixed(0) + 'px' : ''
     }
 })
 
@@ -59,15 +61,15 @@ let finalStyle = reactive((() => {
     let item: any = {};
     for (let key in styleSheet) {
         item[key] = {};
-        item[key].key=key;
+        item[key].key = key;
         item[key].descriptions = styleSheet[key].descriptions;
         item[key].value = '';
     }
-    return item as Record<string, {key:string, descriptions: string, value: string }>;
+    return item as Record<string, { key: string, descriptions: string, value: string }>;
 })())
 
 let preVndoe: Vnode | null = null;
-watch(() => vnodeStore.curVnode, () => {    
+watch(() => vnodeStore.curVnode, () => {
     if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {
         preVndoe = vnodeStore.curVnode;
         let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
@@ -107,8 +109,3 @@ watch(() => vnodeStore.curVnode, () => {
     }
 }
 </style>
-
-
-
-
-

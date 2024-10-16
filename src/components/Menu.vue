@@ -12,13 +12,12 @@ import Alert from '@/utils/defineAlert';
 const VnodeStroe =useVnodeStroe();
 function addVnode(e: MouseEvent){ 
     let parentVnode = VnodeStroe.curVnode;
-    if(!parentVnode)return Alert('error','请选择父节点');
-    if(parentVnode)VnodeStroe.createSubVnode(parentVnode,{vTop:e.clientY,vLeft:e.clientX});
+    if(!parentVnode)Alert('info','已默认以根节点创建子节点');
+    VnodeStroe.createSubVnode(parentVnode,{vTop:e.clientY,vLeft:e.clientX});
 }
 function deleteVnode(){
     let curVnode = VnodeStroe.curVnode;
     if(!curVnode)return Alert('error','请选择删除节点');
-    if(curVnode.id===0)return Alert('error','根节点不可删除');
     VnodeStroe.deleteVnode();
 }
 </script>

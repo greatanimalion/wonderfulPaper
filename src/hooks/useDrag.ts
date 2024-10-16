@@ -49,7 +49,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       }
       if (e.target!.className !== 'vnode') return;
       let target = e.target as HTMLDivElement;
-      VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
+      if(+target.id!=0)VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
       target!.style.outline = "red 2px solid";
       target!.dataset.drag = 'true';
       preElement = target;
