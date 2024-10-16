@@ -12,11 +12,17 @@
                 <FormOutlined />添加样式
             </v-btn>
         </div>
-
         <div class="modify-style-content">
-            <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value!=''">
-                <v-combobox :blur="(e:any)=>{console.log(e)}"  style="height: 55px;" :label="item.descriptions" v-model="item.value"
-                    :items="item.values"></v-combobox>
+            <div class="item">
+                <VCombobox keyName="height" v-model="TLHW.height" label="高度"></VCombobox>
+                <VCombobox keyName="width" v-model="TLHW.width" label="宽度"></VCombobox>
+                <VCombobox keyName="top" v-model="TLHW.top" label="相对上侧"></VCombobox>
+                <VCombobox keyName="left" v-model="TLHW.left" label="相对左侧"></VCombobox>
+            </div>
+            <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value!==''">
+                <VCombobox :keyName="item.key" v-model="item.value" :label="item.descriptions"></VCombobox>
+                <!-- <v-combobox @update:search="(e:string)=>{console.log(e)}" style="height: 55px;" :label="item.descriptions" :model-value="item.value"
+                    :items="item.values"></v-combobox> -->
             </div>
         </div>
     </div>
@@ -32,73 +38,42 @@
 
 <script setup lang="ts">
 import { FormOutlined, BgColorsOutlined, DeploymentUnitOutlined } from '@ant-design/icons-vue';
-import { watch, watchEffect, markRaw, reactive, WatchHandle } from 'vue';
+import { watch,reactive, computed } from 'vue';
 import useVnodeStore from '@/store/useVnodeStore';
-import parseCssToObject, { parseObjectToCssText } from '@/utils/parseCssToObject';
+import parseCssToObject from '@/utils/parseCssToObject';
 import styleSheet from '@/const/styleList';
 import type { Vnode } from '@/types/Vnode'
-import debounce from '@/utils/debounce';
+import VCombobox  from '@/components/vComBoBox.vue';
 const vnodeStore = useVnodeStore();
+
+let TLHW=computed(()=>{
+    return {
+        height:vnodeStore.curVnode?.height.toFixed(0)?vnodeStore.curVnode.height.toFixed(0)+'px':'',
+        width:vnodeStore.curVnode?.width.toFixed(0)?vnodeStore.curVnode.width.toFixed(0)+'px':'',
+        top:vnodeStore.curVnode?.top.toFixed(0)?vnodeStore.curVnode?.top.toFixed(0)+'px':'',
+        left:vnodeStore.curVnode?.left.toFixed(0)?vnodeStore.curVnode?.left.toFixed(0)+'px':''
+    }
+})
+
 let finalStyle = reactive((() => {
     let item: any = {};
     for (let key in styleSheet) {
         item[key] = {};
+        item[key].key=key;
         item[key].descriptions = styleSheet[key].descriptions;
-        item[key].values = markRaw(styleSheet[key].value);
         item[key].value = '';
     }
-    return item as Record<string, { descriptions: string, values: string[], value: string }>;
+    return item as Record<string, {key:string, descriptions: string, value: string }>;
 })())
 
 let preVndoe: Vnode | null = null;
-const debouncedUpdateStyle = debounce((obj: Record<string, string>) => {
-    preVndoe!.style = parseObjectToCssText(obj);
-    preVndoe!.HTML!.style.cssText += preVndoe!.style;
-}, 200)
-let _flage = false;//除第一次依赖搜集外，其他时候减少无用代码执行
-watchEffect(() => {
-    if (!_flage) {
-        for (let _key in finalStyle) {
-            //收集依赖
-            finalStyle[_key].value;
-        }
-        _flage = true;
-        return;
-    }
-    if (!preVndoe) return;
-    let obj = {} as Record<string, string>;
-    for (let key in finalStyle) {
-        if(finalStyle[key].value=='')continue
-        obj[key] = finalStyle[key].value;
-    }
-    console.log(obj);
-    
-    preVndoe.left = parseFloat(obj.left) || 0;
-    preVndoe.top = parseFloat(obj.top) || 0;
-    preVndoe.width = parseFloat(obj.width) || 0;
-    preVndoe.height = parseFloat(obj.height) || 0;
-    debouncedUpdateStyle(obj);
-})
-
-
-let _scope:WatchHandle
 watch(() => vnodeStore.curVnode, () => {    
     if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {
         preVndoe = vnodeStore.curVnode;
-        let cssObject = parseCssToObject(vnodeStore.curVnode!.style);
-        console.log(12121);
-        cssObject = {
-            ...cssObject,
-            width: vnodeStore.curVnode!.width + 'px',
-            height: vnodeStore.curVnode!.height.toFixed(1) + 'px',
-            top: vnodeStore.curVnode!.top + 'px',
-            left: vnodeStore.curVnode!.left.toFixed(1) + 'px'
-        }
+        let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
         for (let key in cssObject) {
             finalStyle[key].value = cssObject[key];
         }
-        //专门对 top、left、width、height 进行监听,由于其改变的频繁性，单独收集其依赖，
-        
     }
 })
 
@@ -107,18 +82,16 @@ watch(() => vnodeStore.curVnode, () => {
 <style scoped lang="scss">
 .modify-style {
     .modify-style-content {
-        height: 32vh;
         overflow: auto;
+        height: calc(33vh - 35px);
+        overflow: auto;
+
     }
 }
 
-.item {
-    height: 55px;
-}
-
 .event {
-    min-height: 34%;
-    max-height: 34%;
+    min-height: 33%;
+    max-height: 33%;
     text-align: left;
     padding: 3px
 }
@@ -134,3 +107,8 @@ watch(() => vnodeStore.curVnode, () => {
     }
 }
 </style>
+
+
+
+
+

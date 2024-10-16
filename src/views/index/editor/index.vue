@@ -63,12 +63,7 @@ function createPage() {
         //取出页面切换函数
         pageState = getFn('openVnode');
         //初始化鼠标拖拽
-        initHTMLDrag(operateContent.value!, (t: HTMLElement) => {
-            operate.value!.elInfor.el = t;
-        }, ({ left, top }: { left: number, top: number }) => {
-            operate.value!.elInfor.top = top;
-            operate.value!.elInfor.left = left;
-        })
+        initHTMLDrag(operateContent.value!)
     })
     //监听鼠标放大缩小
     let zoom = 1;

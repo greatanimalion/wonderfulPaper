@@ -21,15 +21,15 @@ export default {
     },
     'size': {
         descriptions: '字体大小',
-        value:["12px", "14px", "16px", "18px", "20px", "22px", "..."]
+        value:["12px", "14px", "16px", "18px","..."]
     },
     'weight': {
         descriptions: '字体粗细',
-        value: ["normal", "bold", "bolder", "lighter", "100", "200", "300", "..."]
+        value: ["normal", "bold", "bolder", "lighter", "100", "200", "..."]
     },
     'line-height': {
         descriptions: '行高',
-        value: ["normal", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "..."]
+        value: ["normal", "1", "1.5", "2", "2.5", "..."]
     },
     'letter-spacing': {
         descriptions: '字距',
@@ -98,7 +98,7 @@ export default {
     },
     'margin': {
         descriptions: '外边距',
-        value: ["0", "10px", "20px", "30px", "40px", "50px", "..."]
+        value: ["0", "10px", "20px", "30px", "..."]
     },
     'opacity': {
         descriptions: '透明度',
@@ -107,5 +107,9 @@ export default {
     'cursor': {
         descriptions: '光标',
         value: ["auto", "default", "pointer", "move", "not-allowed", "crosshair", "text", "wait", "help", "progress"]
+    },
+    'position':{
+        descriptions: '定位',
+        value: ["static", "relative", "absolute", "fixed", "sticky"]
     }
 } as Record<string,{descriptions:string,value:string[]}>

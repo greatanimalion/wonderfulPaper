@@ -1,16 +1,16 @@
 <template>
-    <div v-show="!!elInfor.el" class="el" :style="{ top: elInforFinal.top, left: elInforFinal.left }">
+    <div v-show="!!vnodeStore.curVnode" class="el" :style="{ top: elInforFinal.top, left: elInforFinal.left }">
         <!-- <div class="line rotate" :style="{ top: -30 + 'px', width: elInforFinal.width, height:0, left: '0px' }">
             <button @mousedown="updateDirection('rotate')"></button>
         </div> -->
-        <div class="line top" :style="{ top: -2 + 'px', width: elInforFinal.width, left: '0px' }">
+        <div class="line top" :style="{ top:'-2px', width: elInforFinal.width, left: '0px' }">
             <button @mousedown="updateDirection('top')"></button>
         </div>
         <div class="line bottom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
             <button @mousedown="updateDirection('bottom')"></button> 
-            <div>W:{{elInfor.width.toFixed(0)}}px,H:{{elInfor.height.toFixed(0)}}px</div>
+            <div>W:{{vnodeStore.curVnode?.width.toFixed(0)}}px,H:{{vnodeStore.curVnode?.height.toFixed(0)}}px</div>
         </div>
-        <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left: -2 + 'px' }">
+        <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left:'-2px' }">
             <button @mousedown="updateDirection('left')"></button>
         </div>
         <div class="line right" :style="{ top: '0px', height: elInforFinal.height, left: elInforFinal.width }">
@@ -20,46 +20,33 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed } from 'vue';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
-import { ElInfor, DirectionType } from "@/types/OperateBorderLine"
+import { DirectionType } from "@/types/OperateBorderLine"
 import useOperate from "@/hooks/useOperate"
 const vnodeStore = useVnodeStore();
 const pageStore = usePageStore();
 
-const elInfor = reactive<ElInfor>({
-    el: undefined,//被拖动的元素
-    top: 0,//本组件的高
-    left: 0,//本组件的宽
-    width: 0,
-    height: 0,
-    rotate: 0
-})
+let elInforFinal = computed(() => {
+    if(!vnodeStore.curVnode)return{
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0
+    }
+    return  {
+    top: ((vnodeStore.curVnode.parent?.absoluteTop||0)+vnodeStore.curVnode.top -1)* pageStore.scale + 'px',
+    left: ((vnodeStore.curVnode.parent?.absoluteLeft||0) + vnodeStore.curVnode.left-1) * pageStore.scale + 'px',
+    width: (vnodeStore.curVnode.width+2) * pageStore.scale + 'px',
+    height: (vnodeStore.curVnode.height+2) * pageStore.scale + 'px',
+    rotate: '0px'
+}})
 
-
-let elInforFinal = computed(() => ({
-    top: (elInfor.top -1)* pageStore.scale + 'px',
-    left: (elInfor.left-1) * pageStore.scale + 'px',
-    width: (elInfor.width+2) * pageStore.scale + 'px',
-    height: (elInfor.height) * pageStore.scale + 'px',
-    rotate: elInfor.rotate * pageStore.scale + 'px'
-}))
-
-watch(()=>elInfor.el,() => {
-    if (!elInfor.el&&!vnodeStore.curVnode) return;
-    let curVnode = vnodeStore.curVnode;
-    if (!curVnode) return
-    elInfor.top = curVnode.parent?.absoluteTop||0 + curVnode.top;
-    elInfor.left = curVnode.parent?.absoluteLeft||0 + curVnode.left;
-    elInfor.width = curVnode.width;
-    elInfor.height = curVnode.height+2;
-})
 const updateDirection = (direction: DirectionType) => {
-    useOperate(elInfor)(direction)
+    useOperate()(direction)
 }
 
-defineExpose({ elInfor })
 </script>
 
 <style scoped lang="scss">

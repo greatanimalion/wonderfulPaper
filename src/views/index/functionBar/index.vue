@@ -26,13 +26,11 @@ import Tooltip from '@/components/Tooltip.vue';
 import { getFn } from '@/utils/busEventFns';
 import usePageStore from '@/store/usePageStore';
 import Alert from '@/utils/defineAlert'
-import VnodeStore from '@/store/useVnodeStore';
+
 const pageStore = usePageStore();
-const vnodeStore = VnodeStore();
 const handleClick = (type: string) => {
     if (type === 'addNode') {
         if(!pageStore.created)return Alert('error','请先创建页面！')
-        vnodeStore.clearTarget()
         getFn('openVnode')?.()
     }
 }

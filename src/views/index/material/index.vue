@@ -14,6 +14,7 @@
             <keep-alive>
                 <component :is="tabs[active]"></component>
             </keep-alive>
+         
         </div>
     </div>
 </template>
@@ -22,6 +23,7 @@
 import PremiumContainers from './components/PremiumContainers.vue';
 import BaseComponents from './components/BaseComponents.vue';
 import AdvancedComponents from './components/AdvancedComponents.vue';
+
 import { ref } from 'vue';
 const active = ref<keyof typeof tabs>('BasicComponents');
 const tabs = {

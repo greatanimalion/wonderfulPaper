@@ -1,5 +1,5 @@
 import { Vnode } from "@/types/Vnode";
-import {Ref } from "vue";
+import type {Ref} from "vue";
 
 export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
     const ctx = canvas.value.getContext('2d')!;

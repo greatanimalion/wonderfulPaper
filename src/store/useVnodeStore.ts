@@ -82,8 +82,8 @@ class vnode {
     renderVnodeToNode(type: 'add' | 'drag', color?: string) {
         let target = this
         if (type === 'add') {
-            drawBezierCurveFromParent(target,color);
             if (!container) return;
+            drawBezierCurveFromParent(target,color);
             const div = document.createElement('div');
             div.setAttribute('id', target.id.toString());
             div.classList.add('vnode');
@@ -149,7 +149,6 @@ const VnodeStore = defineStore("useVnodeStore", {
             target.style = options.style || target.style
             target.type = options.type || target.type
             target.text = options.text || target.text
-            
         },
         /**
          * 初始化，创建根节点，同时渲染成节点
@@ -168,9 +167,12 @@ const VnodeStore = defineStore("useVnodeStore", {
             vnode.parent?.renderVnodeToNode('add', 'rgba(255, 0, 0, 0.5)')
             traverse(vnode, (e: Vnode) => {
                 e.lineToParent?.remove()
+                console.log(e.HTML);
+                
                 e.HTML?.remove()
                 e.vHTML?.remove()
             })
+            this.clearTarget()
         }
     }
 })

@@ -1,5 +1,4 @@
-import {ElInfor,DirectionType} from "@/types/OperateBorderLine"
-import {Reactive } from "vue";
+import {DirectionType} from "@/types/OperateBorderLine"
 import useVnodeStore from "@/store/useVnodeStore";
 import usePageStore from "@/store/usePageStore";
 import { Vnode } from "@/types/Vnode";
@@ -45,7 +44,7 @@ const writeToStoreState={
 let flage = false;
 let direction: DirectionType ="top"
 
-export default function useOperate(curState: Reactive<ElInfor>) {
+export default function useOperate() {
   const vnodeStore = useVnodeStore();
   const pageStore = usePageStore();
   let container = document.querySelector<HTMLDivElement>('.show-content')!;
@@ -54,24 +53,24 @@ export default function useOperate(curState: Reactive<ElInfor>) {
     //记录鼠标按下时的位置
     diffState.startX = e.clientX;
     diffState.startY = e.clientY;
-    diffState.elTop = curState.top
-    diffState.elLeft = curState.left
-    diffState.elWidth = curState.width
-    diffState.elHeight =curState.height
+    diffState.elTop = vnodeStore.curVnode.top
+    diffState.elLeft = vnodeStore.curVnode.left
+    diffState.elWidth = vnodeStore.curVnode.width
+    diffState.elHeight =vnodeStore.curVnode.height
     //获取元素的位置信息
-    elState.top=parseFloat(curState.el!.style.top)
-    elState.left=parseFloat(curState.el!.style.left)
-    elState.width=parseFloat(curState.el!.style.width)
-    elState.height=parseFloat(curState.el!.style.height)
+    elState.top=parseFloat(vnodeStore.curVnode.HTML!.style.top)
+    elState.left=parseFloat(vnodeStore.curVnode.HTML!.style.left)
+    elState.width=parseFloat(vnodeStore.curVnode.HTML!.style.width)
+    elState.height=parseFloat(vnodeStore.curVnode.HTML!.style.height)
     //获取组件的位置信息
-    elState.CTop=curState.top
-    elState.CLeft=curState.left
+    elState.CTop=vnodeStore.curVnode.top
+    elState.CLeft=vnodeStore.curVnode.left
   }
   container.onmousemove = (e: MouseEvent) => {
     if (!flage) return
     diff.x = e.clientX - diffState.startX;
     diff.y = e.clientY - diffState.startY;
-    handleResize(curState,vnodeStore.curVnode!,pageStore.scale);    
+    handleResize(vnodeStore.curVnode!,vnodeStore.curVnode!,pageStore.scale);    
   }
   container.onmouseup = () => {
     flage = false;
@@ -86,7 +85,7 @@ export default function useOperate(curState: Reactive<ElInfor>) {
 /**
  * @param type 方向类型
 */
-function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
+function handleResize(curState:Vnode,vnode:Vnode,scale:number) {
   
   if (direction === 'top') {
     writeToStoreState.top = elState.top+diff.y/scale;
@@ -94,8 +93,8 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
 
     curState.top = elState.CTop+diff.y/scale;
     curState.height = writeToStoreState.height+2;
-    curState.el!.style.top = `${writeToStoreState.top}px`;
-    curState.el!.style.height = `${writeToStoreState.height}px`;
+    curState.HTML!.style.top = `${writeToStoreState.top}px`;
+    curState.HTML!.style.height = `${writeToStoreState.height}px`;
 
     vnode.top = writeToStoreState.top;
     vnode.height =  writeToStoreState.height;
@@ -107,8 +106,8 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
 
     curState.left = elState.CLeft+diff.x/scale;
     curState.width = writeToStoreState.width;
-    curState.el!.style.left = `${writeToStoreState.left}px`;
-    curState.el!.style.width = `${writeToStoreState.width}px`;
+    curState.HTML!.style.left = `${writeToStoreState.left}px`;
+    curState.HTML!.style.width = `${writeToStoreState.width}px`;
 
     vnode.left = writeToStoreState.left;
     vnode.width = writeToStoreState.width;
@@ -118,7 +117,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
     writeToStoreState.height = elState.height+diff.y/scale;
 
     curState.height = writeToStoreState.height+2;
-    curState.el!.style.height = `${writeToStoreState.height}px`;
+    curState.HTML!.style.height = `${writeToStoreState.height}px`;
 
     vnode.height = writeToStoreState.height;
     return
@@ -127,7 +126,7 @@ function handleResize(curState:ElInfor,vnode:Vnode,scale:number) {
     writeToStoreState.width = elState.width+diff.x/scale;
 
     curState.width = writeToStoreState.width;
-    curState.el!.style.width = `${writeToStoreState.width}px`;
+    curState.HTML!.style.width = `${writeToStoreState.width}px`;
 
     vnode.width = writeToStoreState.width;
     return

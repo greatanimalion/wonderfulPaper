@@ -83,12 +83,10 @@ let dragState = {
 }
 /**
  * @param element 容器元素
- * @param callBack0 回调函数，传入一个选择的元素
- * @param callBack 回调函数，传入一个对象，包含实时left和top属性
  * @returns 返回一个函数，销毁监听：
  * html元素拖拽行为
 */
-export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, callBack?: Function) {
+export function initHTMLDrag(contain: HTMLDivElement) {
    const PageStore = usePageStore();
    const VnodeStore = useVnodeStroe();
    const layerImgStore = useLayerImgStore();
@@ -105,18 +103,17 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
          target = null;
          setTimeout(() => {VnodeStore.clearTarget()},0)
       }
-      callBack0 && callBack0(target)
    }
    contain.addEventListener("mousedown", startDragEvent);
    contain.addEventListener("mousemove", dragEvent);
    contain.addEventListener('mouseup', () => {
       if(!target||!mouseDownELement)return 
+      mouseDownELement = null;
       let curVnode=VnodeStore.curVnode!
       curVnode.top = parseFloat(target!.style.top)
       curVnode.left = parseFloat(target!.style.left)
       curVnode.absoluteTop= +curVnode.parent!.absoluteTop+curVnode!.top;
       curVnode.absoluteLeft=+curVnode.parent!.absoluteLeft+curVnode!.left;
-      mouseDownELement = null;
       //更新缩略图
       layerImgStore.setLayerImg()
    });
@@ -127,7 +124,8 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
       let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
       target!.style.left = `${left}px`;
       target!.style.top = `${top}px`;
-      callBack && callBack({ left: left+VnodeStore.curVnode!.parent!.absoluteLeft, top: top+VnodeStore.curVnode!.parent!.absoluteTop })
+      VnodeStore.curVnode!.top = top
+      VnodeStore.curVnode!.left = left
    }
    function startDragEvent(e: MouseEvent) {
       if (!target) return;

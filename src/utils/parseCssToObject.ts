@@ -9,7 +9,9 @@ export default function parseCssToObject(css: string):Record<string,string> {
     css.split(';').forEach(line=>{ 
         if(line.trim()=='')return 
         let [key,value]=line.split(':')
-        res[key.trim()]=value.trim()
+        let keyTrim=key.trim()
+        if(keyTrim=='top'||keyTrim=='left'||keyTrim=='height'||keyTrim=='width')return;//忽略top、left、height、width属性
+        res[keyTrim]=value.trim()
     })
     return res;
 }
@@ -20,7 +22,10 @@ export default function parseCssToObject(css: string):Record<string,string> {
 */
 export function parseObjectToCssText(css:Record<string,string>):string {
     let res:string=''
-    Object.entries(css).map(([key,value])=>{if(value==''||key=='top'||key=='left'||key=='heigth'||key=='width')return ;else res+=`${key}:${value};`})
+    Object.entries(css).map(([key,value])=>{
+        if(key=='top'||key=='left'||key=='height'||key=='width')return//忽略top、left、height、width属性
+         res+=`${key}:${value};`
+        })
     return res
 }
 

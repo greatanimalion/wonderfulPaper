@@ -18,7 +18,6 @@ import { CloseSquareOutlined } from '@ant-design/icons-vue'
 
 import { getFn } from '@/utils/busEventFns';
 import VnodeStore from '@/store/useVnodeStore';
-const vnodeStore = VnodeStore();
 const canvas = ref<HTMLCanvasElement>();
 const contain = ref<HTMLDivElement>();
 let unmnted: Function[] = [];
@@ -31,7 +30,7 @@ onMounted(() => {
     VnodeDrag(contain as Ref<HTMLDivElement>)
     window.addEventListener('resize', resizeRender)
     nextTick(() => {
-        Openref.value!.onclick = () => {vnodeStore.clearTarget(); getFn('openVnode')?.() }
+        Openref.value!.onclick = () => {getFn('openVnode')?.() }
     });
 })
 
