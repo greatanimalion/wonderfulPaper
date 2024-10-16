@@ -23,8 +23,8 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       preElement?.removeEventListener('mouseup', stopDrag);
       contain.value.removeEventListener('mousemove', elementDrag);
       if (!VnodeStore.curVnode) return;
-      VnodeStore.curVnode.vTop = +preElement!.style.top.replace('px', '')
-      VnodeStore.curVnode.vLeft = +preElement!.style.left.replace('px', '')
+      VnodeStore.curVnode.vTop = parseFloat(preElement!.style.top)
+      VnodeStore.curVnode.vLeft = parseFloat(preElement!.style.left)
       VnodeStore.curVnode.renderVnodeToNode('drag')
       preElement = null;
    }
@@ -35,8 +35,8 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       const y = offsetY - e.clientY;
       offsetX = e.clientX;
       offsetY = e.clientY;
-      let curTop = String((+getComputedStyle(preElement).top.replace('px', '')! - y));
-      let curLeft = String(+getComputedStyle(preElement).left.replace('px', '')! - x);
+      let curTop = String((parseFloat(getComputedStyle(preElement).top)! - y));
+      let curLeft = String(parseFloat(getComputedStyle(preElement).left)! - x);
       preElement!.style.top = curTop + 'px';
       preElement!.style.left = curLeft + 'px';
    }
@@ -112,8 +112,8 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
    contain.addEventListener('mouseup', () => {
       if(!target||!mouseDownELement)return 
       let curVnode=VnodeStore.curVnode!
-      curVnode.top = +target!.style.top.replace('px', '')
-      curVnode.left = +target!.style.left.replace('px', '')
+      curVnode.top = parseFloat(target!.style.top)
+      curVnode.left = parseFloat(target!.style.left)
       curVnode.absoluteTop= +curVnode.parent!.absoluteTop+curVnode!.top;
       curVnode.absoluteLeft=+curVnode.parent!.absoluteLeft+curVnode!.left;
       mouseDownELement = null;
@@ -135,8 +135,8 @@ export function initHTMLDrag(contain: HTMLDivElement, callBack0?: Function, call
       if (mouseDownELement !== target) return mouseDownELement = null;
       dragState.startX = e.clientX;
       dragState.startY = e.clientY;
-      dragState.elX = +target.style.left.replace('px', '');
-      dragState.elY = +target.style.top.replace('px', '');
+      dragState.elX = parseFloat(target.style.left);
+      dragState.elY = parseFloat(target.style.top);
    }
 }
 

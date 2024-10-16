@@ -59,10 +59,10 @@ export default function useOperate(curState: Reactive<ElInfor>) {
     diffState.elWidth = curState.width
     diffState.elHeight =curState.height
     //获取元素的位置信息
-    elState.top=+curState.el!.style.top.replace('px','')
-    elState.left=+curState.el!.style.left.replace('px','')
-    elState.width=+curState.el!.style.width.replace('px','')
-    elState.height=+curState.el!.style.height.replace('px','')
+    elState.top=parseFloat(curState.el!.style.top)
+    elState.left=parseFloat(curState.el!.style.left)
+    elState.width=parseFloat(curState.el!.style.width)
+    elState.height=parseFloat(curState.el!.style.height)
     //获取组件的位置信息
     elState.CTop=curState.top
     elState.CLeft=curState.left

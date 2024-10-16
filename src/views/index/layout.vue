@@ -26,7 +26,7 @@ import Vnode from "./vnode/index.vue"
 import Menu from '@/components/Menu.vue';
 import { setFn } from '@/utils/busEventFns'
 import usePageStore from '@/store/usePageStore';
-import { message } from 'ant-design-vue';
+import Alert from '@/utils/defineAlert';
 const pageStore = usePageStore()
 const logo = ref('logo')
 const showVnode = ref(false)
@@ -42,7 +42,7 @@ onMounted(() => {
     colorFont(logo.value, { duration: 3, color: ['#a7a7a7', '#9efb7d', '#fb7def', '#7dc0fb'] })
     window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 'q') {
-            if (!pageStore.created) return message.error('请先创建页面！')
+            if (!pageStore.created) return Alert('error','请先创建页面！')
             openVnode()
         }
     })

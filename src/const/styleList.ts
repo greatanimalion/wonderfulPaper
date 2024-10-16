@@ -109,25 +109,3 @@ export default {
         value: ["auto", "default", "pointer", "move", "not-allowed", "crosshair", "text", "wait", "help", "progress"]
     }
 } as Record<string,{descriptions:string,value:string[]}>
-
-export const emputyProps = {
-    'color': "",
-    'size': "",
-    'weight': "",
-    'line-height': "",
-    'letter-spacing': "",
-    'font-family': "",
-    'font-size': "",
-    'text-decoration': "",
-    'text-shadow': "",
-    'text-overflow': "",
-    'white-space': "",
-    'word-break': "",
-    'word-wrap': "",
-    'text-align': "",
-    'vertical-align': "",
-    'background-color': "",
-    'background-image': "",
-    'background-position': "",
-    'background-size': "",
-}

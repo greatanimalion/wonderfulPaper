@@ -14,8 +14,8 @@
         </div>
 
         <div class="modify-style-content">
-            <div class="item" v-for="item, index in finalStyle" :key="index">
-                <v-combobox style="height: 55px;" :label="item.descriptions" v-model="item.value"
+            <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value!=''">
+                <v-combobox :blur="(e:any)=>{console.log(e)}"  style="height: 55px;" :label="item.descriptions" v-model="item.value"
                     :items="item.values"></v-combobox>
             </div>
         </div>
@@ -68,8 +68,15 @@ watchEffect(() => {
     if (!preVndoe) return;
     let obj = {} as Record<string, string>;
     for (let key in finalStyle) {
+        if(finalStyle[key].value=='')continue
         obj[key] = finalStyle[key].value;
     }
+    console.log(obj);
+    
+    preVndoe.left = parseFloat(obj.left) || 0;
+    preVndoe.top = parseFloat(obj.top) || 0;
+    preVndoe.width = parseFloat(obj.width) || 0;
+    preVndoe.height = parseFloat(obj.height) || 0;
     debouncedUpdateStyle(obj);
 })
 
