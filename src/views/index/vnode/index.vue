@@ -17,7 +17,6 @@ import { onMounted } from 'vue';
 import { CloseSquareOutlined } from '@ant-design/icons-vue'
 
 import { getFn } from '@/utils/busEventFns';
-import VnodeStore from '@/store/useVnodeStore';
 const canvas = ref<HTMLCanvasElement>();
 const contain = ref<HTMLDivElement>();
 let unmnted: Function[] = [];

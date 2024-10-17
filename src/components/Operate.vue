@@ -73,6 +73,7 @@ button {
     align-items: center;
     --line-width: 2px;
     --line-color: rgb(255, 85, 198);
+    user-select:none;
 
     &.top {
         border-top: var(--line-color) var(--line-width) dashed;

@@ -46,6 +46,7 @@ import parseCssToObject from '@/utils/parseCssToObject';
 import styleSheet from '@/const/styleList';
 import type { Vnode } from '@/types/Vnode'
 import VCombobox from '@/components/vComBoBox.vue';
+import invertRGBtoHex from '@/utils/invertRGBtoHex'
 const vnodeStore = useVnodeStore();
 
 let TLHW = computed(() => {
@@ -75,6 +76,10 @@ watch(() => vnodeStore.curVnode, () => {
         let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
         for (let key in cssObject) {
             finalStyle[key].value = cssObject[key];
+            if(key === 'background-color'||key==='color'){
+                //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
+                finalStyle[key].value=invertRGBtoHex(finalStyle[key].value)
+            }
         }
     }
 })
