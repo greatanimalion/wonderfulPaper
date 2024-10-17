@@ -11,10 +11,10 @@ let elementStyleStore
  * @param callBack 回调函数
  * 先序遍历调用回调函数
 */
-function traverse<T extends { children: T[] }>(target:T ,callBack: Function) {
+function traverse<T extends { children: T[] }>(target: T, callBack: Function) {
     callBack(target)
-    target.children.forEach((v) => {      
-        traverse(v,callBack)
+    target.children.forEach((v) => {
+        traverse(v, callBack)
     })
 }
 class vnode {
@@ -43,10 +43,10 @@ class vnode {
         this.id = creatUUID();
         this.parent = parent
         this.children = []
-        this.vTop=options.vTop || 0
-        this.vLeft=options.vLeft || 0
-        this.vWidth=options.vWidth || 0
-        this.vHeight=options.vHeight || 0
+        this.vTop = options.vTop || 0
+        this.vLeft = options.vLeft || 0
+        this.vWidth = options.vWidth || 0
+        this.vHeight = options.vHeight || 0
         this.top = options.top || 0
         this.left = options.left || 0
         this.width = options.width || 0
@@ -83,7 +83,7 @@ class vnode {
         let target = this
         if (type === 'add') {
             if (!container) return;
-            drawBezierCurveFromParent(target,color);
+            drawBezierCurveFromParent(target, color);
             const div = document.createElement('div');
             div.setAttribute('id', target.id.toString());
             div.classList.add('vnode');
@@ -96,7 +96,7 @@ class vnode {
         else {
             drawBezierCurveFromParent(target);
             target.children.forEach((v) => {
-                drawBezierCurveFromParent(v,color)
+                drawBezierCurveFromParent(v, color)
             })
         }
     }
@@ -122,10 +122,10 @@ const VnodeStore = defineStore("useVnodeStore", {
         /**
          * 创建子节点,同时渲染成真实dom节点
         */
-        createSubVnode(parent: Vnode|null, options: VnodeOptions = {}) {
+        createSubVnode(parent: Vnode | null, options: VnodeOptions = {}) {
             console.log(111);
-            
-            if(!parent)parent=this.VnodeTree!
+
+            if (!parent) parent = this.VnodeTree!
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)
             parent.children.push(newVnode)
             this.plainVnode.push(newVnode)
@@ -144,7 +144,7 @@ const VnodeStore = defineStore("useVnodeStore", {
          * @param diff 差异更新
          * 仅更新节点的位置，宽高，样式属性，不改变解节点的事件等，不涉及虚拟节点dom的改变
         */
-        updataVnode(target: Vnode, options: Omit<VnodeOptions,'events'|'lineToParent'|'HTML'|'vHTML'|'vTop'|'vLeft'>) {
+        updataVnode(target: Vnode, options: Omit<VnodeOptions, 'events' | 'lineToParent' | 'HTML' | 'vHTML' | 'vTop' | 'vLeft'>) {
             target.top = options.top || target.top
             target.left = options.left || target.left
             target.width = options.width || target.width
