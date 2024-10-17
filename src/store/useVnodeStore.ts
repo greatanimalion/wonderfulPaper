@@ -38,6 +38,7 @@ class vnode {
     vLeft: number;
     vWidth: number;
     vHeight: number;
+    name: string;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
         elementStyleStore = useElementStyleStore()
         this.id = creatUUID();
@@ -58,6 +59,7 @@ class vnode {
         this.vHTML = null
         this.absoluteTop = this.parent?.absoluteTop || 0
         this.absoluteLeft = this.parent?.absoluteLeft || 0
+        this.name = options.name || ''
         if (this.id == 0) this.HTML = document.querySelector('.content')!.firstChild as HTMLDivElement
         else this.HTML = this.createHTML()
     }

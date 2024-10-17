@@ -1,16 +1,18 @@
 <template>
-    <div v-show="!!vnodeStore.curVnode&&!!vnodeStore.curVnode.id" class="el" :style="{ top: elInforFinal.top, left: elInforFinal.left }">
+    <div v-show="!!vnodeStore.curVnode && !!vnodeStore.curVnode.id" class="el"
+        :style="{ top: elInforFinal.top, left: elInforFinal.left }">
         <!-- <div class="line rotate" :style="{ top: -30 + 'px', width: elInforFinal.width, height:0, left: '0px' }">
             <button @mousedown="updateDirection('rotate')"></button>
         </div> -->
-        <div class="line top" :style="{ top:'-2px', width: elInforFinal.width, left: '0px' }">
+        <div class="line top" :style="{ top: '-2px', width: elInforFinal.width, left: '0px' }">
             <button @mousedown="updateDirection('top')"></button>
+            <div>{{ vnodeStore.curVnode?.name || '' }}</div>
         </div>
         <div class="line bottom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
-            <button @mousedown="updateDirection('bottom')"></button> 
-            <div>W:{{vnodeStore.curVnode?.width.toFixed(0)}}px,H:{{vnodeStore.curVnode?.height.toFixed(0)}}px</div>
+            <button @mousedown="updateDirection('bottom')"></button>
+            <div>W:{{ vnodeStore.curVnode?.width.toFixed(0) }}px,H:{{ vnodeStore.curVnode?.height.toFixed(0) }}px</div>
         </div>
-        <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left:'-2px' }">
+        <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left: '-2px' }">
             <button @mousedown="updateDirection('left')"></button>
         </div>
         <div class="line right" :style="{ top: '0px', height: elInforFinal.height, left: elInforFinal.width }">
@@ -29,19 +31,20 @@ const vnodeStore = useVnodeStore();
 const pageStore = usePageStore();
 
 let elInforFinal = computed(() => {
-    if(!vnodeStore.curVnode)return{
+    if (!vnodeStore.curVnode) return {
         top: 0,
         left: 0,
         width: 0,
         height: 0
     }
-    return  {
-    top: ((vnodeStore.curVnode.parent?.absoluteTop||0)+vnodeStore.curVnode.top -1)* pageStore.scale + 'px',
-    left: ((vnodeStore.curVnode.parent?.absoluteLeft||0) + vnodeStore.curVnode.left-1) * pageStore.scale + 'px',
-    width: (vnodeStore.curVnode.width+2) * pageStore.scale + 'px',
-    height: (vnodeStore.curVnode.height+2) * pageStore.scale + 'px',
-    rotate: '0px'
-}})
+    return {
+        top: ((vnodeStore.curVnode.parent?.absoluteTop || 0) + vnodeStore.curVnode.top - 1) * pageStore.scale + 'px',
+        left: ((vnodeStore.curVnode.parent?.absoluteLeft || 0) + vnodeStore.curVnode.left - 1) * pageStore.scale + 'px',
+        width: (vnodeStore.curVnode.width + 2) * pageStore.scale + 'px',
+        height: (vnodeStore.curVnode.height + 2) * pageStore.scale + 'px',
+        rotate: '0px'
+    }
+})
 
 const updateDirection = (direction: DirectionType) => {
     useOperate()(direction)
@@ -50,14 +53,6 @@ const updateDirection = (direction: DirectionType) => {
 </script>
 
 <style scoped lang="scss">
-button {
-    padding: 0;
-    min-width: 10px;
-    min-height: 10px;
-    border-radius: 2px;
-    background-color: var(--line-color);
-}
-
 .el {
     position: absolute;
     top: 0;
@@ -73,24 +68,37 @@ button {
     align-items: center;
     --line-width: 2px;
     --line-color: rgb(255, 85, 198);
-    user-select:none;
-
+    user-select: none;
+    button {
+        padding: 0;
+        min-width: 10px;
+        min-height: 10px;
+        border-radius: 2px;
+        background-color: var(--line-color);
+    }
     &.top {
         border-top: var(--line-color) var(--line-width) dashed;
         width: 100%;
         height: 0px;
-
         button {
             cursor: ns-resize;
         }
+        div {
+            position: absolute;
+            top: -20px;
+            left: 1px;
+            font-size: 10px;
+            background-color: rgb(255 0 169);
+            border-radius: 3px;
+            padding: 0 3px;
+        }
     }
-
     &.bottom {
         border-bottom: var(--line-color) var(--line-width) dashed;
         width: 100%;
         height: 0px;
         position: relative;
-        div{
+        div {
             position: absolute;
             top: 3px;
             left: 1px;
@@ -103,17 +111,15 @@ button {
             cursor: ns-resize;
         }
     }
-
     &.left {
         border-left: var(--line-color) var(--line-width) dashed;
         height: 100%;
         width: 0px;
+
         button {
             cursor: ew-resize;
         }
-
     }
-
     &.right {
         border-right: var(--line-color) var(--line-width) dashed;
         height: 100%;

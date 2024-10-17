@@ -35,7 +35,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       const y = offsetY - e.clientY;
       offsetX = e.clientX;
       offsetY = e.clientY;
-      let computedStyle=getComputedStyle(preElement);
+      let computedStyle = getComputedStyle(preElement);
       let curTop = String((parseFloat(computedStyle.top)! - y));
       let curLeft = String(parseFloat(computedStyle.left)! - x);
       preElement!.style.top = curTop + 'px';
@@ -68,7 +68,8 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       element.appendChild(input);
       input.focus();
       input.addEventListener('blur', () => {
-         if (input.value === '' && VnodeStore.curVnode) input.value = String(VnodeStore.curVnode.id);
+         if (input.value === '') input.value = String(VnodeStore.curVnode!.id);
+         VnodeStore.curVnode!.name = input.value;
          element.innerHTML = input.value;
       });
    }
@@ -95,26 +96,26 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
       if (curTarget?.id.startsWith('el')) {
-         if(target)target.style.cursor = "default";
+         if (target) target.style.cursor = "default";
          target = curTarget!//target 点击的元素
          target.style.cursor = "move";
          VnodeStore.setTarget(VnodeStore.findVnode(+target.id.replace('el', '')))
       } else {
          if (target) target.style.cursor = "default";
          target = null;
-         setTimeout(() => {VnodeStore.clearTarget()},0)
+         setTimeout(() => { VnodeStore.clearTarget() }, 0)
       }
    }
    contain.addEventListener("mousedown", startDragEvent);
    contain.addEventListener("mousemove", dragEvent);
    contain.addEventListener('mouseup', () => {
-      if(!target||!mouseDownELement)return 
+      if (!target || !mouseDownELement) return
       mouseDownELement = null;
-      let curVnode=VnodeStore.curVnode!
+      let curVnode = VnodeStore.curVnode!
       curVnode.top = parseFloat(target!.style.top)
       curVnode.left = parseFloat(target!.style.left)
-      curVnode.absoluteTop= +curVnode.parent!.absoluteTop+curVnode!.top;
-      curVnode.absoluteLeft=+curVnode.parent!.absoluteLeft+curVnode!.left;
+      curVnode.absoluteTop = +curVnode.parent!.absoluteTop + curVnode!.top;
+      curVnode.absoluteLeft = +curVnode.parent!.absoluteLeft + curVnode!.left;
       //更新缩略图
       layerImgStore.setLayerImg()
    });

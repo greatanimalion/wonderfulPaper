@@ -63,8 +63,6 @@ export default function useOperate() {
     handleResize(vnodeStore.curVnode!,pageStore.scale);    
   }
   container.onmouseup = () => {
-    let curVnode = vnodeStore.curVnode;
-    if(!curVnode) return
     flage = false;
   }
   const setDirection=(type:DirectionType)=>{
@@ -84,10 +82,10 @@ function handleResize(vnode:Vnode,scale:number) {
     writeToStoreState.height = elState.height-diff.y/scale;
 
     vnode.top = writeToStoreState.top;
-    vnode.height = writeToStoreState.height+2;
+    vnode.height = writeToStoreState.height;
     vnode.HTML!.style.top = `${writeToStoreState.top}px`;
     vnode.HTML!.style.height = `${writeToStoreState.height}px`;
-    vnode.absoluteTop=vnode.absoluteTop+diff.x;
+    vnode.absoluteTop = +vnode.parent!.absoluteTop + vnode!.top;
     return 
   }
   if (direction === 'left') {
@@ -98,13 +96,13 @@ function handleResize(vnode:Vnode,scale:number) {
     vnode.HTML!.style.width = `${writeToStoreState.width}px`;
     vnode.left = writeToStoreState.left;
     vnode.width = writeToStoreState.width;
-    
+    vnode.absoluteLeft = +vnode.parent!.absoluteLeft + vnode!.left;
     return
   }
   if (direction === 'bottom') {
     writeToStoreState.height = elState.height+diff.y/scale;
 
-    vnode.height = writeToStoreState.height+2;
+    vnode.height = writeToStoreState.height;
     vnode.HTML!.style.height = `${writeToStoreState.height}px`;
     return
   }

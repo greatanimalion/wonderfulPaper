@@ -2,7 +2,7 @@ import { ElementType } from "@/const/elementType";
 
 export interface Vnode  {
     id: number;
-    name?: string;
+    name: string;
     //dom的位置
     top: number;
     left: number;
