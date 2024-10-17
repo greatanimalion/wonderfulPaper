@@ -125,8 +125,6 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 创建子节点,同时渲染成真实dom节点
         */
         createSubVnode(parent: Vnode | null, options: VnodeOptions = {}) {
-            console.log(111);
-
             if (!parent) parent = this.VnodeTree!
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)
             parent.children.push(newVnode)

@@ -3,6 +3,7 @@ import useVnodeStroe from '@/store/useVnodeStore'
 import usePageStore from "@/store/usePageStore";
 import useLayerImgStore from "@/store/useLayerImgStore";
 import { elementFromPoint } from "@/utils/elementFromPoint";
+import debounce from "@/utils/debounce";
 let offsetX: number, offsetY: number;
 let target: HTMLDivElement | null;
 let preElement: HTMLDivElement | null = null;
@@ -92,6 +93,9 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    const PageStore = usePageStore();
    const VnodeStore = useVnodeStroe();
    const layerImgStore = useLayerImgStore();
+   let setLayerImg = debounce(() => {
+      layerImgStore.setLayerImg()
+   }, 1000)
    let mouseDownELement: HTMLDivElement | null = null
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
@@ -117,7 +121,7 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       curVnode.absoluteTop = +curVnode.parent!.absoluteTop + curVnode!.top;
       curVnode.absoluteLeft = +curVnode.parent!.absoluteLeft + curVnode!.left;
       //更新缩略图
-      layerImgStore.setLayerImg()
+      setLayerImg()
    });
    function dragEvent(e: MouseEvent) {
       if (!target && !mouseDownELement) return;
