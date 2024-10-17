@@ -22,7 +22,6 @@ function handleBlur(event: any) {
             switch(key){
                   case 'height':
                         vnodeStore.curVnode.height=parseInt(event.target.value)
-
                         break;
                   case 'width':
                         vnodeStore.curVnode.width=parseInt(event.target.value)

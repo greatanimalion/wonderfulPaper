@@ -9,7 +9,7 @@ const useElementStyleStore = defineStore("elementStyleStore", {
             .set('button','background-color: #4e4e4e;color: white;border-radius: 2px;font-size: 16px;cursor: pointer;')
             .set('input','background-color: #fff;width: 100px;height: 30px;padding: 5px;border: 1px soild #ccc;border-radius: 5px;font-size: 16px;')
             .set('img','background-color: #4e4e4e;width:100px;height: 100px;paddin:0px;')
-            .set('div','background-color: #4e4e4e;width:50px;height: 50px;border-radius: 5px;font-size: 16px;padding: 0px;')
+            .set('div','background-color: #4e4e4e;width:50px;height: 50px;border-radius: 5px;font-size: 16px;z-index: 1;')
         }
     },
     actions: {

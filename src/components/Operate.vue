@@ -64,7 +64,7 @@ button {
 }
 
 .line {
-    z-index: 1;
+    z-index: 10000;
     padding: 0;
     position: absolute;
     overflow: visible;

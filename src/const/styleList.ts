@@ -111,5 +111,9 @@ export default {
     'position':{
         descriptions: '定位',
         value: ["static", "relative", "absolute", "fixed", "sticky"]
+    },
+    'z-index':{
+        descriptions:'层级',
+        value:['1']
     }
 } as Record<string,{descriptions:string,value:string[]}>
