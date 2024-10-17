@@ -35,8 +35,9 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       const y = offsetY - e.clientY;
       offsetX = e.clientX;
       offsetY = e.clientY;
-      let curTop = String((parseFloat(getComputedStyle(preElement).top)! - y));
-      let curLeft = String(parseFloat(getComputedStyle(preElement).left)! - x);
+      let computedStyle=getComputedStyle(preElement);
+      let curTop = String((parseFloat(computedStyle.top)! - y));
+      let curLeft = String(parseFloat(computedStyle.left)! - x);
       preElement!.style.top = curTop + 'px';
       preElement!.style.left = curLeft + 'px';
    }
@@ -49,7 +50,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       }
       if (e.target!.className !== 'vnode') return;
       let target = e.target as HTMLDivElement;
-      if(+target.id!=0)VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
+      VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
       target!.style.outline = "red 2px solid";
       target!.dataset.drag = 'true';
       preElement = target;

@@ -13,7 +13,7 @@
             </v-btn>
         </div>
         <div class="modify-style-content">
-            <div v-show="!!vnodeStore.curVnode">
+            <div v-show="!!vnodeStore.curVnode&&!!vnodeStore.curVnode.id">
                 <div class="item">
                     <VCombobox keyName="height" v-model="TLHW.height" label="高度"></VCombobox>
                     <VCombobox keyName="width" v-model="TLHW.width" label="宽度"></VCombobox>
