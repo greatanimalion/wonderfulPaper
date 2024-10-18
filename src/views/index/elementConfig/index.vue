@@ -44,7 +44,6 @@ import { watch, reactive, computed } from 'vue';
 import useVnodeStore from '@/store/useVnodeStore';
 import parseCssToObject from '@/utils/parseCssToObject';
 import styleSheet from '@/const/styleList';
-import type { Vnode } from '@/types/Vnode'
 import VCombobox from '@/components/vComBoBox.vue';
 import invertRGBtoHex from '@/utils/invertRGBtoHex'
 const vnodeStore = useVnodeStore();
@@ -69,10 +68,9 @@ let finalStyle = reactive((() => {
     return item as Record<string, { key: string, descriptions: string, value: string }>;
 })())
 
-let preVndoe: Vnode | null = null;
+
 watch(() => vnodeStore.curVnode, () => {
     if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {
-        preVndoe = vnodeStore.curVnode;
         let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
         for (let key in cssObject) {
             finalStyle[key].value = cssObject[key];

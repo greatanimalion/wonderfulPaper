@@ -4,18 +4,29 @@
 </template>
 
 <script setup lang="ts">
-import { provide } from 'vue';
+import { onMounted } from 'vue';
 import layout from './layout.vue'
 import GlobalAlert from '@/components/Alert.vue'
-let captureCb: Function | null = null;
-function capture(cb: Function) {
-    captureCb = cb;
-}
-function useCpature(...args: any) {
-    captureCb && captureCb(args);
-}
-provide('capture', capture);
-provide('useCpature', useCpature);
+
+let muen: HTMLDivElement | null = null;
+onMounted(() => {
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+    document.addEventListener('mousedown', function (e) {
+        if (e.button === 2) {
+            muen = muen || document.querySelector<HTMLDivElement>('#menu-vnode')!
+            muen.style.display = 'block'
+            muen.style.left = e.clientX + 'px'
+            muen.style.top = e.clientY + 'px'
+        }
+        else {
+            setTimeout(() => {
+                if (muen) muen.style.display = 'none'
+            }, 100)
+        }
+    })
+})
 </script>
 
 <style scoped></style>

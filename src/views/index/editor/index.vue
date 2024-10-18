@@ -2,7 +2,7 @@
     <div class="show-content">
         <div class="add-page" v-if="!page.create">
             <div>
-                <v-sheet class="mx-auto" width="300">
+                <v-sheet theme="light" class="mx-auto" width="300">
                     <v-form @submit.prevent>
                         <v-text-field v-model="page.width" label="宽度"></v-text-field>
                         <v-text-field v-model="page.height" label="高度"></v-text-field>

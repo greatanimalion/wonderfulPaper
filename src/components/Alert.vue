@@ -2,7 +2,6 @@
 import { onBeforeMount, ref, watch } from 'vue'
 import { type AlertInfo, newAlert } from '@/utils/defineAlert'
 import { SuccessIcon, ErrorIcon, InforIcon, WarningIcon } from '@/const/SvgIcon';
-import { messageType } from '@/types/MessageInfor'
 const icons = {
   success: SuccessIcon,
   error: ErrorIcon,
@@ -17,11 +16,9 @@ const colors = {
 }
 // 定义 Map，存储Alert信息集合，使用Map便于删除
 const alertMap = ref<Map<string, AlertInfo>>(new Map)
-let alert: messageType
 watch(newAlert.value, () => {
   alertMap.value.set(newAlert.value.id, { ...newAlert.value })
   deleteAlert(newAlert.value.id)
-  alert = newAlert.value.type
 })
 
 const deleteAlert = (id: string) => {

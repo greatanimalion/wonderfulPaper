@@ -5,7 +5,7 @@
         </div>
         <div class="selectBox">
             <v-tabs v-model="active" align-tabs="center" color="deep-red-accent-4" >
-                <v-tab style="width:33.3%;" value="BasicComponents">基本组件</v-tab>
+                <v-tab style="width:33.3%;" value="BasicComponents">基本元素</v-tab>
                 <v-tab style="width:33.3%;" value="AdvancedComponents">封装组件</v-tab>
                 <v-tab style="width:33.3%;" value="PremiumContainers">高级容器</v-tab>
             </v-tabs>
