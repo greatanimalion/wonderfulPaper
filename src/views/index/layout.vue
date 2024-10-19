@@ -26,7 +26,7 @@ import Vnode from "./vnode/index.vue"
 import Menu from '@/components/Menu.vue';
 import { setFn } from '@/utils/busEventFns'
 import usePageStore from '@/store/usePageStore';
-import Alert from '@/utils/defineAlert';
+import Alert from '@/hooks/useAlert';
 const pageStore = usePageStore()
 const logo = ref('logo')
 const showVnode = ref(false)

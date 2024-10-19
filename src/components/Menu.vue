@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import useVnodeStroe from '@/store/useVnodeStore'
-import Alert from '@/utils/defineAlert';
+import Alert from '@/hooks/useAlert';
 
 const VnodeStroe =useVnodeStroe();
 function addVnode(e: MouseEvent){ 

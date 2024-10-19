@@ -19,7 +19,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import Alert from '@/utils/defineAlert';
+import Alert from '@/hooks/useAlert';
 import { nextTick, reactive, ref } from 'vue';
 import useLayerImgStore from '@/store/useLayerImgStore';
 import usePageStore from '@/store/usePageStore';

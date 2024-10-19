@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="item in imgArr" class="item">
+        <div v-for="item in imgArr" class="item" >
             <img :src="item" alt="">
             <v-btn width="100%">应用</v-btn>
         </div>

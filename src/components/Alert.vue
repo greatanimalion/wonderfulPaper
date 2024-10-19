@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue'
-import { type AlertInfo, newAlert } from '@/utils/defineAlert'
+import { type AlertInfo, newAlert } from '@/hooks/useAlert'
 import { SuccessIcon, ErrorIcon, InforIcon, WarningIcon } from '@/const/SvgIcon';
 const icons = {
   success: SuccessIcon,
@@ -40,7 +40,6 @@ onBeforeMount(() => {
 })
 
 </script>
-
 
 <template>
   <Teleport to="#messageContent">

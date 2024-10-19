@@ -11,8 +11,13 @@
             </v-tabs>
         </div>
         <div class="componentBox">
+            <!-- <keep-alive>
+                <transition mode="out-in">
+                     <component   :is="tabs[active]"></component>
+                </transition>
+            </keep-alive> -->
             <keep-alive>
-                <component :is="tabs[active]"></component>
+                     <component   :is="tabs[active]"></component>
             </keep-alive>
          
         </div>
@@ -34,6 +39,16 @@ const tabs = {
 </script>
 
 <style lang="scss" scoped>
+// .v-enter-active,
+// .v-leave-active {
+//   transition: transform 0.2s ease;
+// }
+// .v-enter-from {
+//  transform:translateX(250px);
+// }
+// .v-leave-to{
+//     transform: translateX(-250px);
+// }
 .componentBox {
     margin-top: 10px;
     height: 100%;

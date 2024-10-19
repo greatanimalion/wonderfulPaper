@@ -25,7 +25,7 @@ import { UnorderedListOutlined, DragOutlined, RollbackOutlined, RetweetOutlined 
 import Tooltip from '@/components/Tooltip.vue';
 import { getFn } from '@/utils/busEventFns';
 import usePageStore from '@/store/usePageStore';
-import Alert from '@/utils/defineAlert'
+import Alert from '@/hooks/useAlert'
 
 const pageStore = usePageStore();
 const handleClick = (type: string) => {
