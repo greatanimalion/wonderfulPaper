@@ -19,6 +19,7 @@ export interface Vnode  {
     type: ElementType;
     style: string;
     events: { [key: string]: () => void };
+    drag: boolean;
 
     children: Vnode[];
     parent: Vnode | undefined;

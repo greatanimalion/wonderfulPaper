@@ -95,24 +95,22 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    const layerImgStore = useLayerImgStore();
    let setLayerImg = debounce(() => {
       layerImgStore.setLayerImg()
-   }, 1000)
+   }, 5000)
    let mouseDownELement: HTMLDivElement | null = null
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
       if (curTarget?.id.startsWith('el')) {
-         if (target) target.style.cursor = "default";
+         if (target) target.style.cursor = "default";//清除上一个元素的样式
          target = curTarget!//target 点击的元素
-         target.style.cursor = "move";
          VnodeStore.setTarget(VnodeStore.findVnode(+target.id.replace('el', '')))
-      } else {
-         if (target) target.style.cursor = "default";
-         target = null;
-         setTimeout(() => { VnodeStore.clearTarget() }, 0)
+         if (VnodeStore.curVnode?.drag) target.style.cursor = "move";
+         return;
       }
+      if (target) target.style.cursor = "default";
+      target = null;
+      setTimeout(() => { VnodeStore.clearTarget() }, 0)//防止意外nextick对curVnode的结算处理
    }
-   contain.addEventListener("mousedown", startDragEvent);
-   contain.addEventListener("mousemove", dragEvent);
-   contain.addEventListener('mouseup', () => {
+   function stopDrag() {
       if (!target || !mouseDownELement) return
       mouseDownELement = null;
       let curVnode = VnodeStore.curVnode!
@@ -120,21 +118,27 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       curVnode.left = parseFloat(target!.style.left)
       curVnode.absoluteTop = +curVnode.parent!.absoluteTop + curVnode!.top;
       curVnode.absoluteLeft = +curVnode.parent!.absoluteLeft + curVnode!.left;
-      //更新缩略图
-      setLayerImg()
-   });
+   }
+   contain.addEventListener("mousedown", startDragEvent);
+   contain.addEventListener("mousemove", dragEvent);
+   contain.addEventListener('mouseup', stopDrag);
+   contain.addEventListener('mouseleave', stopDrag);
    function dragEvent(e: MouseEvent) {
-      if (!target && !mouseDownELement) return;
+      if (!VnodeStore.curVnode || !mouseDownELement) return;
+      if (!VnodeStore.curVnode.drag) return mouseDownELement.style.cursor = "default";
       if (mouseDownELement !== target) return
       let left = (e.clientX - dragState.startX) / PageStore.scale + dragState.elX;
       let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
       target!.style.left = `${left}px`;
       target!.style.top = `${top}px`;
       VnodeStore.curVnode!.top = top
-      VnodeStore.curVnode!.left = left
+      VnodeStore.curVnode!.left = left;
+      //更新缩略图
+      setLayerImg()
    }
    function startDragEvent(e: MouseEvent) {
       if (!target) return;
+
       mouseDownELement = elementFromPoint(e);
       if (mouseDownELement !== target) return mouseDownELement = null;
       dragState.startX = e.clientX;

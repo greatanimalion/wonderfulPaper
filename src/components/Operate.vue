@@ -69,8 +69,10 @@ const updateDirection = (direction: DirectionType) => {
     --line-width: 2px;
     --line-color: rgb(255, 85, 198);
     user-select: none;
+   
     button {
         padding: 0;
+        -webkit-user-drag:none;
         min-width: 10px;
         min-height: 10px;
         border-radius: 2px;

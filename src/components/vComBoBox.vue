@@ -1,49 +1,19 @@
 <template>
       <div class="v-combo-box">
             <label>{{ label }}:</label>
-            <input :type="handleType()" :value="modelValue" @blur="handleBlur($event)" />
+            <input :type="handleType(key)" :value="modelValue" @blur="($event:any)=>{
+                  handleBlur($event.target.value,key);
+                  emit('update:modelValue', $event.target.value);}" />
       </div>
 </template>
 
 <script setup lang="ts">
-import useVnodeStore from '@/store/useVnodeStore';
-const vnodeStore = useVnodeStore();
 import { useAttrs } from 'vue';
+import { useBlur,useType } from '@/hooks/useBlur';
 const emit = defineEmits(['update:modelValue'])
+const handleBlur = useBlur();
+const handleType = useType();
 let key = useAttrs().keyName as string;
-
-
-function handleType() {
-      if (key == 'background-color' || key == 'color') return 'color';
-      else return 'text';
-}
-
-function handleBlur(event: any) {
-      if (!vnodeStore.curVnode) return;
-      if (key == 'height' || key == 'width' || key == 'left' || key == 'top') {
-            switch (key) {
-                  case 'height':
-                        vnodeStore.curVnode.height = parseInt(event.target.value)
-                        break;
-                  case 'width':
-                        vnodeStore.curVnode.width = parseInt(event.target.value)
-                        break;
-                  case 'left':
-                        let left = parseInt(event.target.value)
-                        vnodeStore.curVnode.left = left
-                        vnodeStore.curVnode.absoluteLeft = left
-                        break;
-                  case 'top':
-                        let top = parseInt(event.target.value)
-                        vnodeStore.curVnode.top = top
-                        vnodeStore.curVnode.absoluteTop = top
-                        break;
-            }
-      }
-      //@ts-ignore
-      vnodeStore.curVnode.HTML!.style[key] = event.target.value
-      emit('update:modelValue', event.target.value)
-}
 
 defineProps({
       modelValue: {

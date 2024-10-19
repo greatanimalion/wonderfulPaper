@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-tooltip activator="parent" location="bottom">{{ title }}</v-tooltip>
+        <v-tooltip theme="light" activator="parent" location="bottom">{{ title }}</v-tooltip>
         <slot></slot>
     </div>
 </template>

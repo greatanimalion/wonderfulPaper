@@ -35,8 +35,8 @@ const layerImgStore = useLayerImgStore();
 const pageStore = usePageStore();
 
 const page = reactive<{ width: string, height: string, create: boolean }>({
-    width: '720',
-    height: '1440',
+    width: '1440',
+    height: '720',
     create: false
 })
 function initPage() {

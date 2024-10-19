@@ -17,7 +17,7 @@ function traverse<T extends { children: T[] }>(target: T, callBack: Function) {
         traverse(v, callBack)
     })
 }
-class vnode {
+class vnode  implements Vnode {
     id: number;
     parent: Vnode | undefined;
     children: never[];
@@ -39,6 +39,7 @@ class vnode {
     vWidth: number;
     vHeight: number;
     name: string;
+    drag: boolean;
     constructor(options: VnodeOptions, parent: Vnode | undefined) {
         elementStyleStore = useElementStyleStore()
         this.id = creatUUID();
@@ -60,6 +61,7 @@ class vnode {
         this.absoluteTop = this.parent?.absoluteTop || 0
         this.absoluteLeft = this.parent?.absoluteLeft || 0
         this.name = options.name || ''
+        this.drag = true
         if (this.id == 0) this.HTML = document.querySelector('.content')!.firstChild as HTMLDivElement
         else this.HTML = this.createHTML()
     }
@@ -74,9 +76,9 @@ class vnode {
         element.style.left = vnode.left + 'px'
         element.style.width = vnode.width + 'px'
         element.style.height = vnode.height + 'px'
-        element.style.position = 'absolute'
-        element.style.top = 0 + 'px'
-        element.style.left = 0 + 'px'
+        element.style.position = vnode.parent?.drag? 'absolute':'relative'
+        element.style.top = '0px'
+        element.style.left = '0px'
         vnode.parent?.HTML?.appendChild(element)
         return element
     }
@@ -145,13 +147,10 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 仅更新节点的位置，宽高，样式属性，不改变解节点的事件等，不涉及虚拟节点dom的改变
         */
         updataVnode(target: Vnode, options: Omit<VnodeOptions, 'events' | 'lineToParent' | 'HTML' | 'vHTML' | 'vTop' | 'vLeft'>) {
-            target.top = options.top || target.top
-            target.left = options.left || target.left
-            target.width = options.width || target.width
-            target.height = options.height || target.height
-            target.style = options.style || target.style
-            target.type = options.type || target.type
-            target.text = options.text || target.text
+            ['top', 'left', 'width', 'height','style', 'type', 'text'].forEach((key) => {
+                //@ts-ignore
+               target[key] = options[key] || target[key]
+            })
         },
         /**
          * 初始化，创建根节点，同时渲染成节点
