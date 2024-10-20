@@ -11,9 +11,6 @@
 import img0 from '@/assets/advanceComponentImg/1.png';
 
 let imgArr=[{url:img0,desc:'echart折线图'}];
-
-
-
 </script>
 
 <style scoped>

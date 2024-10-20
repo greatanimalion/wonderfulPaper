@@ -36,3 +36,11 @@ export interface Vnode  {
 export type VnodeOptions = Partial<Vnode>;
 
 export type plainVnode = Vnode[]
+
+export type LayoutType={
+    name:string,
+    type:string,
+    style:Record<string,string>,
+    text?:string,
+    sub?:LayoutType[]
+}

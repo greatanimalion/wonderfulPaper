@@ -17,7 +17,7 @@ function traverse<T extends { children: T[] }>(target: T, callBack: Function) {
         traverse(v, callBack)
     })
 }
-class vnode  implements Vnode {
+class vnode implements Vnode {
     id: number;
     parent: Vnode | undefined;
     children: never[];
@@ -76,7 +76,7 @@ class vnode  implements Vnode {
         element.style.left = vnode.left + 'px'
         element.style.width = vnode.width + 'px'
         element.style.height = vnode.height + 'px'
-        element.style.position = vnode.parent?.drag? 'absolute':'relative'
+        element.style.position = vnode.parent?.drag ? 'absolute' : 'relative'
         element.style.top = '0px'
         element.style.left = '0px'
         vnode.parent?.HTML?.appendChild(element)
@@ -85,9 +85,9 @@ class vnode  implements Vnode {
     //创建真实节点
     renderVnodeToNode(type: 'add' | 'drag', color?: string) {
         let target = this
+        drawBezierCurveFromParent(target);
         if (type === 'add') {
             if (!container) return;
-            drawBezierCurveFromParent(target, color);
             const div = document.createElement('div');
             div.setAttribute('id', target.id.toString());
             div.classList.add('vnode');
@@ -97,12 +97,14 @@ class vnode  implements Vnode {
             target.vHTML = div
             return;
         }
-        else {
-            drawBezierCurveFromParent(target);
-            target.children.forEach((v) => {
-                drawBezierCurveFromParent(v, color)
-            })
-        }
+        target.children.forEach((v) => {
+            drawBezierCurveFromParent(v, color)
+        })
+    }
+    //渲染布局
+    renderLayout(node: any) {
+        let target = this
+
     }
 }
 
@@ -147,9 +149,9 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 仅更新节点的位置，宽高，样式属性，不改变解节点的事件等，不涉及虚拟节点dom的改变
         */
         updataVnode(target: Vnode, options: Omit<VnodeOptions, 'events' | 'lineToParent' | 'HTML' | 'vHTML' | 'vTop' | 'vLeft'>) {
-            ['top', 'left', 'width', 'height','style', 'type', 'text'].forEach((key) => {
+            ['top', 'left', 'width', 'height', 'style', 'type', 'text'].forEach((key) => {
                 //@ts-ignore
-               target[key] = options[key] || target[key]
+                target[key] = options[key] || target[key]
             })
         },
         /**
