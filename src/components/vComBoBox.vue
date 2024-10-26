@@ -2,15 +2,13 @@
       <div class="v-combo-box">
             <label>{{ label }}:</label>
             <input :type="handleType(key)" :value="modelValue" @blur="($event:any)=>{
-                  handleBlur($event.target.value,key);
-                  emit('update:modelValue', $event.target.value);}" />
+                  handleBlur($event.target.value,key);}" />
       </div>
 </template>
 
 <script setup lang="ts">
 import { useAttrs } from 'vue';
 import { useBlur,useType } from '@/hooks/useBlur';
-const emit = defineEmits(['update:modelValue'])
 const handleBlur = useBlur();
 const handleType = useType();
 let key = useAttrs().keyName as string;
@@ -36,7 +34,6 @@ defineProps({
       margin: 5px 0;
       overflow: hidden;
       grid-template-columns: 1fr 1fr;
-
       label {
             font-size: 14px;
             float: left;

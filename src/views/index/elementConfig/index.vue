@@ -22,8 +22,6 @@
                 </div>
                 <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value !== ''">
                     <VCombobox :keyName="item.key" v-model="item.value" :label="item.descriptions"></VCombobox>
-                    <!-- <v-combobox @update:search="(e:string)=>{console.log(e)}" style="height: 55px;" :label="item.descriptions" :model-value="item.value"
-                    :items="item.values"></v-combobox> -->
                 </div>
             </div>
         </div>

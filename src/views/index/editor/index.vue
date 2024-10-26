@@ -52,8 +52,8 @@ function initPage() {
 function createPage() {
     let height = Number(page.height);
     let width = Number(page.width);
-    if (isNaN(height) || isNaN(width)) { return Alert('error','请输入正确的页面宽高'); }
-    if (width < 300 || height < 300 || width > 100000 || height > 100000) { return Alert('error','页面宽高不能超过100000px或低于300px'); }
+    if (isNaN(height) || isNaN(width)) { return Alert('error', '请输入正确的页面宽高'); }
+    if (width < 300 || height < 300 || width > 100000 || height > 100000) { return Alert('error', '页面宽高不能超过100000px或低于300px'); }
     page.create = true;
     pageStore.init(page.width, page.height)
     initPage();
@@ -64,6 +64,10 @@ function createPage() {
         pageState = getFn('openVnode');
         //初始化鼠标拖拽
         initHTMLDrag(operateContent.value!)
+        operateContent.value!.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            event.dataTransfer!.dropEffect = 'move';
+        });
     })
     //监听鼠标放大缩小
     let zoom = 1;
@@ -76,7 +80,7 @@ function createPage() {
         if (!visualSpace) return
         let Pagecontent = visualSpace.firstChild as HTMLDivElement
         zoom = +(zoom + (event.deltaY > 0 ? zoomStep : -zoomStep)).toFixed(2);
-        if (zoom < 0.1) return Alert('error','防缩不能小于0.1')
+        if (zoom < 0.1) return Alert('error', '防缩不能小于0.1')
         //真实展现
         Pagecontent.style.scale = zoom.toString();
         //虚拟容器

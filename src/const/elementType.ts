@@ -1,1 +1,1 @@
-export  type ElementType='div'| 'button'| 'img'| 'text'| 'input'|'textarea';
+export  type ElementType="div"|"button" | "textarea" | "audio" | "form" | "label" | "link" | "table" | "video" | "img" | "input" | "checkbox" | "radio" | "upload";

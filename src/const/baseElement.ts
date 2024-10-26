@@ -1,5 +1,5 @@
 export const BASE_ELEMENT = {
-    'inpurt': '输入框',
+    'input': '输入框',
     'textarea': '多行文本框',
     'button': '按钮',
     'checkbox': '复选框',
@@ -12,4 +12,5 @@ export const BASE_ELEMENT = {
     'table': '表格',
     'form': '表单',
     'upload': '上传',
+    'div': '容器',
 }
