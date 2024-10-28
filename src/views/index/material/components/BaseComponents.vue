@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { BASE_ELEMENT } from '@/const/baseElement'
+import { BASE_ELEMENT} from '@/const/baseElement'
 import { onMounted, ref } from 'vue';
 const container = ref<HTMLUListElement>()
 onMounted(() => {
@@ -15,8 +15,8 @@ onMounted(() => {
         //@ts-ignore
         element.addEventListener('dragstart', (event:any) => {
             event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('tag', element.id);
         });
-
     });
 
 })

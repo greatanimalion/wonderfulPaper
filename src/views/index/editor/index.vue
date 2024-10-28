@@ -26,14 +26,18 @@ import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { getFn } from '@/utils/busEventFns';
 import Operate from '@/components/Operate.vue';
+import { elementFromPoint } from '@/utils/elementFromPoint';
 import { initHTMLDrag } from '@/hooks/useDrag';
+import useCreateBaseElement  from '@/hooks/useCreateBaseElement';
 const content = ref<HTMLDivElement>()
 const operateContent = ref<HTMLDivElement>()
 const operate = ref<InstanceType<typeof Operate>>();
 const vnodeStore = useVnodeStore();
 const layerImgStore = useLayerImgStore();
 const pageStore = usePageStore();
-
+let pageState: Function;
+let zoom = 1;
+let zoomStep = 0.1;
 const page = reactive<{ width: string, height: string, create: boolean }>({
     width: '1440',
     height: '720',
@@ -50,28 +54,45 @@ function initPage() {
     })
 }
 function createPage() {
-    let height = Number(page.height);
-    let width = Number(page.width);
-    if (isNaN(height) || isNaN(width)) { return Alert('error', '请输入正确的页面宽高'); }
-    if (width < 300 || height < 300 || width > 100000 || height > 100000) { return Alert('error', '页面宽高不能超过100000px或低于300px'); }
-    page.create = true;
-    pageStore.init(page.width, page.height)
+    if(pageStore.init(page.width, page.height))page.create = true;
+    else return 
     initPage();
     //初始化页面
-    let pageState: Function;
     nextTick(() => {
         //取出页面切换函数
         pageState = getFn('openVnode');
         //初始化鼠标拖拽
         initHTMLDrag(operateContent.value!)
+        function duringDragMove(event: MouseEvent) {
+            console.log(121);
+            
+            let target = elementFromPoint(event)
+            if(target){
+                if(target.id.startsWith('el')){
+                    let e=new MouseEvent('click',{
+                        view:window,
+                        bubbles:true,
+                        cancelable:true,
+                        clientX:event.clientX,
+                        clientY:event.clientY
+                    })
+                    operateContent.value!.dispatchEvent(e)
+                }
+            }
+        }
+        
         operateContent.value!.addEventListener('dragover', (event) => {
             event.preventDefault();
             event.dataTransfer!.dropEffect = 'move';
+            window.addEventListener('mousemove', duringDragMove)
         });
+        operateContent.value!.addEventListener('drop', (event) => {
+            event.preventDefault();
+            useCreateBaseElement(event.dataTransfer!.getData('tag') as any)
+            window.removeEventListener('mousemove', duringDragMove)
+        })
     })
     //监听鼠标放大缩小
-    let zoom = 1;
-    let zoomStep = 0.1;
     window.addEventListener('mousewheel', function (event: any) {
         if (pageState && pageState(true)) return
         if (!event.ctrlKey) return;
@@ -90,7 +111,7 @@ function createPage() {
         if (+top > 0) content.value!.style.top = `${top}px`;
         else content.value!.style.top = '0';
         pageStore.scale = zoom;
-    }, { passive: false });
+    });
 }
 
 </script>

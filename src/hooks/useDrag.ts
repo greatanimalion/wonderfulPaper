@@ -138,7 +138,6 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    }
    function startDragEvent(e: MouseEvent) {
       if (!target) return;
-
       mouseDownELement = elementFromPoint(e);
       if (mouseDownELement !== target) return mouseDownELement = null;
       dragState.startX = e.clientX;

@@ -1,7 +1,7 @@
 import useVnodeStore from '@/store/useVnodeStore';
 
 /**
- * 处理css样式的blur事件
+ * 处理input的blur事件
 */
 let handleBlur:(value:string,key: string)=>void;
 export function useBlur() {
