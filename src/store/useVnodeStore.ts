@@ -5,6 +5,7 @@ import { drawBezierCurveFromParent } from '@/hooks/useDraw';
 import { creatUUID } from '@/utils/creatUUID';
 import useElementStyleStore from "./useElementStyleStore";
 import { ElementType } from "@/const/elementType";
+import usePageStore from "./usePageStore";
 let elementStyleStore
 /**
  * @param target 传递遍历的节点,必须存在target.children且为数组
@@ -128,9 +129,15 @@ const VnodeStore = defineStore("useVnodeStore", {
         */
         createSubVnode(parent: Vnode | null, options: VnodeOptions = {}) {
             if (!parent) parent = this.VnodeTree!
+            if(!usePageStore().vnodePage){
+                length=parent.children.length;
+                options.vTop=parent.vTop+100;
+                options.vLeft=parent.children[length-1]?.vLeft+100||parent.vLeft;
+            }
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)
             parent.children.push(newVnode)
             this.plainVnode.push(newVnode)
+            
             newVnode.renderVnodeToNode('add')
         },
         setTarget(target: Vnode) {

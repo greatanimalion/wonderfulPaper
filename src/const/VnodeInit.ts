@@ -4,7 +4,7 @@ export const VnodeInit = {
     vTop: 20,
     vHeight: 40,
     vWidth: 80,
-    vLeft: window.innerWidth / 2 - 40,
+    vLeft: 20,
     text: "",
     type: "div"
 }

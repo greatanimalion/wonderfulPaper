@@ -40,7 +40,7 @@ onMounted(() => {
     window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 'q') {
             if (!pageStore.created) return Alert('error','请先创建页面！')
-            
+            pageStore.openVnodePage()
         }
     })
 })

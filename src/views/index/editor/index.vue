@@ -104,7 +104,7 @@ function createPage() {
         if (+top > 0) content.value!.style.top = `${top}px`;
         else content.value!.style.top = '0';
         pageStore.scale = zoom;
-    });
+    },{passive:false});
 }
 
 </script>
