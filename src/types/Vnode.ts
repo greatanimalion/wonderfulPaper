@@ -24,7 +24,6 @@ export interface Vnode  {
     children: Vnode[];
     parent: Vnode | undefined;
     
-    text: string | undefined;
     lineToParent?: any;
 
     HTML: HTMLElement | null;

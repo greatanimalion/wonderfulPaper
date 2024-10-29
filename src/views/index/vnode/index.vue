@@ -2,7 +2,7 @@
     <div class="contain">
         <CloseSquareOutlined
             style="color: white;font-size: 40px;cursor: pointer;position: absolute;top: 10px;right: 10px;z-index: 9;"
-            ref="Openref" />
+            ref="Openref" @click="() => { pageStore.closeVnodePage() }" />
         <div ref="contain" class="contain-box" width="200" height="100"></div>
         <svg class="svg"></svg>
         <canvas ref="canvas"></canvas>
@@ -10,32 +10,24 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onUnmounted, Ref, ref } from 'vue';
+import {  Ref, ref } from 'vue';
 import { VnodeDrag } from '@/hooks/useDrag';
 import drawGrid from '@/hooks/useDraw';
 import { onMounted } from 'vue';
 import { CloseSquareOutlined } from '@ant-design/icons-vue'
-
-import { getFn } from '@/utils/busEventFns';
+import usePageStore from '@/store/usePageStore';
+const pageStore = usePageStore();
 const canvas = ref<HTMLCanvasElement>();
+const Openref = ref<HTMLDivElement>()
 const contain = ref<HTMLDivElement>();
-let unmnted: Function[] = [];
 let resizeRender = () => {
     drawGrid(canvas as Ref<HTMLCanvasElement>);
 }
-const Openref = ref<HTMLDivElement>()
 onMounted(() => {
     drawGrid(canvas as Ref<HTMLCanvasElement>);
     VnodeDrag(contain as Ref<HTMLDivElement>)
     window.addEventListener('resize', resizeRender)
-    nextTick(() => {
-        Openref.value!.onclick = () => {getFn('openVnode')?.() }
-    });
-})
-
-onUnmounted(() => {
-    unmnted.forEach(fn => fn());
-    window.removeEventListener('resize', resizeRender)
+        pageStore.closeVnodePage()
 })
 </script>
 

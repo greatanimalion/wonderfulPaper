@@ -5,7 +5,8 @@ const usePageStore = defineStore("pages", {
         width: "",
         heigth: "",
         scale: 1,
-        created: false
+        created: false,
+        vnodePage: false
     }),
     actions: {
         init(width: string, heigth: string) {
@@ -20,6 +21,14 @@ const usePageStore = defineStore("pages", {
         },
         setScale(scale: number) {
             this.scale = scale;
+        },
+        openVnodePage() {
+            this.vnodePage =true
+            document.querySelector<HTMLDivElement>('#vnodePage')!.style.display = 'block'
+        },
+        closeVnodePage() {
+            document.querySelector<HTMLDivElement>('#vnodePage')!.style.display = 'none'
+            this.vnodePage = false
         }
     }
 })

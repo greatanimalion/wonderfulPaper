@@ -24,11 +24,10 @@ import { nextTick, reactive, ref } from 'vue';
 import useLayerImgStore from '@/store/useLayerImgStore';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
-import { getFn } from '@/utils/busEventFns';
 import Operate from '@/components/Operate.vue';
 import { elementFromPoint } from '@/utils/elementFromPoint';
 import { initHTMLDrag } from '@/hooks/useDrag';
-import useCreateBaseElement  from '@/hooks/useCreateBaseElement';
+
 const content = ref<HTMLDivElement>()
 const operateContent = ref<HTMLDivElement>()
 const operate = ref<InstanceType<typeof Operate>>();
@@ -43,6 +42,7 @@ const page = reactive<{ width: string, height: string, create: boolean }>({
     height: '720',
     create: false
 })
+
 function initPage() {
     nextTick(() => {
         vnodeStore.init();
@@ -54,42 +54,35 @@ function initPage() {
     })
 }
 function createPage() {
-    if(pageStore.init(page.width, page.height))page.create = true;
-    else return 
+    if (pageStore.init(page.width, page.height)) page.create = true;
+    else return
     initPage();
     //初始化页面
     nextTick(() => {
-        //取出页面切换函数
-        pageState = getFn('openVnode');
         //初始化鼠标拖拽
         initHTMLDrag(operateContent.value!)
-        function duringDragMove(event: MouseEvent) {
-            console.log(121);
-            
-            let target = elementFromPoint(event)
-            if(target){
-                if(target.id.startsWith('el')){
-                    let e=new MouseEvent('click',{
-                        view:window,
-                        bubbles:true,
-                        cancelable:true,
-                        clientX:event.clientX,
-                        clientY:event.clientY
-                    })
-                    operateContent.value!.dispatchEvent(e)
-                }
-            }
-        }
-        
+        let div: any
         operateContent.value!.addEventListener('dragover', (event) => {
             event.preventDefault();
-            event.dataTransfer!.dropEffect = 'move';
-            window.addEventListener('mousemove', duringDragMove)
+            let target = elementFromPoint(event)
+            if (target == div) return
+            div = target
+            if (target) {
+                if (target.id.startsWith('el')) {
+                    operateContent.value!.dispatchEvent(new MouseEvent('click', {
+                        'clientX': event.clientX,
+                        'clientY': event.clientY,
+                        'view': window,
+                        'bubbles': true,
+                        'cancelable': true,
+                    }))
+                }
+                else vnodeStore.clearTarget()
+            }
         });
         operateContent.value!.addEventListener('drop', (event) => {
             event.preventDefault();
-            useCreateBaseElement(event.dataTransfer!.getData('tag') as any)
-            window.removeEventListener('mousemove', duringDragMove)
+            vnodeStore.createSubVnode(vnodeStore.curVnode,{type:event.dataTransfer!.getData('tag') as any})
         })
     })
     //监听鼠标放大缩小

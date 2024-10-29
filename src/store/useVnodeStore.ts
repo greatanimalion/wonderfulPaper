@@ -28,7 +28,6 @@ class vnode implements Vnode {
     style: string;
     type: ElementType;
     events: {};
-    text: string | undefined;
     lineToParent: any;
     HTML: HTMLElement | null;
     vHTML: HTMLElement | null;
@@ -56,7 +55,6 @@ class vnode implements Vnode {
         this.type = options.type || 'div'
         this.style = elementStyleStore.getCommonElementStyle(this.type) || ''
         this.events = {}
-        this.text = options.text
         this.vHTML = null
         this.absoluteTop = this.parent?.absoluteTop || 0
         this.absoluteLeft = this.parent?.absoluteLeft || 0
@@ -82,7 +80,7 @@ class vnode implements Vnode {
         vnode.parent?.HTML?.appendChild(element)
         return element
     }
-    //创建真实节点
+    //创建虚拟节点真实节点
     renderVnodeToNode(type: 'add' | 'drag', color?: string) {
         let target = this
         drawBezierCurveFromParent(target);
@@ -92,7 +90,7 @@ class vnode implements Vnode {
             div.setAttribute('id', target.id.toString());
             div.classList.add('vnode');
             div.style.cssText = `top:${target.vTop}px;left:${target.vLeft}px;`;
-            div.innerText = target.text || target.id.toString();
+            div.innerText = target.name || target.id.toString();
             container.appendChild(div);
             target.vHTML = div
             return;
@@ -145,7 +143,6 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 更新节点属性
          * @param target 目标节点
          * @param options 新属性
-         * @param diff 差异更新
          * 仅更新节点的位置，宽高，样式属性，不改变解节点的事件等，不涉及虚拟节点dom的改变
         */
         updataVnode(target: Vnode, options: Omit<VnodeOptions, 'events' | 'lineToParent' | 'HTML' | 'vHTML' | 'vTop' | 'vLeft'>) {
@@ -168,7 +165,7 @@ const VnodeStore = defineStore("useVnodeStore", {
             let vnode = this.curVnode!
             this.plainVnode.splice(this.plainVnode.indexOf(vnode), 1)
             vnode.parent?.children.splice(vnode.parent.children.indexOf(vnode), 1)
-            vnode.parent?.renderVnodeToNode('add', 'rgba(255, 0, 0, 0.5)')
+            vnode.parent?.renderVnodeToNode('add')
             traverse(vnode, (e: Vnode) => {
                 e.lineToParent?.remove()
                 e.HTML?.remove()

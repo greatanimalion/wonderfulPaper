@@ -12,7 +12,6 @@ import { onMounted, ref } from 'vue';
 const container = ref<HTMLUListElement>()
 onMounted(() => {
     [...container.value!.children].forEach(element => {
-        //@ts-ignore
         element.addEventListener('dragstart', (event:any) => {
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('tag', element.id);

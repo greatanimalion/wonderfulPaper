@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { UnorderedListOutlined, DragOutlined, RollbackOutlined, RetweetOutlined ,PlusSquareOutlined} from '@ant-design/icons-vue';
 import Tooltip from '@/components/Tooltip.vue';
-import { getFn } from '@/utils/busEventFns';
+
 import usePageStore from '@/store/usePageStore';
 import Alert from '@/hooks/useAlert'
 
@@ -31,7 +31,7 @@ const pageStore = usePageStore();
 const handleClick = (type: string) => {
     if (type === 'addNode') {
         if(!pageStore.created)return Alert('error','请先创建页面！')
-        getFn('openVnode')?.()
+        pageStore.openVnodePage()
     }
 }
 

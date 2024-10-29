@@ -12,7 +12,7 @@
             <ElementConfig></ElementConfig>
         </div>
     </div>
-    <Vnode v-show="showVnode"></Vnode>
+    <Vnode id="vnodePage"></Vnode>
     <Menu></Menu>
 </template>
 <script lang="ts" setup>
@@ -24,29 +24,25 @@ import colorFont from 'colorfontcolor';
 import FunctionBar from './functionBar/index.vue';
 import Vnode from "./vnode/index.vue"
 import Menu from '@/components/Menu.vue';
-import { setFn } from '@/utils/busEventFns'
+
 import usePageStore from '@/store/usePageStore';
 import Alert from '@/hooks/useAlert';
 const pageStore = usePageStore()
 const logo = ref('logo')
-const showVnode = ref(false)
+
 /**
  * 打开vnode
  * @param e 如果有e，跳过控制，直接返回当前开关信息
 */
-function openVnode(e?: boolean) {
-    if (!e) showVnode.value = !showVnode.value
-    return showVnode.value
-}
+
 onMounted(() => {
     colorFont(logo.value, { duration: 3, color: ['#a7a7a7', '#9efb7d', '#fb7def', '#7dc0fb'] })
     window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 'q') {
             if (!pageStore.created) return Alert('error','请先创建页面！')
-            openVnode()
+            
         }
     })
-    setFn('openVnode', openVnode)
 })
 
 
