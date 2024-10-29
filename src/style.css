@@ -15,6 +15,9 @@
 *{
   margin: 0;
 }
+*[class="data-drag"]{
+  cursor: move;
+}
 a {
   font-weight: 500;
   color: #646cff;

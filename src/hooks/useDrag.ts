@@ -99,6 +99,7 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    let mouseDownELement: HTMLDivElement | null = null
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
+      if(curTarget==target)return
       if (curTarget?.id.startsWith('el')) {
          if (target) target.style.cursor = "default";//清除上一个元素的样式
          target = curTarget!//target 点击的元素
@@ -109,6 +110,27 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       if (target) target.style.cursor = "default";
       target = null;
       setTimeout(() => { VnodeStore.clearTarget() }, 0)//防止意外nextick对curVnode的结算处理
+   }
+   function startDragEvent(e: MouseEvent) {
+      if (!target) return;
+      mouseDownELement = elementFromPoint(e);
+      if (mouseDownELement !== target) return mouseDownELement = null;
+      dragState.startX = e.clientX;
+      dragState.startY = e.clientY;
+      dragState.elX = parseFloat(target.style.left);
+      dragState.elY = parseFloat(target.style.top);
+   }
+   function dragEvent(e: MouseEvent) {
+      if (!VnodeStore.curVnode ||!mouseDownELement) return;
+      if (mouseDownELement !== target) return
+      let left = (e.clientX - dragState.startX) / PageStore.scale + dragState.elX;
+      let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
+      target!.style.left = `${left}px`;
+      target!.style.top = `${top}px`;
+      VnodeStore.curVnode!.top = top
+      VnodeStore.curVnode!.left = left;
+      //更新缩略图
+      setLayerImg()
    }
    function stopDrag() {
       if (!target || !mouseDownELement) return
@@ -123,28 +145,6 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    contain.addEventListener("mousemove", dragEvent);
    contain.addEventListener('mouseup', stopDrag);
    contain.addEventListener('mouseleave', stopDrag);
-   function dragEvent(e: MouseEvent) {
-      if (!VnodeStore.curVnode || !mouseDownELement) return;
-      if (!VnodeStore.curVnode.drag) return mouseDownELement.style.cursor = "default";
-      if (mouseDownELement !== target) return
-      let left = (e.clientX - dragState.startX) / PageStore.scale + dragState.elX;
-      let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
-      target!.style.left = `${left}px`;
-      target!.style.top = `${top}px`;
-      VnodeStore.curVnode!.top = top
-      VnodeStore.curVnode!.left = left;
-      //更新缩略图
-      setLayerImg()
-   }
-   function startDragEvent(e: MouseEvent) {
-      if (!target) return;
-      mouseDownELement = elementFromPoint(e);
-      if (mouseDownELement !== target) return mouseDownELement = null;
-      dragState.startX = e.clientX;
-      dragState.startY = e.clientY;
-      dragState.elX = parseFloat(target.style.left);
-      dragState.elY = parseFloat(target.style.top);
-   }
 }
 
 
