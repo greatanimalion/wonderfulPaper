@@ -131,7 +131,7 @@ const VnodeStore = defineStore("useVnodeStore", {
             if (!parent) parent = this.VnodeTree!
             if(!usePageStore().vnodePage){
                 length=parent.children.length;
-                options.vTop=parent.vTop+100;
+                options.vTop=parent.vTop+80;
                 options.vLeft=parent.children[length-1]?.vLeft+100||parent.vLeft;
             }
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)

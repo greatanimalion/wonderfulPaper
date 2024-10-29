@@ -6,7 +6,7 @@ import useVnodeStore from '@/store/useVnodeStore';
 let handleBlur:(value:string,key: string)=>void;
 export function useBlur() {
     const vnodeStore = useVnodeStore();
-    if(!handleBlur)handleBlur=(value:string,key: string)=> {
+    if(!handleBlur)handleBlur=(value:string,key: string)=> { 
         if (!vnodeStore.curVnode) return;
         let originVlaue = vnodeStore.curVnode.HTML!.style[key as any];
         if (originVlaue == value) return;
@@ -26,6 +26,7 @@ export function useBlur() {
                     return;
               }
               vnodeStore.curVnode.drag = true;
+              vnodeStore.curVnode.HTML!.style.cursor = 'move';
         }
         if (key == 'left') {
               let left = parseInt(value)

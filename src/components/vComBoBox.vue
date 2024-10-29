@@ -12,7 +12,6 @@ import { useBlur,useType } from '@/hooks/useBlur';
 const handleBlur = useBlur();
 const handleType = useType();
 let key = useAttrs().keyName as string;
-
 defineProps({
       modelValue: {
             type: String,

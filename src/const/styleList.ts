@@ -59,6 +59,10 @@ export default {
         descriptions: '空白处理',
         value: ["normal", "nowrap", "pre", "pre-wrap", "pre-line"]
     },
+    "outline": {
+        descriptions: "轮廓",
+        value: ["none", "轮廓宽度 轮廓样式 轮廓颜色", "1px solid #000", "2px dashed #000", "..."]
+    },
     'word-break': {
         descriptions: '单词换行',
         value:["normal", "break-all", "keep-all"]
@@ -107,10 +111,6 @@ export default {
     'cursor': {
         descriptions: '光标',
         value: ["auto", "default", "pointer", "move", "not-allowed", "crosshair", "text", "wait", "help", "progress"]
-    },
-    'position':{
-        descriptions: '定位',
-        value: ["static", "relative", "absolute", "fixed", "sticky"]
     },
     'z-index':{
         descriptions:'层级',

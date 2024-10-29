@@ -1,38 +1,36 @@
 <template>
     <div class="tool-bar">
-            <Tooltip title="更多">
-                <UnorderedListOutlined style="font-size: 25px;" />
-            </Tooltip>
-            <Tooltip title="撤销">
-                <RollbackOutlined style="font-size: 25px;"/>
-            </Tooltip>
+        <Tooltip title="更多">
+            <UnorderedListOutlined style="font-size: 25px;" />
+        </Tooltip>
+        <Tooltip title="撤销">
+            <RollbackOutlined style="font-size: 25px;" />
+        </Tooltip>
 
-            <Tooltip title="恢复">
-                <RetweetOutlined style="font-size: 25px;"  />
-            </Tooltip>
+        <Tooltip title="恢复">
+            <RetweetOutlined style="font-size: 25px;" />
+        </Tooltip>
 
-            <Tooltip title="拖拽">
-                <DragOutlined style="font-size: 25px;" />
-            </Tooltip>       
-            <Tooltip title="添加节点" @click.native="handleClick('addNode')" >
-                <PlusSquareOutlined style="font-size: 25px;"  />
-            </Tooltip>
+        <Tooltip title="拖拽">
+            <DragOutlined style="font-size: 25px;" />
+        </Tooltip>
+        <Tooltip title="添加节点" @click.native="handleClick()">
+            <PlusSquareOutlined style="font-size: 25px;" />
+        </Tooltip>
     </div>
 </template>
 
 <script setup lang="ts">
-import { UnorderedListOutlined, DragOutlined, RollbackOutlined, RetweetOutlined ,PlusSquareOutlined} from '@ant-design/icons-vue';
+import { UnorderedListOutlined, DragOutlined, RollbackOutlined, RetweetOutlined, PlusSquareOutlined } from '@ant-design/icons-vue';
 import Tooltip from '@/components/Tooltip.vue';
 
 import usePageStore from '@/store/usePageStore';
 import Alert from '@/hooks/useAlert'
 
 const pageStore = usePageStore();
-const handleClick = (type: string) => {
-    if (type === 'addNode') {
-        if(!pageStore.created)return Alert('error','请先创建页面！')
-        pageStore.openVnodePage()
-    }
+const handleClick = () => {
+    if (!pageStore.created) return Alert('error', '请先创建页面！')
+    pageStore.openVnodePage()
 }
 
 </script>
