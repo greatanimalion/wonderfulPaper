@@ -53,7 +53,7 @@ class vnode implements Vnode {
         this.left = options.left || 0
         this.width = options.width || 0
         this.height = options.height || 0
-        this.type = options.type || 'div'
+        this.type = options.type||'div'
         this.style = elementStyleStore.getCommonElementStyle(this.type) || ''
         this.events = {}
         this.vHTML = null
@@ -128,6 +128,7 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 创建子节点,同时渲染成真实dom节点
         */
         createSubVnode(parent: Vnode | null, options: VnodeOptions = {}) {
+            if(!!!options.type)return 
             if (!parent) parent = this.VnodeTree!
             if(!usePageStore().vnodePage){
                 length=parent.children.length;

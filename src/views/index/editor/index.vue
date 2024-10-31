@@ -82,7 +82,10 @@ function createPage() {
         });
         operateContent.value!.addEventListener('drop', (event) => {
             event.preventDefault();
+            console.log(event.dataTransfer!.getData('tag'));
+            
             vnodeStore.createSubVnode(vnodeStore.curVnode,{type:event.dataTransfer!.getData('tag') as any})
+            event.dataTransfer!.setData('tag','')
         })
     })
     //监听鼠标放大缩小

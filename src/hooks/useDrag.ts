@@ -19,9 +19,9 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       offsetY = e.clientY;
       contain.value.addEventListener('mousemove', elementDrag);
    }
-   function stopDrag() {
+   function stop() {
       preElement?.removeEventListener('mousedown', dragMouseDown);
-      preElement?.removeEventListener('mouseup', stopDrag);
+      preElement?.removeEventListener('mouseup', stop);
       contain.value.removeEventListener('mousemove', elementDrag);
       if (!VnodeStore.curVnode) return;
       VnodeStore.curVnode.vTop = parseFloat(preElement!.style.top)
@@ -42,7 +42,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       preElement!.style.top = curTop + 'px';
       preElement!.style.left = curLeft + 'px';
    }
-   function startDragEvent(e: any) {
+   function start(e: any) {
       if (preElement) {
          preElement.style.outline = 'none'
          preElement.removeAttribute('data-drag');
@@ -56,7 +56,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       target!.dataset.drag = 'true';
       preElement = target;
       target.addEventListener('mousedown', dragMouseDown);
-      target.addEventListener('mouseup', stopDrag);
+      target.addEventListener('mouseup', stop);
    }
    function handleInput(e: any) {
       if (e.target && e.target.className !== 'vnode') return;
@@ -74,7 +74,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
          element.innerHTML = input.value;
       });
    }
-   contain.value.addEventListener('click', startDragEvent);
+   contain.value.addEventListener('click', start);
    contain.value.addEventListener('dblclick', handleInput)
 }
 
@@ -99,7 +99,7 @@ export function initHTMLDrag(contain: HTMLDivElement) {
    let mouseDownELement: HTMLDivElement | null = null
    contain.onclick = (e: MouseEvent) => {
       let curTarget = elementFromPoint(e);
-      if(curTarget==target)return
+      if (curTarget == target) return
       if (curTarget?.id.startsWith('el')) {
          if (target) target.style.cursor = "default";//清除上一个元素的样式
          target = curTarget!//target 点击的元素
@@ -107,11 +107,13 @@ export function initHTMLDrag(contain: HTMLDivElement) {
          if (VnodeStore.curVnode?.drag) target.style.cursor = "move";
          return;
       }
-      if (target) target.style.cursor = "default";
-      target = null;
+      if (target) {
+         target.style.cursor = "default";
+         target = null;
+      }
       setTimeout(() => { VnodeStore.clearTarget() }, 0)//防止意外nextick对curVnode的结算处理
    }
-   function startDragEvent(e: MouseEvent) {
+   function mousedown(e: MouseEvent) {
       if (!target) return;
       mouseDownELement = elementFromPoint(e);
       if (mouseDownELement !== target) return mouseDownELement = null;
@@ -120,8 +122,8 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       dragState.elX = parseFloat(target.style.left);
       dragState.elY = parseFloat(target.style.top);
    }
-   function dragEvent(e: MouseEvent) {
-      if (!VnodeStore.curVnode ||!mouseDownELement) return;
+   function mousemove(e: MouseEvent) {      
+      if (!VnodeStore.curVnode||!VnodeStore.curVnode.drag) return;
       if (mouseDownELement !== target) return
       let left = (e.clientX - dragState.startX) / PageStore.scale + dragState.elX;
       let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
@@ -132,7 +134,8 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       //更新缩略图
       setLayerImg()
    }
-   function stopDrag() {
+   function stop() {
+
       if (!target || !mouseDownELement) return
       mouseDownELement = null;
       let curVnode = VnodeStore.curVnode!
@@ -141,10 +144,10 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       curVnode.absoluteTop = +curVnode.parent!.absoluteTop + curVnode!.top;
       curVnode.absoluteLeft = +curVnode.parent!.absoluteLeft + curVnode!.left;
    }
-   contain.addEventListener("mousedown", startDragEvent);
-   contain.addEventListener("mousemove", dragEvent);
-   contain.addEventListener('mouseup', stopDrag);
-   contain.addEventListener('mouseleave', stopDrag);
+   contain.addEventListener("mousedown", mousedown);
+   contain.addEventListener("mousemove", mousemove);
+   contain.addEventListener('mouseup', stop);
+   // contain.addEventListener('mouseleave', stop);
 }
 
 

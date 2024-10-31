@@ -13,7 +13,7 @@ const VnodeStroe =useVnodeStroe();
 function addVnode(e: MouseEvent){ 
     let parentVnode = VnodeStroe.curVnode;
     if(!parentVnode)Alert('info','已默认以根节点创建子节点');    
-    VnodeStroe.createSubVnode(parentVnode,{vTop:e.clientY,vLeft:e.clientX});
+    VnodeStroe.createSubVnode(parentVnode,{vTop:e.clientY,vLeft:e.clientX,type:'div'});
 }
 function deleteVnode(){
     let curVnode = VnodeStroe.curVnode;
