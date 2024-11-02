@@ -45,15 +45,13 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
    function start(e: any) {
       if (preElement) {
          preElement.style.outline = 'none'
-         preElement.removeAttribute('data-drag');
          VnodeStore.clearTarget()
          preElement = null;
       }
-      if (e.target!.className !== 'vnode') return;
+      if (e.target!.className.includes== 'vnode') return;
       let target = e.target as HTMLDivElement;
       VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
       target!.style.outline = "red 2px solid";
-      target!.dataset.drag = 'true';
       preElement = target;
       target.addEventListener('mousedown', dragMouseDown);
       target.addEventListener('mouseup', stop);
@@ -101,14 +99,14 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       let curTarget = elementFromPoint(e);
       if (curTarget == target) return
       if (curTarget?.id.startsWith('el')) {
-         if (target) target.style.cursor = "default";//清除上一个元素的样式
-         target = curTarget!//target 点击的元素
+         if (target) target.classList.remove('move');
+         target = curTarget!
          VnodeStore.setTarget(VnodeStore.findVnode(+target.id.replace('el', '')))
-         if (VnodeStore.curVnode?.drag) target.style.cursor = "move";
+         if (VnodeStore.curVnode?.drag) target.classList.add('move');
          return;
       }
       if (target) {
-         target.style.cursor = "default";
+         target.classList.remove('move');
          target = null;
       }
       setTimeout(() => { VnodeStore.clearTarget() }, 0)//防止意外nextick对curVnode的结算处理

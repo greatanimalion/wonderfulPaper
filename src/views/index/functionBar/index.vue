@@ -17,11 +17,14 @@
         <Tooltip title="添加节点" @click.native="handleClick()">
             <PlusSquareOutlined style="font-size: 25px;" />
         </Tooltip>
+        <Tooltip title="帮助">
+            <QuestionCircleOutlined style="font-size: 25px;" />
+        </Tooltip>
     </div>
 </template>
 
 <script setup lang="ts">
-import { UnorderedListOutlined, DragOutlined, RollbackOutlined, RetweetOutlined, PlusSquareOutlined } from '@ant-design/icons-vue';
+import { UnorderedListOutlined, DragOutlined, RollbackOutlined, RetweetOutlined, PlusSquareOutlined,QuestionCircleOutlined } from '@ant-design/icons-vue';
 import Tooltip from '@/components/Tooltip.vue';
 
 import usePageStore from '@/store/usePageStore';

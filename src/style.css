@@ -1,35 +1,16 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   --bj-color:#242424;
   --difine-font-color-light:#c4c2c2;
 }
 *{
   margin: 0;
 }
-*[class="data-drag"]{
+*[class~="move"]{
   cursor: move;
 }
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
+
 a:hover {
   color: #535bf2;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 #app{
   height: 100%;
@@ -37,24 +18,6 @@ h1 {
   overflow: hidden;
   font-size: 62.5%;
 }
-button {
-  border-radius: 4px;
-  border: 1px solid transparent;
-  padding: 1.1em 1.2em;
-  font-size: 1em;
-  cursor: pointer;
-  /* transition:all 0.25s; */
-  background-color: aliceblue;
-}
-.error-button{
-  background-color: #ca6463;
-  color: white;
-}
-.error-button:hover{
-  background-color: #a75251;
-}
-
-
 .vnode{
   position: absolute;
   top: 500px;
@@ -64,7 +27,6 @@ button {
   background-color: aliceblue;
   cursor: pointer;
   border-radius: 5px;
-  /* line-height: 40px; */
   text-align: center;
   font-size: 15px;
   font-weight: bolder;
@@ -73,9 +35,7 @@ button {
   align-items: center;
   padding: 5px;
 }
-.vnode[data-drag] {
-  cursor: move;
-}
+
 .inherit-input{
   display: inline;
   line-height: 100%;

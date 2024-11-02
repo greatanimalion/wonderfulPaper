@@ -8,15 +8,15 @@ const useLayerImgStore = defineStore('layerImg', {
     }),
     actions: {
         setLayerImg(t?: HTMLElement) {
-            taraget = taraget || t
-            let innerThis = this;
-            if (taraget) html2canvas(taraget).then(function (canvas) {
-                let dataURL = canvas.toDataURL("image/png");
-                innerThis.layerImg = dataURL;
-                img=img||document.querySelector<HTMLImageElement>('.layerThumbnail')
-                img!.src=dataURL;
+            // taraget = taraget || t
+            // let innerThis = this;
+            // if (taraget) html2canvas(taraget).then(function (canvas) {
+            //     let dataURL = canvas.toDataURL("image/png");
+            //     innerThis.layerImg = dataURL;
+            //     img=img||document.querySelector<HTMLImageElement>('.layerThumbnail')
+            //     img!.src=dataURL;
                
-            })
+            // })
         },
     }
 })

@@ -16,8 +16,8 @@
                 handleBlur(lockEl?'absolute':'relative','position')
                 lockEl = !lockEl
             }">
-                <v-btn v-if="!lockEl" color="black">
-                    <LockOutlined />元素固定
+                <v-btn v-if="lockEl" color="black">
+                    <LockOutlined />元素嵌入
                 </v-btn>
                 <v-btn v-else color="black">
                     <UnlockOutlined />元素游动
@@ -80,11 +80,13 @@ let finalStyle = reactive((() => {
 })())
 
 watch(() => vnodeStore.curVnode, () => {
-    if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {
+    if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {//保证不是根节点
         let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
         for (let key in cssObject) {
             if (key == 'position') return cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true
             finalStyle[key].value = cssObject[key];
+            console.log(finalStyle[key].value);
+            
             if (key === 'background-color' || key === 'color') {
                 //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
                 finalStyle[key].value = invertRGBtoHex(finalStyle[key].value)

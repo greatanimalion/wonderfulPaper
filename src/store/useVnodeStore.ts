@@ -78,6 +78,7 @@ class vnode implements Vnode {
         element.style.position = vnode.parent?.drag ? 'absolute' : 'relative'
         element.style.top = '0px'
         element.style.left = '0px'
+        if(vnode.type=='input')element.setAttribute('autocomplete','off')
         vnode.parent?.HTML?.appendChild(element)
         return element
     }
@@ -99,11 +100,6 @@ class vnode implements Vnode {
         target.children.forEach((v) => {
             drawBezierCurveFromParent(v, color)
         })
-    }
-    //渲染布局
-    renderLayout(node: any) {
-        let target = this
-
     }
 }
 
@@ -138,7 +134,6 @@ const VnodeStore = defineStore("useVnodeStore", {
             let newVnode = new vnode(Object.assign({ ...VnodeInit }, options), parent)
             parent.children.push(newVnode)
             this.plainVnode.push(newVnode)
-            
             newVnode.renderVnodeToNode('add')
         },
         setTarget(target: Vnode) {

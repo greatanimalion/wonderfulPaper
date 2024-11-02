@@ -1,47 +1,36 @@
 export default {
     'top': {
-        descriptions: '相对顶部',
-        value:["auto", "10px", "20px", "30px", "40px", "50px", "..."]
+        descriptions: '相对顶部'
     },
     'left': {
-        descriptions: '相对左侧',
-        value: ["auto", "10px", "20px", "30px", "40px", "50px", "..."]
+        descriptions: '相对左侧'
     },
     'width': {
-        descriptions: '宽度',
-        value: ["auto", "100%", "200px", "300px", "400px", "500px", "..."]
+        descriptions: '宽度'
     },
     'height': {
-        descriptions: '高度',
-        value: ["auto", "100%", "200px", "300px", "400px", "500px", "..."]
+        descriptions: '高度'
     },
     'color': {
-        descriptions: '颜色',
-        value: ["red", "blue", "green", "yellow", "black", "white", "..."]
+        descriptions: '颜色'
     },
     'size': {
-        descriptions: '字体大小',
-        value:["12px", "14px", "16px", "18px","..."]
+        descriptions: '字体大小'
     },
     'weight': {
-        descriptions: '字体粗细',
-        value: ["normal", "bold", "bolder", "lighter", "100", "200", "..."]
+        descriptions: '字体粗细'
     },
     'line-height': {
-        descriptions: '行高',
-        value: ["normal", "1", "1.5", "2", "2.5", "..."]
+        descriptions: '行高'
     },
     'letter-spacing': {
-        descriptions: '字距',
-        value: ["0", "0.1", "0.2", "0.3", "1", "1.1", "1.2", "..."]
+        descriptions: '字距'
     },
     'font-family': {
-        descriptions: '字体',
-        value: ["Arial", "Helvetica", "Tahoma", "Verdana", "..."]
+        descriptions: '字体'
     },
     'font-size': {
-        descriptions: '字体大小',
-        value: ["12px", "14px", "16px", "18px", "..."]
+        descriptions: '字体大小'
     },
     'text-decoration': {
         descriptions: '文本装饰',
@@ -116,4 +105,23 @@ export default {
         descriptions:'层级',
         value:['1']
     }
-} as Record<string,{descriptions:string,value:string[]}>
+} as Record<string,{descriptions:string,value?:string[]}>
+
+export const GropsStyleList ={
+    'text':{
+        'font-size':{descriptions:'字体大小'},
+        'font-weight':{descriptions:'字体粗细'},
+        'font-family':{descriptions:'字体'},
+        'color':{descriptions:'颜色'},
+        'line-height':{descriptions:'行高'},
+        'letter-spacing':{descriptions:'字距'},
+        'text-decoration':{descriptions:'文本装饰',value:["none", "underline", "overline", "line-through", "blink"]},
+        'text-shadow':{descriptions:'文本阴影'},
+        'text-overflow':{descriptions:'文本溢出',value:["clip", "ellipsis"]},
+        'white-space':{descriptions:'空白处理',value:["normal", "nowrap", "pre", "pre-wrap", "pre-line"]},
+        'word-break':{descriptions:'单词换行',value:["normal", "break-all", "keep-all"]},
+        'word-wrap':{descriptions:'单词包裹',value:["normal", "break-word"]},
+        'text-align':{descriptions:'文本对齐',value:["left", "center", "right", "justify"]},
+        'vertical-align':{descriptions:'垂直对齐',value:["top", "middle", "bottom", "baseline"]}
+    }
+}

@@ -1,6 +1,6 @@
 <template>
       <div class="v-combo-box">
-            <label>{{ label }}:</label>
+            <span>{{ label }}:</span>
             <input :type="handleType(key)" :value="modelValue" @blur="($event:any)=>{
                   handleBlur($event.target.value,key);}" />
       </div>
@@ -26,36 +26,30 @@ defineProps({
 
 <style scoped lang="scss">
 .v-combo-box {
-      width: 100px;
-      align-items: center;
       width: 240px;
-      height: 40px;
+      height: 30px;
       margin: 5px 0;
-      overflow: hidden;
-      grid-template-columns: 1fr 1fr;
-      label {
+      span {
             font-size: 14px;
             float: left;
             width: 30%;
             text-align: right;
             color: rgb(203, 203, 203);
-            line-height: 40px;
+            line-height: 30px;
             margin-right: 5px;
       }
-
       input {
-            font-size: 16px;
+            font-size: 14px;
             float: left;
-            padding: 5px;
-            height: 40px;
+            padding: 1px;
+            height: 30px;
             width: 67%;
             border: none;
             padding-left: 5px;
             border-radius: 5px;
-            background-color: rgb(38, 38, 38);
+            background-color: #1a1a1a;
             color: rgb(218, 218, 218);
             transition: all 0.3s ease;
-
             &:focus,
             &:hover {
                   outline: none;
