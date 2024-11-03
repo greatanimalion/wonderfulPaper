@@ -4,6 +4,9 @@
             <v-btn width="100%" color="black">
                 <BgColorsOutlined />定义事件
             </v-btn>
+            <div>
+               
+            </div>
         </div>
     </div>
     <div class="modify-style event">
@@ -12,8 +15,8 @@
                 <FormOutlined />添加样式
             </v-btn>
             <div style="display: inline-block;" width="49%" @click="() => {
-                if(!vnodeStore.curVnode)return ;
-                handleBlur(lockEl?'absolute':'relative','position')
+                if (!vnodeStore.curVnode) return;
+                handleBlur(lockEl ? 'absolute' : 'relative', 'position')
                 lockEl = !lockEl
             }">
                 <v-btn v-if="lockEl" color="black">
@@ -28,10 +31,11 @@
         <div class="modify-style-content">
             <div v-show="!!vnodeStore.curVnode && !!vnodeStore.curVnode.id">
                 <div class="item">
-                    <VCombobox keyName="height" v-model="TLHW.height" label="高度"></VCombobox>
-                    <VCombobox keyName="width" v-model="TLHW.width" label="宽度"></VCombobox>
-                    <VCombobox keyName="top" v-model="TLHW.top" label="相对上侧"></VCombobox>
-                    <VCombobox keyName="left" v-model="TLHW.left" label="相对左侧"></VCombobox>
+                    <VCombobox keyName="display" modelValue="default" label="布局" :items="containFlex"></VCombobox>
+                    <VCombobox keyName="height" :modelValue="TLHW.height" label="高度"></VCombobox>
+                    <VCombobox keyName="width" :modelValue="TLHW.width" label="宽度"></VCombobox>
+                    <VCombobox keyName="top" :modelValue="TLHW.top" label="相对上侧"></VCombobox>
+                    <VCombobox keyName="left" :modelValue="TLHW.left" label="相对左侧"></VCombobox>
                 </div>
                 <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value !== ''">
                     <VCombobox :keyName="item.key" v-model="item.value" :label="item.descriptions"></VCombobox>
@@ -60,6 +64,16 @@ import { useBlur } from '@/hooks/useBlur';
 const handleBlur = useBlur();
 const vnodeStore = useVnodeStore();
 const lockEl = ref(false)
+let containFlex=[
+    {
+        key:'默认',
+        value:'default',
+    },
+    {
+        key:'弹性布局',
+        value:'flex',
+    },
+]
 let TLHW = computed(() => {
     return {
         height: vnodeStore.curVnode?.height.toFixed(0) ? vnodeStore.curVnode.height.toFixed(0) + 'px' : '',
@@ -75,6 +89,7 @@ let finalStyle = reactive((() => {
         item[key].key = key;
         item[key].descriptions = styleSheet[key].descriptions;
         item[key].value = '';
+        item[key].selections= styleSheet[key].value||[];
     }
     return item as Record<string, { key: string, descriptions: string, value: string }>;
 })())
@@ -85,14 +100,12 @@ watch(() => vnodeStore.curVnode, () => {
         for (let key in cssObject) {
             if (key == 'position') return cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true
             finalStyle[key].value = cssObject[key];
-            console.log(finalStyle[key].value);
-            
             if (key === 'background-color' || key === 'color') {
                 //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
                 finalStyle[key].value = invertRGBtoHex(finalStyle[key].value)
             }
         }
-    }
+    }   
 })
 
 </script>
@@ -104,6 +117,31 @@ watch(() => vnodeStore.curVnode, () => {
         height: calc(33vh - 35px);
         overflow: auto;
 
+    }
+}
+
+.select-list {
+    position: fixed;
+    top: 314px;
+    border-radius: 4px;
+    right: 5px;
+    padding: 2px 0;
+    background-color: #121212;
+    display: none;
+
+    li {
+        margin: 4px 0;
+        padding: 3px;
+        font-size: 14px;
+        background-color: rgb(51 51 51);
+        width: 160px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgb(72, 72, 72);
+        }
     }
 }
 

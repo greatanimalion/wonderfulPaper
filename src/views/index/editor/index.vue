@@ -27,6 +27,7 @@ import useVnodeStore from '@/store/useVnodeStore';
 import Operate from '@/components/Operate.vue';
 import { elementFromPoint } from '@/utils/elementFromPoint';
 import { initHTMLDrag } from '@/hooks/useDrag';
+import simulateClick ,{initContainer}from '@/utils/simulateClick';
 
 const content = ref<HTMLDivElement>()
 const operateContent = ref<HTMLDivElement>()
@@ -42,7 +43,6 @@ const page = reactive<{ width: string, height: string, create: boolean }>({
     height: '720',
     create: false
 })
-
 function initPage() {
     nextTick(() => {
         vnodeStore.init();
@@ -51,6 +51,7 @@ function initPage() {
         let top = (content.value!.parentElement?.clientHeight || 0) / 2 - (Number(page.height) || 0) / 2;
         if (top > 0) content.value!.style.top = `${top}px`;
         layerImgStore.setLayerImg(content.value)
+        initContainer(operateContent.value!)
     })
 }
 function createPage() {
@@ -66,24 +67,16 @@ function createPage() {
             event.preventDefault();
             let target = elementFromPoint(event)
             if (target == div) return
-            div = target
-            if (target) {
+            div=target
+            if(target){
                 if (target.id.startsWith('el')) {
-                    operateContent.value!.dispatchEvent(new MouseEvent('click', {
-                        'clientX': event.clientX,
-                        'clientY': event.clientY,
-                        'view': window,
-                        'bubbles': true,
-                        'cancelable': true,
-                    }))
+                    simulateClick(event.clientX, event.clientY)
                 }
-                else vnodeStore.clearTarget()
+                else {vnodeStore.clearTarget();}
             }
         });
         operateContent.value!.addEventListener('drop', (event) => {
             event.preventDefault();
-            console.log(event.dataTransfer!.getData('tag'));
-            
             vnodeStore.createSubVnode(vnodeStore.curVnode,{type:event.dataTransfer!.getData('tag') as any})
             event.dataTransfer!.setData('tag','')
         })

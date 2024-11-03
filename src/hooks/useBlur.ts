@@ -17,9 +17,7 @@ export function useBlur() {
     const vnodeStore = useVnodeStore();
     if(!handleBlur)handleBlur=(value:string,key: string)=> { 
         if (!vnodeStore.curVnode) return;
-        let originVlaue = vnodeStore.curVnode.HTML!.style[key as any];
-        if (originVlaue == value) return;
-        vnodeStore.curVnode.HTML!.style[key as any] = value;
+        vnodeStore.curVnode.HTML!.style[key as any] = value;    
         if (key == 'height') return vnodeStore.curVnode.height = handleSuffix(value,'height');
         if (key == 'width') return vnodeStore.curVnode.width = handleSuffix(value,'width');
         if (key == 'position') {
@@ -41,11 +39,13 @@ export function useBlur() {
               let left = handleSuffix(value,'width')
               vnodeStore.curVnode.left = left
               vnodeStore.curVnode.absoluteLeft = left
+              return 
         }
         if (key == 'top') {
               let top = handleSuffix(value,'height')
               vnodeStore.curVnode.top = top
               vnodeStore.curVnode.absoluteTop = top
+              return
         }
     }
     return handleBlur 

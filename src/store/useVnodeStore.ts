@@ -6,6 +6,8 @@ import { creatUUID } from '@/utils/creatUUID';
 import useElementStyleStore from "./useElementStyleStore";
 import { ElementType } from "@/const/elementType";
 import usePageStore from "./usePageStore";
+import simulateClick from "@/utils/simulateClick";
+import { nextTick } from "vue";
 let elementStyleStore
 /**
  * @param target 传递遍历的节点,必须存在target.children且为数组
