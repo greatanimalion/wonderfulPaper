@@ -4,9 +4,11 @@ import usePageStore from "@/store/usePageStore";
 import useLayerImgStore from "@/store/useLayerImgStore";
 import { elementFromPoint } from "@/utils/elementFromPoint";
 import debounce from "@/utils/debounce";
+import useOperateRef from "./useOperateRef.ts";
 let offsetX: number, offsetY: number;
 let target: HTMLDivElement | null;
 let preElement: HTMLDivElement | null = null;
+const operateRef = useOperateRef();
 /**
  * @param contain 容器元素
  * @returns 返回一个函数，销毁监听：
@@ -81,6 +83,8 @@ let dragState = {
    startY: 0,
    elX: 0,
    elY: 0,
+   operateX:0,
+   operateY:0
 }
 /**
  * @param element 容器元素
@@ -119,12 +123,18 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       dragState.startY = e.clientY;
       dragState.elX = parseFloat(target.style.left);
       dragState.elY = parseFloat(target.style.top);
+      dragState.operateX = operateRef.left.value
+      dragState.operateY = operateRef.top.value
    }
    function mousemove(e: MouseEvent) {      
       if (!VnodeStore.curVnode||!VnodeStore.curVnode.drag) return;
       if (mouseDownELement !== target) return
-      let left = (e.clientX - dragState.startX) / PageStore.scale + dragState.elX;
-      let top = (e.clientY - dragState.startY) / PageStore.scale + dragState.elY;
+      const diffX=e.clientX - dragState.startX
+      const diffY=e.clientY - dragState.startY 
+      let left = diffX/PageStore.scale + dragState.elX;
+      let top = diffY/PageStore.scale + dragState.elY;
+      operateRef.setTop((dragState.operateY + diffY))
+      operateRef.setLeft((dragState.operateX + diffX))
       target!.style.left = `${left}px`;
       target!.style.top = `${top}px`;
       VnodeStore.curVnode!.top = top
@@ -133,19 +143,15 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       setLayerImg()
    }
    function stop() {
-
       if (!target || !mouseDownELement) return
       mouseDownELement = null;
       let curVnode = VnodeStore.curVnode!
       curVnode.top = parseFloat(target!.style.top)
       curVnode.left = parseFloat(target!.style.left)
-      curVnode.absoluteTop = +curVnode.parent!.absoluteTop + curVnode!.top;
-      curVnode.absoluteLeft = +curVnode.parent!.absoluteLeft + curVnode!.left;
    }
    contain.addEventListener("mousedown", mousedown);
    contain.addEventListener("mousemove", mousemove);
    contain.addEventListener('mouseup', stop);
-   // contain.addEventListener('mouseleave', stop);
 }
 
 

@@ -6,8 +6,7 @@ import { creatUUID } from '@/utils/creatUUID';
 import useElementStyleStore from "./useElementStyleStore";
 import { ElementType } from "@/const/elementType";
 import usePageStore from "./usePageStore";
-import simulateClick from "@/utils/simulateClick";
-import { nextTick } from "vue";
+
 let elementStyleStore
 /**
  * @param target 传递遍历的节点,必须存在target.children且为数组
@@ -34,8 +33,6 @@ class vnode implements Vnode {
     lineToParent: any;
     HTML: HTMLElement | null;
     vHTML: HTMLElement | null;
-    absoluteTop: number;
-    absoluteLeft: number;
     vTop: number;
     vLeft: number;
     vWidth: number;
@@ -59,8 +56,6 @@ class vnode implements Vnode {
         this.style = elementStyleStore.getCommonElementStyle(this.type) || ''
         this.events = {}
         this.vHTML = null
-        this.absoluteTop = this.parent?.absoluteTop || 0
-        this.absoluteLeft = this.parent?.absoluteLeft || 0
         this.name = options.name || ''
         this.drag = true
         if (this.id == 0) this.HTML = document.querySelector('.content')!.firstChild as HTMLDivElement

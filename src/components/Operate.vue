@@ -5,15 +5,15 @@
             <button @mousedown="updateDirection('rotate')"></button>
         </div> -->
         <div class="line top" :style="{ top: '-2px', width: elInforFinal.width, left: '0px' }">
-            <button @mousedown="updateDirection('top')"></button>
+            <button @mousedown="updateDirection('top')" :style="{cursor:!vnodeStore.curVnode?.drag? 'not-allowed' : 'ns-resize'}"></button>
             <div>{{ vnodeStore.curVnode?.name || '' }}</div>
         </div>
         <div class="line bottom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
-            <button @mousedown="updateDirection('bottom')"></button>
+            <button @mousedown="updateDirection('bottom')" ></button>
             <div>W:{{ vnodeStore.curVnode?.width.toFixed(0) }}px,H:{{ vnodeStore.curVnode?.height.toFixed(0) }}px</div>
         </div>
         <div class="line left" :style="{ top: '0px', height: elInforFinal.height, left: '-2px' }">
-            <button @mousedown="updateDirection('left')"></button>
+            <button @mousedown="updateDirection('left')" :style="{cursor:!vnodeStore.curVnode?.drag? 'not-allowed' : 'ew-resize'}"></button>
         </div>
         <div class="line right" :style="{ top: '0px', height: elInforFinal.height, left: elInforFinal.width }">
             <button @mousedown="updateDirection('right')"></button>
@@ -22,14 +22,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import usePageStore from '@/store/usePageStore';
 import useVnodeStore from '@/store/useVnodeStore';
 import { DirectionType } from "@/types/OperateBorderLine"
 import useOperate from "@/hooks/useOperate"
+import useOperateRef from '@/hooks/useOperateRef.ts';
 const vnodeStore = useVnodeStore();
 const pageStore = usePageStore();
-
+const operateRef=useOperateRef();
 let elInforFinal = computed(() => {
     if (!vnodeStore.curVnode) return {
         top: 0,
@@ -38,14 +39,18 @@ let elInforFinal = computed(() => {
         height: 0
     }
     return {
-        top: ((vnodeStore.curVnode.parent?.absoluteTop || 0) + vnodeStore.curVnode.top - 1) * pageStore.scale + 'px',
-        left: ((vnodeStore.curVnode.parent?.absoluteLeft || 0) + vnodeStore.curVnode.left - 1) * pageStore.scale + 'px',
+        top: operateRef.top.value+'px',
+        left: operateRef.left.value+'px',
         width: (vnodeStore.curVnode.width + 2) * pageStore.scale + 'px',
         height: (vnodeStore.curVnode.height + 2) * pageStore.scale + 'px',
         rotate: '0px'
     }
 })
-
+watch(()=>vnodeStore.curVnode, () => {
+    if(!vnodeStore.curVnode)return;
+    operateRef.setTop(vnodeStore.curVnode.HTML!.getClientRects()[0].top-1)
+    operateRef.setLeft(vnodeStore.curVnode.HTML!.getClientRects()[0].left-1)
+})
 const updateDirection = (direction: DirectionType) => {
     useOperate()(direction)
 }
@@ -54,8 +59,10 @@ const updateDirection = (direction: DirectionType) => {
 
 <style scoped lang="scss">
 .el {
-    position: absolute;
+    position: fixed;
     top: 0;
+    left: 0;
+    z-index: 9;
 }
 
 .line {

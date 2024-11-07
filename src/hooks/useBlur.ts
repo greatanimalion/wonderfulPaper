@@ -23,8 +23,6 @@ export function useBlur() {
         if (key == 'position') {
               if (value == 'relative') {
                     vnodeStore.curVnode.drag = false;
-                    vnodeStore.curVnode.absoluteLeft = vnodeStore.curVnode.parent?.absoluteLeft || 0;
-                    vnodeStore.curVnode.absoluteTop = vnodeStore.curVnode.parent?.absoluteTop || 0;
                     vnodeStore.curVnode.HTML!.style.left = '0px';
                     vnodeStore.curVnode.HTML!.style.top = '0px';
                     vnodeStore.curVnode.top = 0;
@@ -38,13 +36,11 @@ export function useBlur() {
         if (key == 'left') {
               let left = handleSuffix(value,'width')
               vnodeStore.curVnode.left = left
-              vnodeStore.curVnode.absoluteLeft = left
               return 
         }
         if (key == 'top') {
               let top = handleSuffix(value,'height')
               vnodeStore.curVnode.top = top
-              vnodeStore.curVnode.absoluteTop = top
               return
         }
     }

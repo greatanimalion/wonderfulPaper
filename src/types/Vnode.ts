@@ -8,8 +8,6 @@ export interface Vnode  {
     left: number;
     width: number;
     height: number;
-    absoluteTop: number;
-    absoluteLeft: number;
     //节点的位置
     vTop: number;
     vLeft: number;
