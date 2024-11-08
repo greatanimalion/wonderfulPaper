@@ -1,100 +1,93 @@
+import { type Sample } from "@/types/StyleItem"
+
 export default {
-    'color': {
-        descriptions: '颜色'
+    'font-size': { 'descriptions': '字体大小' },
+    'vertical-align': { 'descriptions': '垂直对齐' },
+    'font-weight': { 'descriptions': '字体粗细' },
+    'font-family': { 'descriptions': '字体' },
+    'color': { 'descriptions': '字体颜色' },
+    'line-height': { 'descriptions': '行高' },
+    'word-break': { 'descriptions': '单词换行' },
+    'word-wrap': { 'descriptions': '单词包裹', },
+    'background-color': { 'descriptions': '背景颜色' },
+    'letter-spacing': { 'descriptions': '字距' },
+    'margin': { 'descriptions': '外边距' },
+    'border-radius': { 'descriptions': '圆角' },
+    'text-shadow': { 'descriptions': '文本阴影' },
+    'z-index': { 'descriptions': '层级' },
+    'position': {
+        'descriptions': '定位',
+        'list': [
+            {
+                'description': "相对定位",
+                'value': "relative"
+            }, {
+                'description': "绝对定位",
+                'value': "absolute"
+            },]
     },
-    'font-size': {
-        descriptions: '字体大小'
-    },
-    'font-weight': {
-        descriptions: '字体粗细'
-    },
-    'line-height': {
-        descriptions: '行高'
-    },
-    'letter-spacing': {
-        descriptions: '字距'
-    },
-    'font-family': {
-        descriptions: '字体'
+    'display': {
+        'descriptions': '显示方式',
+        'list': [
+            {
+                'description': "块级元素",
+                'value': "block"
+            }, {
+                'description': "功能布局",
+                'value': "flex"
+            }]
     },
     'text-decoration': {
-        descriptions: '文本装饰',
-        value: ["none", "underline", "overline", "line-through", "blink"]
-    },
-    'text-shadow': {
-        descriptions: '文本阴影',
-        value: ["none", "x位移 y位移 blur 颜色", "1px 1px 1px #000", "2px 2px 2px #000", "3px 3px 3px #000", "..."]
+        'descriptions': '文本装饰',
+        'list': [
+            {
+                'description': "无",
+                'value': "none"
+            }, {
+                'description': "下划线",
+                'value': "underline"
+            }, {
+                'description': "上划线",
+                'value': "overline"
+            }, {
+                'description': "删除线",
+                'value': "line-through"
+            }
+        ]
     },
     'text-overflow': {
-        descriptions: '文本溢出',
-        value: ["clip", "ellipsis"]
+        'descriptions': '文本溢出',
+        'list': [{
+            'description': "裁剪",
+            'value': "clip"
+        }, {
+            'description': "省略号",
+            'value': "ellipsis"
+        }]
     },
     'white-space': {
-        descriptions: '空白处理',
-        value: ["normal", "nowrap", "pre", "pre-wrap", "pre-line"]
-    },
-    "outline": {
-        descriptions: "轮廓",
-        value: ["none", "轮廓宽度 轮廓样式 轮廓颜色", "1px solid #000", "2px dashed #000", "..."]
-    },
-    'word-break': {
-        descriptions: '单词换行',
-        value:["normal", "break-all", "keep-all"]
+        'descriptions': '空白处理',
+        'list': [
+            {
+                'description': "正常",
+                'value': "normal"
+            }, {
+                'description': "不换行",
+                'value': "nowrap"
+            }
+        ]
     },
     'text-align': {
-        descriptions: '文本对齐',
-        value: ["left", "center", "right", "justify"]
+        'descriptions': '文本对齐',
+        'list': [{
+            'description': "左对齐",
+            'value': "left"
+        }, {
+            'description': "居中",
+            'value': "center"
+        }, {
+            'description': "右对齐",
+            'value': "right"
+        }]
     },
-    'vertical-align': {
-        descriptions: '垂直对齐',
-        value: ["top", "middle", "bottom", "baseline"]
-    },
-    'background-color': {
-        descriptions: '背景颜色',
-    },
-
-    'border': {
-        descriptions: '边框',
-    },
-    'border-radius': {
-        descriptions: '圆角',
-    },
-    'box-shadow': {
-        descriptions: '盒子阴影',
-    },
-    'padding': {
-        descriptions: '内边距',
-    },
-    'margin': {
-        descriptions: '外边距',
-    },
-    'opacity': {
-        descriptions: '透明度',
-    },
-    'cursor': {
-        descriptions: '光标',
-        value: ["auto", "default", "pointer", "move", "not-allowed", "crosshair", "text", "wait", "help", "progress"]
-    },
-    'z-index':{
-        descriptions:'层级',
-    }
-} as Record<string,{descriptions:string,value?:string[]}>
-
-export const GropsStyleList ={
-    'text':{
-        'font-size':{descriptions:'字体大小'},
-        'font-weight':{descriptions:'字体粗细'},
-        'font-family':{descriptions:'字体'},
-        'color':{descriptions:'颜色'},
-        'line-height':{descriptions:'行高'},
-        'letter-spacing':{descriptions:'字距'},
-        'text-decoration':{descriptions:'文本装饰',value:["none", "underline", "overline", "line-through", "blink"]},
-        'text-shadow':{descriptions:'文本阴影'},
-        'text-overflow':{descriptions:'文本溢出',value:["clip", "ellipsis"]},
-        'white-space':{descriptions:'空白处理',value:["normal", "nowrap", "pre", "pre-wrap", "pre-line"]},
-        'word-break':{descriptions:'单词换行',value:["normal", "break-all", "keep-all"]},
-        'word-wrap':{descriptions:'单词包裹',value:["normal", "break-word"]},
-        'text-align':{descriptions:'文本对齐',value:["left", "center", "right", "justify"]},
-        'vertical-align':{descriptions:'垂直对齐',value:["top", "middle", "bottom", "baseline"]}
-    }
-}
+} as Omit<Sample, 'value'>

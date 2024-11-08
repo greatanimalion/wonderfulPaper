@@ -17,7 +17,9 @@ export function useBlur() {
     const vnodeStore = useVnodeStore();
     if(!handleBlur)handleBlur=(value:string,key: string)=> { 
         if (!vnodeStore.curVnode) return;
-        vnodeStore.curVnode.HTML!.style[key as any] = value;    
+        vnodeStore.curVnode.HTML!.style[key as any] = value;
+        console.log(vnodeStore.curVnode.HTML!.style[key as any]);
+           
         if (key == 'height') return vnodeStore.curVnode.height = handleSuffix(value,'height');
         if (key == 'width') return vnodeStore.curVnode.width = handleSuffix(value,'width');
         if (key == 'position') {
