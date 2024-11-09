@@ -1,8 +1,8 @@
 <template>
       <div class="v-combo-box">
             <span>{{ZHname }}:</span>
-            <input v-if="list.length ==0"  :type="handleType(ENname)" :value="modelValue" @blur="blur" />
-            <Selection v-else  :change="change" :value="modelValue" :items="list"/>
+            <input v-if="list.length ==0"  :type="handleType(props.ENname)" :value="props.modelValue" @blur="blur" />
+            <Selection v-else  :change="change" :value="props.modelValue" :items="list"/>
       </div>
 </template>
 
@@ -12,20 +12,19 @@ import { useBlur, useType } from '@/hooks/useBlur';
 import Selection from '@/components/Selection.vue';
 
 //处理不同类型的数据以展现不同效果
-let ENname = useAttrs().ENname as string;
+let props = useAttrs() as {
+      modelValue: string,
+      ENname: string,
+}
 const handleBlur = useBlur();
 const handleType = useType();
 function blur(event: any) {
-      handleBlur(event.target.value, ENname)
+      handleBlur(event.target.value,props.ENname,props.modelValue)
 }
 function change(value: string) {
-      handleBlur(value, ENname)
+      handleBlur(value, props.ENname)
 }
 defineProps({
-      modelValue: {
-            type: String,
-            default: ''
-      },
       list:{
             type: Array<{
                   description: string,

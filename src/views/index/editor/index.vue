@@ -12,7 +12,7 @@
             </div>
         </div>
         <div v-else class="content" ref="content">
-            <div :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"
+            <div class="operateContent" :style="{ width: `${page.width}px`, height: `${page.height}px`, position: 'relative' }"
                 ref="operateContent"></div>
             <Operate ref="operate"></Operate>
         </div>
@@ -28,13 +28,14 @@ import Operate from '@/components/Operate.vue';
 import { elementFromPoint } from '@/utils/elementFromPoint';
 import { initHTMLDrag } from '@/hooks/useDrag';
 import simulateClick ,{initContainer}from '@/utils/simulateClick';
-
+import useOperateRef from '@/hooks/useOperateRef.ts';
 const content = ref<HTMLDivElement>()
 const operateContent = ref<HTMLDivElement>()
 const operate = ref<InstanceType<typeof Operate>>();
 const vnodeStore = useVnodeStore();
 const layerImgStore = useLayerImgStore();
 const pageStore = usePageStore();
+const operateRef = useOperateRef();
 let pageState: Function;
 let zoom = 1;
 let zoomStep = 0.1;
@@ -100,6 +101,10 @@ function createPage() {
         if (+top > 0) content.value!.style.top = `${top}px`;
         else content.value!.style.top = '0';
         pageStore.scale = zoom;
+        if(vnodeStore.curVnode){
+            operateRef.scale(zoom)
+
+        }
     },{passive:false});
 }
 

@@ -48,8 +48,10 @@ let elInforFinal = computed(() => {
 })
 watch(()=>vnodeStore.curVnode, () => {
     if(!vnodeStore.curVnode)return;
-    operateRef.setTop(vnodeStore.curVnode.HTML!.getClientRects()[0].top-1)
-    operateRef.setLeft(vnodeStore.curVnode.HTML!.getClientRects()[0].left-1)
+    let top=vnodeStore.curVnode.HTML!.getClientRects()[0].top-document.querySelector<HTMLDivElement>('.operateContent')!.getClientRects()[0].top-(1*pageStore.scale);
+    let left=vnodeStore.curVnode.HTML!.getClientRects()[0].left-document.querySelector<HTMLDivElement>('.operateContent')!.getClientRects()[0].left-(1*pageStore.scale);
+    operateRef.setTop(top)
+    operateRef.setLeft(left)
 })
 const updateDirection = (direction: DirectionType) => {
     useOperate()(direction)
@@ -59,7 +61,7 @@ const updateDirection = (direction: DirectionType) => {
 
 <style scoped lang="scss">
 .el {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 9;
@@ -76,7 +78,6 @@ const updateDirection = (direction: DirectionType) => {
     --line-width: 2px;
     --line-color: rgb(255, 85, 198);
     user-select: none;
-   
     button {
         padding: 0;
         -webkit-user-drag:none;

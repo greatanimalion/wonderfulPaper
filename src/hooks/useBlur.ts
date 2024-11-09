@@ -1,58 +1,60 @@
 import useVnodeStore from '@/store/useVnodeStore';
-
-
-function handleSuffix(s: string,key: 'width'|'height'){
+import useOperateRef from './useOperateRef.ts';
+const operateRef = useOperateRef();
+function handleSuffix(s: string, key: 'width' | 'height') {
     let curVnode = useVnodeStore().curVnode;
-    if(!curVnode||!curVnode.parent)return 0;
-    if(s.endsWith('px'))return Number(s.slice(0, -2));
-    else if(s.endsWith('%'))return (curVnode.parent[key]*(Number(s.slice(0, -1)) / 100));
+    if (!curVnode || !curVnode.parent) return 0;
+    if (s.endsWith('px')) return Number(s.slice(0, -2));
+    else if (s.endsWith('%')) return (curVnode.parent[key] * (Number(s.slice(0, -1)) / 100));
     return 0
 }
 
 /**
  * 处理input的blur事件
 */
-let handleBlur:(value:string,key: string)=>void;
+let handleBlur: (value: string, key: string,oldValue?:string) => void;
 export function useBlur() {
     const vnodeStore = useVnodeStore();
-    if(!handleBlur)handleBlur=(value:string,key: string)=> { 
+    if (!handleBlur) handleBlur = (value: string, key: string,oldValue?:string) => {
         if (!vnodeStore.curVnode) return;
         vnodeStore.curVnode.HTML!.style[key as any] = value;
-        console.log(vnodeStore.curVnode.HTML!.style[key as any]);
-           
-        if (key == 'height') return vnodeStore.curVnode.height = handleSuffix(value,'height');
-        if (key == 'width') return vnodeStore.curVnode.width = handleSuffix(value,'width');
+        if (key == 'height') return vnodeStore.curVnode.height = handleSuffix(value, 'height');
+        if (key == 'width') return vnodeStore.curVnode.width = handleSuffix(value, 'width');
         if (key == 'position') {
-              if (value == 'relative') {
-                    vnodeStore.curVnode.drag = false;
-                    vnodeStore.curVnode.HTML!.style.left = '0px';
-                    vnodeStore.curVnode.HTML!.style.top = '0px';
-                    vnodeStore.curVnode.top = 0;
-                    vnodeStore.curVnode.left = 0;
-                    vnodeStore.curVnode.HTML!.classList.remove('move');
-                    return;
-              }
-              vnodeStore.curVnode.drag = true;
-              vnodeStore.curVnode.HTML!.classList.add('move');
+            if (value == 'relative') {
+                vnodeStore.curVnode.drag = false;
+                vnodeStore.curVnode.HTML!.style.left = '0px';
+                vnodeStore.curVnode.HTML!.style.top = '0px';
+                vnodeStore.curVnode.top = 0;
+                vnodeStore.curVnode.left = 0;
+                vnodeStore.curVnode.HTML!.classList.remove('move');
+                return;
+            }
+            vnodeStore.curVnode.drag = true;
+            vnodeStore.curVnode.HTML!.classList.add('move');
         }
         if (key == 'left') {
-              let left = handleSuffix(value,'width')
-              vnodeStore.curVnode.left = left
-              return 
+            let left = handleSuffix(value, 'width')
+            vnodeStore.curVnode.left = left
+            console.log(parseInt(oldValue!),parseInt(value));
+            
+            operateRef.setLeft(parseInt(value)-parseInt(oldValue!))
+            return
         }
         if (key == 'top') {
-              let top = handleSuffix(value,'height')
-              vnodeStore.curVnode.top = top
-              return
+            let top = handleSuffix(value, 'height')
+            vnodeStore.curVnode.top = top
+            operateRef.setTop(top)
+            return
         }
     }
-    return handleBlur 
+    return handleBlur
 }
-let handleType:(key: string)=>string;
+let handleType: (key: string) => string;
 export function useType() {
-    if(!handleType)handleType=(key: string)=> {
+    if (!handleType) handleType = (key: string) => {
         if (key == 'background-color' || key == 'color') return 'color';
         else return 'text';
     }
-    return handleType 
+    return handleType
 }

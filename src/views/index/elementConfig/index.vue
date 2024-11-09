@@ -76,8 +76,6 @@ let finalStyle = reactive((() => {
         item[key].value = '';
         item[key].list = markRaw(styleSheet[key].list||[]);
     }
-    console.log(item);
-    
     return item as Item;
 })())
 
