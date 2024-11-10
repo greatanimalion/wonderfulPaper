@@ -16,13 +16,13 @@ const operateRef = useOperateRef();
 */
 export function VnodeDrag(contain: Ref<HTMLDivElement>) {
    const VnodeStore = useVnodeStroe();
-   function dragMouseDown(e: MouseEvent) {
+   function MouseDown(e: MouseEvent) {
       offsetX = e.clientX;
       offsetY = e.clientY;
       contain.value.addEventListener('mousemove', elementDrag);
    }
    function stop() {
-      preElement?.removeEventListener('mousedown', dragMouseDown);
+      preElement?.removeEventListener('mousedown', MouseDown);
       preElement?.removeEventListener('mouseup', stop);
       contain.value.removeEventListener('mousemove', elementDrag);
       if (!VnodeStore.curVnode) return;
@@ -44,18 +44,18 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       preElement!.style.top = curTop + 'px';
       preElement!.style.left = curLeft + 'px';
    }
-   function start(e: any) {
+   function click(e: any) {
       if (preElement) {
          preElement.style.outline = 'none'
          VnodeStore.clearTarget()
          preElement = null;
       }
-      if (e.target!.className.includes== 'vnode') return;
+      if (e.target!.className!== 'vnode') return;
       let target = e.target as HTMLDivElement;
       VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
       target!.style.outline = "red 2px solid";
       preElement = target;
-      target.addEventListener('mousedown', dragMouseDown);
+      target.addEventListener('mousedown', MouseDown);
       target.addEventListener('mouseup', stop);
    }
    function handleInput(e: any) {
@@ -74,7 +74,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
          element.innerHTML = input.value;
       });
    }
-   contain.value.addEventListener('click', start);
+   contain.value.addEventListener('click', click);
    contain.value.addEventListener('dblclick', handleInput)
 }
 

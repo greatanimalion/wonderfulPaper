@@ -1,5 +1,5 @@
 <template>
-    <div v-show="!!vnodeStore.curVnode && !!vnodeStore.curVnode.id" class="el"
+    <div v-show="!!vnodeStore.curVnode && !!vnodeStore.curVnode.id" class="el" draggable="false"
         :style="{ top: elInforFinal.top, left: elInforFinal.left }">
         <!-- <div class="line rotate" :style="{ top: -30 + 'px', width: elInforFinal.width, height:0, left: '0px' }">
             <button @mousedown="updateDirection('rotate')"></button>
