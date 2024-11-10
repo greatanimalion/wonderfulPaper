@@ -2,47 +2,70 @@ import { Ref, ref } from "vue";
 import usePageStore from "@/store/usePageStore";
 const top = ref(0);
 const left = ref(0);
-let realLeft = 0;
-let realTop = 0;
+const realObj = {
+    left: 0,
+    top: 0
+}
 let operate: {
     top: Ref<number>,//虚拟坐标系的top
     left: Ref<number>,//虚拟坐标系的left
-    realTop: number,//物理坐标系的top
-    realLeft: number,//物理坐标系的top
+    realObj: {
+        top: number,//物理坐标系的top
+        left: number,//物理坐标系的top
+    }
+
     setTop: (value: number) => void,
     setLeft: (value: number) => void
     scale: (zoom: number) => void
+    setRealLeft: (left: number) => void
+    setRealTop: (top: number) => void
 };
 
-/**
- * 已自动处理，只需填入真实物理像素即可
-*/
 export default function useOperateRef() {
+    /**
+     * 输入虚拟坐标系的top
+    */
     const setTop = (value: number) => {
         top.value = value;
-        realTop =value/usePageStore().scale;
-    }
-    const setLeft = (value: number) => {
-        left.value = value;
-        realLeft =value/usePageStore().scale;
-        console.log(usePageStore().scale);
-        
+        realObj.top = value / usePageStore().scale;
     }
     /**
-     * 专门为页面放缩管理
+     * 输入虚拟坐标系的left
+    */
+    const setLeft = (value: number) => {
+        left.value = value;
+        realObj.left = value / usePageStore().scale;
+    }
+    /**
+     * 输入物理坐标系的left
+    */
+    const setRealLeft = (l: number) => {
+        realObj.left = l;
+        left.value = l * usePageStore().scale;
+    }
+    /**
+     * 输入物理坐标系的top
+    */
+    const setRealTop = (t: number) => {
+        realObj.top = t;
+        top.value = t * usePageStore().scale;
+    }
+    /**
+     * 输入页面放缩比例
     */
     const scale = (zoom: number) => {
-        top.value = realTop*zoom;
-        left.value = realLeft*zoom;
+        top.value = realObj.top * zoom;
+        left.value = realObj.left * zoom;
     }
     operate = operate || {
-        realLeft,
-        realTop,
+        realObj,
         top,
         left,
         setTop,
         setLeft,
-        scale
+        scale,
+        setRealLeft,
+        setRealTop
     }
     return operate;
 }

@@ -17,6 +17,7 @@ export function useBlur() {
     const vnodeStore = useVnodeStore();
     if (!handleBlur) handleBlur = (value: string, key: string,oldValue?:string) => {
         if (!vnodeStore.curVnode) return;
+        if(oldValue&&value == oldValue) return;
         vnodeStore.curVnode.HTML!.style[key as any] = value;
         if (key == 'height') return vnodeStore.curVnode.height = handleSuffix(value, 'height');
         if (key == 'width') return vnodeStore.curVnode.width = handleSuffix(value, 'width');
@@ -34,11 +35,10 @@ export function useBlur() {
             vnodeStore.curVnode.HTML!.classList.add('move');
         }
         if (key == 'left') {
-            let left = handleSuffix(value, 'width')
-            vnodeStore.curVnode.left = left
-            console.log(parseInt(oldValue!),parseInt(value));
-            
-            operateRef.setLeft(parseInt(value)-parseInt(oldValue!))
+            let newLeft = handleSuffix(value, 'width')
+            let oldLeft = handleSuffix(oldValue as string, 'width')
+            vnodeStore.curVnode.left = newLeft
+            operateRef.setRealLeft(operateRef.realObj.left+newLeft-oldLeft);
             return
         }
         if (key == 'top') {

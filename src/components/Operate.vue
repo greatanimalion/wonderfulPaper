@@ -39,8 +39,8 @@ let elInforFinal = computed(() => {
         height: 0
     }
     return {
-        top: operateRef.top.value+'px',
-        left: operateRef.left.value+'px',
+        top: operateRef.top.value-(1*pageStore.scale)+'px',
+        left: operateRef.left.value-(1*pageStore.scale)+'px',
         width: (vnodeStore.curVnode.width + 2) * pageStore.scale + 'px',
         height: (vnodeStore.curVnode.height + 2) * pageStore.scale + 'px',
         rotate: '0px'
@@ -48,8 +48,8 @@ let elInforFinal = computed(() => {
 })
 watch(()=>vnodeStore.curVnode, () => {
     if(!vnodeStore.curVnode)return;
-    let top=vnodeStore.curVnode.HTML!.getClientRects()[0].top-document.querySelector<HTMLDivElement>('.operateContent')!.getClientRects()[0].top-(1*pageStore.scale);
-    let left=vnodeStore.curVnode.HTML!.getClientRects()[0].left-document.querySelector<HTMLDivElement>('.operateContent')!.getClientRects()[0].left-(1*pageStore.scale);
+    let top=vnodeStore.curVnode.HTML!.getClientRects()[0].top-document.querySelector<HTMLDivElement>('.operateContent')!.getClientRects()[0].top;
+    let left=vnodeStore.curVnode.HTML!.getClientRects()[0].left-document.querySelector<HTMLDivElement>('.operateContent')!.getClientRects()[0].left;
     operateRef.setTop(top)
     operateRef.setLeft(left)
 })
