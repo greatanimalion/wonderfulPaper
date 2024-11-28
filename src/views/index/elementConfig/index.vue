@@ -86,12 +86,13 @@ watch(() => vnodeStore.curVnode, () => {
     for (let key in cssObject) {
         //@ts-ignore
         if(!finalStyle[key])finalStyle[key] = {list:[]};
-        finalStyle[key].value = cssObject[key];
-        if (key == 'position')  cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true
+        if (key == 'position'){cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true;continue;}
         if (key === 'background-color' || key === 'color') {
             //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
-             finalStyle[key].value = invertRGBtoHex(finalStyle[key].value!)
+            finalStyle[key].value = invertRGBtoHex(finalStyle[key].value!)
+            continue;
         }
+        finalStyle[key].value = cssObject[key];
     }    
 })
 

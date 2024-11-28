@@ -5,7 +5,7 @@ function handleSuffix(s: string, key: 'width' | 'height') {
     let curVnode = useVnodeStore().curVnode;
     if (!curVnode || !curVnode.parent) return 0;
     if (s.endsWith('px')) return Number(s.slice(0, -2));
-    else if (s.endsWith('%')) return (curVnode.parent[key] * (Number(s.slice(0, -1)) / 100));
+    if (s.endsWith('%')) return (curVnode.parent[key] * (Number(s.slice(0, -1)) / 100));
     return 0
 }
 
@@ -33,6 +33,7 @@ export function useBlur() {
             }
             vnodeStore.curVnode.drag = true;
             vnodeStore.curVnode.HTML!.classList.add('move');
+            return ;
         }
         if (key == 'left') {
             let newLeft = handleSuffix(value, 'width')
@@ -54,7 +55,7 @@ let handleType: (key: string) => string;
 export function useType() {
     if (!handleType) handleType = (key: string) => {
         if (key == 'background-color' || key == 'color') return 'color';
-        else return 'text';
+        return 'text';
     }
     return handleType
 }

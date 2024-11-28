@@ -14,7 +14,7 @@ const useElementStyleStore = defineStore("elementStyleStore", {
     },
     actions: {
         getSpecialElementStyle(el: number) {
-            return this.specialStyle.get(el);
+            return this.specialStyle.get(el)||"";
         },
         setSpecialElementStyle(el: number, style: string) {
             this.specialStyle.set(el, style);
@@ -23,7 +23,7 @@ const useElementStyleStore = defineStore("elementStyleStore", {
             this.specialStyle.delete(el);
         },
         getCommonElementStyle(el: ElementType) {
-            return this.commonStyle.get(el);
+            return this.commonStyle.get(el)||"";
         },
         setCommonElementStyle(el: ElementType, style: string) {
             this.commonStyle.set(el, style);

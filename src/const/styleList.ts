@@ -1,5 +1,4 @@
 import { type Sample } from "@/types/StyleItem"
-
 export default {
     'font-size': { 'descriptions': '字体大小' },
     'vertical-align': { 'descriptions': '垂直对齐' },

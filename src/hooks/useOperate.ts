@@ -77,7 +77,6 @@ export default function useOperate() {
  * @param type 方向类型
 */
 function handleResize(vnode:Vnode,scale:number) {
-  
   if (direction === 'top') {
     writeToStoreState.top = elState.top+diff.y/scale;
     writeToStoreState.height = elState.height-diff.y/scale;

@@ -18,7 +18,6 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
             ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
         }
     }
-
 }
 /**
  * @param target 虚拟节点
@@ -38,7 +37,6 @@ export function drawBezierCurveFromParent(target:Vnode,color:string= 'white') {
     path.setAttribute('stroke', color);
     path.setAttribute('stroke-width', '2');
     path.setAttribute('fill', 'none');
-    
     // 设置四次贝塞尔曲线的控制点和终点坐标
     const controlPoint1 = { x: x1, y: y1 };
     const controlPoint2 = { x: x1,y: (y1 + y2)/2 };
