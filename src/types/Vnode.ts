@@ -24,7 +24,7 @@ export interface Vnode  {
     
     lineToParent?: any;
 
-    HTML: HTMLElement | null;
+    HTML: HTMLDivElement | null;
     vHTML: HTMLElement | null;
 
     renderVnodeToNode: Function;

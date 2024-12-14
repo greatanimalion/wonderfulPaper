@@ -2,6 +2,7 @@ import { Ref, ref } from "vue";
 import usePageStore from "@/store/usePageStore";
 const top = ref(0);
 const left = ref(0);
+//操作框的实时位置
 const realObj = {
     left: 0,
     top: 0
