@@ -51,12 +51,12 @@ ul{
   list-style: none;
 }
 *::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 10px;
+  height: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #999;
+  background-color: #000000;
   border-radius: 4px;
 }
 :root::-webkit-scrollbar{

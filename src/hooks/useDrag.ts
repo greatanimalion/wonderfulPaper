@@ -17,6 +17,7 @@ const operateRef = useOperateRef();
 export function VnodeDrag(contain: Ref<HTMLDivElement>) {
    const VnodeStore = useVnodeStroe();
    function MouseDown(e: MouseEvent) {
+      e.preventDefault();
       offsetX = e.clientX;
       offsetY = e.clientY;
       contain.value.addEventListener('mousemove', elementDrag);
@@ -106,7 +107,9 @@ export function initHTMLDrag(contain: HTMLDivElement) {
          if (target) target.classList.remove('move');
          target = curTarget!
          VnodeStore.setTarget(VnodeStore.findVnode(+target.id.replace('el', '')))
-         if (VnodeStore.curVnode?.drag) target.classList.add('move');
+         if (VnodeStore.curVnode?.drag){
+            target.classList.add('move');
+         }
          return;
       }
       if (target) {
@@ -116,6 +119,7 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       setTimeout(() => { VnodeStore.clearTarget() }, 0)//防止意外nextick对curVnode的结算处理
    }
    function mousedown(e: MouseEvent) {
+      e.preventDefault();
       if (!target) return;
       mouseDownELement = elementFromPoint(e);
       if (mouseDownELement !== target) return mouseDownELement = null;
@@ -126,7 +130,8 @@ export function initHTMLDrag(contain: HTMLDivElement) {
       dragState.operateX = operateRef.left.value
       dragState.operateY = operateRef.top.value
    }
-   function mousemove(e: MouseEvent) {      
+   function mousemove(e: MouseEvent) {   
+      e.preventDefault();   
       if (!VnodeStore.curVnode||!VnodeStore.curVnode.drag) return;
       if (mouseDownELement !== target) return
       const diffX=e.clientX - dragState.startX
