@@ -1,1 +1,0 @@
-export  type ElementType="div"|"button" | "textarea" | "audio" | "form" | "label" | "link" | "table" | "video" | "img" | "input" | "checkbox" | "radio" | "span";

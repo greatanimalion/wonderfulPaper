@@ -73,6 +73,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
          if (input.value === '') input.value = String(VnodeStore.curVnode!.id);
          VnodeStore.curVnode!.name = input.value;
          element.innerHTML = input.value;
+         input.remove();
       });
    }
    contain.value.addEventListener('click', click);

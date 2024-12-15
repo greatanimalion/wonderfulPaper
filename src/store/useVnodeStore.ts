@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
-import { Vnode, plainVnode, VnodeOptions } from "@/types/Vnode";
+import { Vnode, plainVnode, VnodeOptions,ElementType } from "@/types/Vnode";
 import { VnodeInit } from "@/const/VnodeInit";
 import { drawBezierCurveFromParent } from '@/hooks/useDraw';
 import { creatUUID } from '@/utils/creatUUID';
 import useElementStyleStore from "./useElementStyleStore";
-import { ElementType } from "@/const/elementType";
 import usePageStore from "./usePageStore";
 
 let elementStyleStore
@@ -31,8 +30,8 @@ class vnode implements Vnode {
     type: ElementType;
     events: {};
     lineToParent: any;
-    HTML: HTMLElement | null;
-    vHTML: HTMLElement | null;
+    HTML: HTMLDivElement | null;
+    vHTML: HTMLDivElement | null;
     vTop: number;
     vLeft: number;
     vWidth: number;
@@ -62,9 +61,9 @@ class vnode implements Vnode {
         else this.HTML = this.createHTML()
     }
     // 创建html
-    createHTML() {
+    createHTML():HTMLDivElement {
         let vnode = this
-        let element = document.createElement(vnode.type)
+        let element = document.createElement(vnode.type) as HTMLDivElement
         vnode.HTML = element
         element.id = "el" + vnode.id.toString()
         element.style.cssText = vnode.style

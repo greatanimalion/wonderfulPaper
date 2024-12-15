@@ -1,5 +1,5 @@
 import { Vnode } from "@/types/Vnode";
-import type {Ref} from "vue";
+import type { Ref } from "vue";
 
 export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
     const ctx = canvas.value.getContext('2d')!;
@@ -8,9 +8,9 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
     canvas.value.style.position = 'absolute';
     canvas.value.style.top = '0';
     canvas.value.style.left = '0';
-    const cellSize=20
-    const numRows = canvas.value.height / cellSize ;
-    const numCols =canvas.value.width / cellSize;
+    const cellSize = 20
+    const numRows = canvas.value.height / cellSize;
+    const numCols = canvas.value.width / cellSize;
     ctx.lineWidth = 1;
     for (let row = 0; row < numRows; row++) {
         for (let col = 0; col < numCols; col++) {
@@ -39,8 +39,8 @@ export function drawBezierCurveFromParent(target:Vnode,color:string= 'white') {
     path.setAttribute('fill', 'none');
     // 设置四次贝塞尔曲线的控制点和终点坐标
     const controlPoint1 = { x: x1, y: y1 };
-    const controlPoint2 = { x: x1,y: (y1 + y2)/2 };
-    const controlPoint3 = { x: x2, y: (y1 + y2)/2 };
+    const controlPoint2 = { x: x1, y: (y1 + y2) / 2 };
+    const controlPoint3 = { x: x2, y: (y1 + y2) / 2 };
     const endPoint = { x: x2, y: y2 };
     path.setAttribute('d', `M${controlPoint1.x},${controlPoint1.y} C${controlPoint2.x},${controlPoint2.y} ${controlPoint3.x},${controlPoint3.y} ${endPoint.x},${endPoint.y}`);
     svg.appendChild(path);

@@ -3,7 +3,6 @@
  * @param css 样式字符串
  * 
 */
-
 export default function parseCssToObject(css: string):Record<string,string> {
     let res:Record<string,string>={} 
     css.split(';').forEach(line=>{ 
