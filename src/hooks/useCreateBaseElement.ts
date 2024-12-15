@@ -1,6 +1,6 @@
 import useVnodeStore from '@/store/useVnodeStore'
 import useElementStyleStore from '@/store/useElementStyleStore';
-import { BASE_ELEMENT,BASE_ELEMENT_STYLE } from "@/const/baseElement";
+import { BASE_ELEMENT } from "@/const/baseElement";
 import Alert from '@/hooks/useAlert';
 type BASE_ELEMENT_Type=keyof typeof BASE_ELEMENT
 export default function useCreateBaseElement (tag:BASE_ELEMENT_Type){

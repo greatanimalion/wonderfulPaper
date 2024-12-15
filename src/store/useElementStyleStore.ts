@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ElementType } from "@/const/elementType";
+import { ElementType } from "@/types/Vnode";
 
 const useElementStyleStore = defineStore("elementStyleStore", {
     state: () => {
