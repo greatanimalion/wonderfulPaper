@@ -51,15 +51,19 @@ ul{
   list-style: none;
 }
 *::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 10px;
+  height: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #999;
+  background-color: #515151;
   border-radius: 4px;
 }
 :root::-webkit-scrollbar{
   width: 0px;
 }
-
+.vnode input{
+  text-align: center;
+  outline: none;
+  color: #2a2a2a;
+}

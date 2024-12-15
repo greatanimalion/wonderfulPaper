@@ -35,7 +35,7 @@ onBeforeMount(() => {
   messageContent.style.left = '50%'
   messageContent.style.transform = 'translateX(-50%)'
   messageContent.style.width = '250px'
-  messageContent.style.zIndex = '9999'
+  messageContent.style.zIndex = '99999'
   document.documentElement.appendChild(messageContent)
 })
 

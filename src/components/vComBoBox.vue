@@ -1,8 +1,8 @@
 <template>
       <div class="v-combo-box">
-            <span>{{ label }}:</span>
-            <input v-if="items.length ==0"  :type="handleType(key)" :value="modelValue" @blur="blur" @focus="focus" />
-            <Selection :change="change" v-else :items="items" style="width: 60%;"/>
+            <span>{{ZHname }}:</span>
+            <input v-if="list.length ==0"  :type="handleType(props.ENname)" :value="props.modelValue" @blur="blur" />
+            <Selection v-else  :change="change" :value="props.modelValue" :items="list"/>
       </div>
 </template>
 
@@ -11,33 +11,30 @@ import { useAttrs } from 'vue';
 import { useBlur, useType } from '@/hooks/useBlur';
 import Selection from '@/components/Selection.vue';
 
-let key = useAttrs().keyName as string;
+//处理不同类型的数据以展现不同效果
+let props = useAttrs() as {
+      modelValue: string,
+      ENname: string,
+}
 const handleBlur = useBlur();
 const handleType = useType();
-
-function focus() {
-      // document.querySelector<HTMLDivElement>('.select-list')!.style.display = 'block';
-}
 function blur(event: any) {
-      // document.querySelector<HTMLDivElement>('.select-list')!.style.display = 'none';
-      handleBlur(event.target.value, key)
+      handleBlur(event.target.value,props.ENname,props.modelValue)
 }
 function change(value: string) {
-      handleBlur(value, key)
+      handleBlur(value, props.ENname)
 }
-
 defineProps({
-      modelValue: {
-            type: String,
-            default: ''
-      },
-      label: {
-            type: String,
-            default: ''
-      },
-      items:{
-            type: Array,
+      list:{
+            type: Array<{
+                  description: string,
+                  value: string
+            }>,
             default:[]
+      },
+      ZHname:{
+            type: String,
+            default: '1'
       }
 })
 </script>

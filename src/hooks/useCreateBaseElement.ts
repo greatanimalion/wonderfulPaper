@@ -15,6 +15,6 @@ export default function useCreateBaseElement (tag:BASE_ELEMENT_Type){
 function createBaseElement(tag:BASE_ELEMENT_Type) {
     const style=useElementStyleStore()
     const element = document.createElement(tag)
-    element.style.cssText = style.getCommonElementStyle(tag)||''
+    element.style.cssText = style.getCommonElementStyle(tag)
     return element
 }

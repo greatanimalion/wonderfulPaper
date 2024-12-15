@@ -5,7 +5,7 @@
                 <BgColorsOutlined />定义事件
             </v-btn>
             <div>
-               
+
             </div>
         </div>
     </div>
@@ -14,11 +14,7 @@
             <v-btn width="49%" style="margin-right: 2%;" color="black">
                 <FormOutlined />添加样式
             </v-btn>
-            <div style="display: inline-block;" width="49%" @click="() => {
-                if (!vnodeStore.curVnode) return;
-                handleBlur(lockEl ? 'absolute' : 'relative', 'position')
-                lockEl = !lockEl
-            }">
+            <div style="display: inline-block;" width="49%" @click="handleLock">
                 <v-btn v-if="lockEl" color="black">
                     <LockOutlined />元素嵌入
                 </v-btn>
@@ -26,19 +22,19 @@
                     <UnlockOutlined />元素游动
                 </v-btn>
             </div>
-
         </div>
         <div class="modify-style-content">
             <div v-show="!!vnodeStore.curVnode && !!vnodeStore.curVnode.id">
                 <div class="item">
-                    <VCombobox keyName="display" modelValue="default" label="布局" :items="containFlex"></VCombobox>
-                    <VCombobox keyName="height" :modelValue="TLHW.height" label="高度"></VCombobox>
-                    <VCombobox keyName="width" :modelValue="TLHW.width" label="宽度"></VCombobox>
-                    <VCombobox keyName="top" :modelValue="TLHW.top" label="相对上侧"></VCombobox>
-                    <VCombobox keyName="left" :modelValue="TLHW.left" label="相对左侧"></VCombobox>
+                    <VCombobox ENname="height" :modelValue="TLHW.height" ZHname="高度"></VCombobox>
+                    <VCombobox ENname="width" :modelValue="TLHW.width" ZHname="宽度"></VCombobox>
+                    <VCombobox ENname="top" :modelValue="TLHW.top" ZHname="相对上侧"></VCombobox>
+                    <VCombobox ENname="left" :modelValue="TLHW.left" ZHname="相对左侧"></VCombobox>
                 </div>
-                <div class="item" v-for="item, index in finalStyle" :key="index" v-show="item.value !== ''">
-                    <VCombobox :keyName="item.key" v-model="item.value" :label="item.descriptions"></VCombobox>
+                <div class="item" v-for="key, index in Object.keys(finalStyle)" :key="index"
+                    v-show="finalStyle[key].value !== ''">
+                    <VCombobox :list="finalStyle[key].list" :ZHname="finalStyle[key].descriptions" :ENname="key"
+                        :modelValue="finalStyle[key].value"></VCombobox>
                 </div>
             </div>
         </div>
@@ -54,26 +50,20 @@
 
 <script setup lang="ts">
 import { FormOutlined, BgColorsOutlined, DeploymentUnitOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons-vue';
-import { watch, reactive, computed, ref } from 'vue';
+import { watch, reactive, computed, ref, markRaw } from 'vue';
 import useVnodeStore from '@/store/useVnodeStore';
 import parseCssToObject from '@/utils/parseCssToObject';
 import styleSheet from '@/const/styleList';
 import VCombobox from '@/components/vComBoBox.vue';
 import invertRGBtoHex from '@/utils/invertRGBtoHex'
 import { useBlur } from '@/hooks/useBlur';
+import { type Item } from '@/types/StyleItem';
+import useGetElementPos from '@/hooks/useGetELementPos';
+import useOperateRef from '@/hooks/useOperateRef.ts';
 const handleBlur = useBlur();
 const vnodeStore = useVnodeStore();
 const lockEl = ref(false)
-let containFlex=[
-    {
-        key:'默认',
-        value:'default',
-    },
-    {
-        key:'弹性布局',
-        value:'flex',
-    },
-]
+const operateRef = useOperateRef()
 let TLHW = computed(() => {
     return {
         height: vnodeStore.curVnode?.height.toFixed(0) ? vnodeStore.curVnode.height.toFixed(0) + 'px' : '',
@@ -89,23 +79,32 @@ let finalStyle = reactive((() => {
         item[key].key = key;
         item[key].descriptions = styleSheet[key].descriptions;
         item[key].value = '';
-        item[key].selections= styleSheet[key].value||[];
+        item[key].list = markRaw(styleSheet[key].list || []);
     }
-    return item as Record<string, { key: string, descriptions: string, value: string }>;
+    return item as Item;
 })())
-
+function handleLock() {
+    if (!vnodeStore.curVnode) return;
+    
+    handleBlur(lockEl ? 'absolute' : 'relative', 'position')
+    lockEl.value = !lockEl.value
+    
+}
 watch(() => vnodeStore.curVnode, () => {
-    if (!!vnodeStore.curVnode && !!vnodeStore.curVnode.parent) {//保证不是根节点
-        let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
-        for (let key in cssObject) {
-            if (key == 'position') return cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true
-            finalStyle[key].value = cssObject[key];
-            if (key === 'background-color' || key === 'color') {
-                //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
-                finalStyle[key].value = invertRGBtoHex(finalStyle[key].value)
-            }
+    if (!!!vnodeStore.curVnode) return
+    if (!!!vnodeStore.curVnode.parent) return //保证不是根节点    
+    let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
+    for (let key in cssObject) {
+        //@ts-ignoreF
+        if (!finalStyle[key]) finalStyle[key] = { list: [] };
+        if (key == 'position') { cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true; continue; }
+        if (key === 'background-color' || key === 'color') {
+            //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
+            finalStyle[key].value = invertRGBtoHex(finalStyle[key].value!)
+            continue;
         }
-    }   
+        finalStyle[key].value = cssObject[key];
+    }
 })
 
 </script>

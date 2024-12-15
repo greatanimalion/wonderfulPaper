@@ -1,4 +1,4 @@
-import { ElementType } from "@/const/elementType";
+export  type ElementType="div"|"button" | "textarea" | "audio" | "form" | "label" | "link" | "table" | "video" | "img" | "input" | "checkbox" | "radio" | "span";
 
 export interface Vnode  {
     id: number;
@@ -8,9 +8,7 @@ export interface Vnode  {
     left: number;
     width: number;
     height: number;
-    absoluteTop: number;
-    absoluteLeft: number;
-    //节点的位置
+    //vdom的位置
     vTop: number;
     vLeft: number;
     vWidth: number;
@@ -22,15 +20,12 @@ export interface Vnode  {
     drag: boolean;
 
     children: Vnode[];
-    parent: Vnode | undefined;
+    parent: Vnode | null;
     
     lineToParent?: any;
 
-    HTML: HTMLElement | null;
+    HTML: HTMLDivElement | null;
     vHTML: HTMLElement | null;
-
-    renderVnodeToNode: Function;
-    createHTML: Function;
 }
 export type VnodeOptions = Partial<Vnode>;
 
