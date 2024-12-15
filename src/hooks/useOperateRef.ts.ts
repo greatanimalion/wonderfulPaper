@@ -14,7 +14,6 @@ let operate: {
         top: number,//物理坐标系的top
         left: number,//物理坐标系的top
     }
-
     setTop: (value: number) => void,
     setLeft: (value: number) => void
     scale: (zoom: number) => void

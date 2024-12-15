@@ -56,10 +56,14 @@ ul{
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #000000;
+  background-color: #515151;
   border-radius: 4px;
 }
 :root::-webkit-scrollbar{
   width: 0px;
 }
-
+.vnode input{
+  text-align: center;
+  outline: none;
+  color: #2a2a2a;
+}

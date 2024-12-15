@@ -56,5 +56,9 @@ svg {
     height: 100%;
     position: relative;
     z-index: 2;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
 }
+
 </style>

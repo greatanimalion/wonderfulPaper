@@ -27,12 +27,12 @@ export default function drawGrid(canvas: Ref<HTMLCanvasElement>) {
 export function drawBezierCurveFromParent(target:Vnode,color:string= 'white') {
     if(!target||!target.parent)return 
     target.lineToParent?.remove();
-    // @ts-ignore
+    
     let svg=document.querySelector('.svg') as SVGAElement;
     let y1=target.parent.vTop+target.parent.vHeight;
     let x1=target.parent.vLeft+target.parent.vWidth/2;
     let x2=target.vLeft+target.vWidth/2;
-    let y2=target.vTop;   
+    let y2=target.vTop;  
     const path = document.createElementNS("http://www.w3.org/2000/svg",'path');
     path.setAttribute('stroke', color);
     path.setAttribute('stroke-width', '2');

@@ -5,6 +5,7 @@ import useLayerImgStore from "@/store/useLayerImgStore";
 import { elementFromPoint } from "@/utils/elementFromPoint";
 import debounce from "@/utils/debounce";
 import useOperateRef from "./useOperateRef.ts";
+import { drawBezierCurveFromParent } from "./useDraw.js";
 let offsetX: number, offsetY: number;
 let target: HTMLDivElement | null;
 let preElement: HTMLDivElement | null = null;
@@ -26,11 +27,15 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       preElement?.removeEventListener('mousedown', MouseDown);
       preElement?.removeEventListener('mouseup', stop);
       contain.value.removeEventListener('mousemove', elementDrag);
-      if (!VnodeStore.curVnode) return;
-      VnodeStore.curVnode.vTop = parseFloat(preElement!.style.top)
-      VnodeStore.curVnode.vLeft = parseFloat(preElement!.style.left)
-      VnodeStore.curVnode.renderVnodeToNode('drag')
+      let curVnode = VnodeStore.curVnode!
+      if (!curVnode) return;
+      curVnode.vTop = parseFloat(preElement!.style.top)
+      curVnode.vLeft = parseFloat(preElement!.style.left)
       preElement = null;
+      drawBezierCurveFromParent(curVnode)
+      curVnode.children.forEach(child => {
+         drawBezierCurveFromParent(child)
+      })
    }
    function elementDrag(e: MouseEvent) {
       if (!preElement) return;
@@ -47,14 +52,16 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
    }
    function click(e: any) {
       if (preElement) {
-         preElement.style.outline = 'none'
+         preElement.style.boxShadow = 'none'
          VnodeStore.clearTarget()
          preElement = null;
       }
-      if (e.target!.className!== 'vnode') return;
+      if (!e.target!.className.startsWith('vnode')) return;
       let target = e.target as HTMLDivElement;
-      VnodeStore.setTarget(VnodeStore.findVnode(+target.id))
-      target!.style.outline = "red 2px solid";
+      let id=+target.className.slice(5)
+      if(id==0)return
+      VnodeStore.setTarget(VnodeStore.findVnode(id))
+      target!.style.boxShadow = "0 0 14px 2px white";
       preElement = target;
       target.addEventListener('mousedown', MouseDown);
       target.addEventListener('mouseup', stop);

@@ -8,7 +8,7 @@ export interface Vnode  {
     left: number;
     width: number;
     height: number;
-    //节点的位置
+    //vdom的位置
     vTop: number;
     vLeft: number;
     vWidth: number;
@@ -20,15 +20,12 @@ export interface Vnode  {
     drag: boolean;
 
     children: Vnode[];
-    parent: Vnode | undefined;
+    parent: Vnode | null;
     
     lineToParent?: any;
 
     HTML: HTMLDivElement | null;
     vHTML: HTMLElement | null;
-
-    renderVnodeToNode: Function;
-    createHTML: Function;
 }
 export type VnodeOptions = Partial<Vnode>;
 

@@ -6,7 +6,7 @@
         </div> -->
         <div class="line top" :style="{ top: '-2px', width: elInforFinal.width, left: '0px' }">
             <button @mousedown="updateDirection('top')" :style="{cursor:!vnodeStore.curVnode?.drag? 'not-allowed' : 'ns-resize'}"></button>
-            <div>{{ vnodeStore.curVnode?.name || '' }}</div>
+            <div>{{ vnodeStore.curVnode?.name || '空' }}</div>
         </div>
         <div class="line bottom" :style="{ top: elInforFinal.height, width: elInforFinal.width, left: '0px' }">
             <button @mousedown="updateDirection('bottom')" ></button>
