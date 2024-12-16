@@ -46,6 +46,8 @@ a:hover {
   font-weight: inherit;
   font-family: inherit;
   background-color: inherit;
+  outline: none;
+  text-align: center;
 }
 ul{
   list-style: none;
@@ -56,7 +58,7 @@ ul{
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #515151;
+  background-color: #878787;
   border-radius: 4px;
 }
 :root::-webkit-scrollbar{

@@ -18,17 +18,17 @@ export const createNodeHTML = (vnode: Vnode): HTMLDivElement => {
     return element
 }
 export const createVnodeHTML = (vnode: Vnode) => {
-    let element = document.createElement(vnode.type) as HTMLDivElement
-    element.className='vnode'+vnode.id
-    element.innerText=""+vnode.id
-    vnode.name=''+vnode.id
-    element.style.cssText='background-color: #fff;border-radius: 5px;padding: 5px;position: absolute;z-index: 10'
-    element.style.top = vnode.vTop + 'px'
-    element.style.left = vnode.vLeft + 'px'
-    element.style.minWidth = vnode.vWidth + 'px'
-    element.style.height = '34px'
-    drawBezierCurveFromParent(vnode)/*绘制曲线*/
-    return element
+    let element = document.createElement(vnode.type) as HTMLDivElement;
+    element.className='vnode'+vnode.id;
+    element.innerText=""+(vnode.name||vnode.id);
+    vnode.name=''+vnode.id;
+    element.style.cssText='background-color: #fff;border-radius: 5px;padding: 5px;position: absolute;z-index: 10';
+    element.style.top = vnode.vTop + 'px';
+    element.style.left = vnode.vLeft + 'px';
+    element.style.minWidth = vnode.vWidth + 'px';
+    element.style.height = '34px';
+    drawBezierCurveFromParent(vnode);/*绘制曲线*/
+    return element;
 }
 
 function vnodeFactory(options: VnodeOptions, parent: Vnode | null, style: string): Vnode {
@@ -54,20 +54,20 @@ function vnodeFactory(options: VnodeOptions, parent: Vnode | null, style: string
     }
 }
 function createVnode(options: any) {
-    let curVnode = VnodeStore().curVnode!
-    let styleStore = useElementStyleStore()
-    let style = styleStore.getCommonElementStyle(options.type || 'div')
-    let vnode = vnodeFactory(options, curVnode ||VnodeStore().plainVnode[0]|| null, style)
-    vnode.HTML = createNodeHTML(vnode)
-    vnode.vHTML = createVnodeHTML(vnode)
-    let container: HTMLDivElement | null=curVnode?.HTML
-    if(!container){
-        container=document.querySelector<HTMLDivElement>('.operateContent')!
-    }
-    document.querySelector<HTMLDivElement>('.contain-box')?.appendChild(vnode.vHTML)/*添加vdom*/
-    if(vnode.id===0)return vnode  
-    container.appendChild(vnode.HTML) /*添加dom*/
-    return vnode
+    let curVnode = VnodeStore().curVnode;
+    let styleStore = useElementStyleStore();
+    let style = styleStore.getCommonElementStyle(options.type || 'div');
+    let parentNode= curVnode ||VnodeStore().plainVnode[0]|| null;
+    let container: HTMLDivElement=curVnode?.HTML||document.querySelector<HTMLDivElement>('.operateContent')!;
+    let vnode = vnodeFactory(options,parentNode, style);
+
+    vnode.HTML = createNodeHTML(vnode);
+    vnode.vHTML = createVnodeHTML(vnode);
+
+    document.querySelector<HTMLDivElement>('.contain-box')?.appendChild(vnode.vHTML);/*添加vdom*/
+    if(vnode.id===0)return vnode;
+    container.appendChild(vnode.HTML) ;/*添加dom*/
+    return vnode;
 }
 
 export default createVnode; 

@@ -66,7 +66,7 @@ const VnodeStore = defineStore("useVnodeStore", {
          * 初始化，创建根节点，同时渲染成节点
         */
         init() {
-            this.VnodeTree = createVnode({})
+            this.VnodeTree = createVnode({name:'根节点'})
             this.plainVnode.push(this.VnodeTree)
         },
         deleteVnode() {
