@@ -19,6 +19,7 @@ function deleteVnode(){
     let curVnode = VnodeStroe.curVnode;
     if(!curVnode)return Alert('error','请选择删除节点');
     VnodeStroe.deleteVnode();
+    Alert('success','删除成功')
 }
 </script>
 

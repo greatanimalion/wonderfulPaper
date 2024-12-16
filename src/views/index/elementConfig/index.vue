@@ -95,8 +95,7 @@ watch(() => vnodeStore.curVnode, () => {
     if (!!!vnodeStore.curVnode.parent) return //保证不是根节点    
     let cssObject = parseCssToObject(vnodeStore.curVnode!.HTML!.style.cssText);
     for (let key in cssObject) {
-        //@ts-ignoreF
-        if (!finalStyle[key]) finalStyle[key] = { list: [] };
+        if (!finalStyle[key]) finalStyle[key] = {descriptions:'',value:'',list: [] };
         if (key == 'position') { cssObject[key] == 'absolute' ? lockEl.value = false : lockEl.value = true; continue; }
         if (key === 'background-color' || key === 'color') {
             //由于cssText自动将color值转换为rgb而input的type=color时,value属性只接受hex,所以需要将其转换为hex
@@ -115,7 +114,6 @@ watch(() => vnodeStore.curVnode, () => {
         overflow: auto;
         height: calc(33vh - 35px);
         overflow: auto;
-
     }
 }
 
