@@ -67,7 +67,7 @@ export function VnodeDrag(contain: Ref<HTMLDivElement>) {
       target.addEventListener('mouseup', stop);
    }
    function handleInput(e: any) {
-      if (e.target && e.target.className !== 'vnode') return;
+      if (e.target && !e.target.className.startsWith('vnode')||!VnodeStore.curVnode) return;
       const element = e.target as HTMLDivElement;
       const input = document.createElement('input');
       input.classList.add('inherit-input');

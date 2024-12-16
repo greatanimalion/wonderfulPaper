@@ -51,7 +51,6 @@ defineProps({
             text-align: center;
             color: rgb(203, 203, 203);
             line-height: 30px;
-            margin-right: 5px;
       }
       input{
             font-size: 14px;
